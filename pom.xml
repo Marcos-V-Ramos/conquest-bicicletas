@@ -9,9 +9,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.conquestbicicletas</groupId>
-	<artifactId>project</artifactId>
+	<artifactId>conquest_bicicletas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project</name>
+	<name>conquest-bicicletas</name>
 	<description>Rest API para a Conquest Bicicletas.</description>
 	<properties>
 		<java.version>17</java.version>
