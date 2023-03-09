@@ -1,4 +1,4 @@
-package com.conquestbicicletas.repository.conexao;
+package com.conquestbicicletas.repository.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ConexaoFactory {
+public class ConnectionFactory {
 
 	// Puxa os dados da "application.properties" e transforma em Strings
 	@Value("${conquestbicicletas.database.driver}")
@@ -22,18 +22,18 @@ public class ConexaoFactory {
 	@Value("${conquestbicicletas.database.password}")
 	private String password;
 
-	private static Connection conexao = null;
+	private static Connection connection = null;
 
 	// tenta a conexão com o banco se utilizando das Strings
 	protected Connection getConnection() {
 		try {
 			Class.forName(driver);
-			conexao = DriverManager.getConnection(url, username, password);
-			conexao.beginRequest();
-			return conexao;
+			connection = DriverManager.getConnection(url, username, password);
+			connection.beginRequest();
+			return connection;
 		} catch (Exception e) {
 			// Melhorar essa Exception posteriormente
-			System.out.println("Erro ao conectar com o banco");
+			System.out.println("Erro ao conectar com o banco" + e.getMessage());
 			return null;
 		}
 
@@ -41,8 +41,8 @@ public class ConexaoFactory {
 
 	protected void closeConnection() {
 		try {
-			conexao.endRequest();
-			conexao.close();
+			connection.endRequest();
+			connection.close();
 		} catch (Exception e) {
 			System.out.println("Erro ao fechar a conexão!");
 		}
