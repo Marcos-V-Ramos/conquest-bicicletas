@@ -18,14 +18,14 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM usuario");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user");
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
 				listUsers.add(new UserBackOfficeDAO(rs.getString("name_user"),
 						rs.getString("cpf_user"),
 						rs.getString("email_user"),
-						rs.getString("passwork_user"),
+						rs.getString("password_user"),
 						rs.getBoolean("status_user"),
 						rs.getInt("group_user")));
 			}
