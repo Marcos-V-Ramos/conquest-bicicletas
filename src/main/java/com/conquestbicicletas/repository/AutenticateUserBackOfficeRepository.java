@@ -28,6 +28,8 @@ public class AutenticateUserBackOfficeRepository extends ConnectionFactory {
 		} catch (Exception e) {
 			System.out.println("Erro ao autenticar usuario!" + e.getMessage() + e.getCause());
 			return null;
+		}finally {
+			super.closeConnection();
 		}
 	 
 		return null;
