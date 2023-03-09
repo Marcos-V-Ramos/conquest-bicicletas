@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import org.springframework.beans.factory.annotation.Value;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class ConnectionFactory {
 
-	// Puxa os dados da "application.properties" e transforma em Strings
 	@Value("${conquestbicicletas.database.driver}")
 	private String driver;
 
@@ -47,5 +43,4 @@ public class ConnectionFactory {
 			System.out.println("Erro ao fechar a conexão!");
 		}
 	}
-
 }
