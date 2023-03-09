@@ -2,16 +2,13 @@ package com.conquestbicicletas.repository.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
 import org.springframework.beans.factory.annotation.Value;
 
-
-
 public class ConnectionFactory {
-	// Puxa os dados da "application.properties" e transforma em Strings
+
 	@Value("${conquestbicicletas.database.driver}")
 	private String driver;
-	
+
 	@Value("${conquestbicicletas.database.url}")
 	private String url;
 
