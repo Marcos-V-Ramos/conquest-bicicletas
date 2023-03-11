@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class ServicesUserBackOfficeController {
 	private ServicesUserBackOfficeService userService;
 	 
 	@GetMapping(value = "/user/listusers", produces = "application/json")
-    public ResponseEntity<List<UserBackOfficeDAO>> getListUsers() {
+    public ResponseEntity<List<UserBackOfficeDAO>> getListAllUsers() {
     	
 		List<UserBackOfficeDAO> response = userService.getListUsers();
     	
@@ -34,7 +35,7 @@ public class ServicesUserBackOfficeController {
 	
 	
 	@PostMapping(value = "/user/listusers/search", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<List<UserBackOfficeDAO>> getListUsersSearch(UserBackOfficeDAO request){
+	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(@RequestBody UserBackOfficeDAO request){
 		
 		List<UserBackOfficeDAO> response = userService.getListUsers(request);
 		
