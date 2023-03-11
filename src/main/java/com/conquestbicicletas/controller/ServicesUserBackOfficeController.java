@@ -22,7 +22,7 @@ public class ServicesUserBackOfficeController {
 	private ServicesUserBackOfficeService userService;
 	 
 	@GetMapping(value = "/user/listusers", produces = "application/json")
-    public ResponseEntity<List<UserBackOfficeDAO>> getListUsers() {
+    public ResponseEntity<List<UserBackOfficeDAO>> getListAllUsers() {
     	
 		List<UserBackOfficeDAO> response = userService.getListUsers();
     	
@@ -35,7 +35,7 @@ public class ServicesUserBackOfficeController {
 	
 	
 	@PostMapping(value = "/user/listusers/search", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<List<UserBackOfficeDAO>> getListUsersSearch(@RequestBody UserBackOfficeDAO request){
+	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(@RequestBody UserBackOfficeDAO request){
 		
 		List<UserBackOfficeDAO> response = userService.getListUsers(request);
 		
