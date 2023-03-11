@@ -14,17 +14,25 @@ import com.conquestbicicletas.repository.config.ConnectionFactory;
 public class AutenticateUserBackOfficeRepository extends ConnectionFactory {
 	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO request) {
 		Connection conexao = super.getConnection();
+	
+		
 		try {
 			PreparedStatement stmt = conexao
-					.prepareStatement("SELECT * FROM tb_user WHERE email_user = ? and password_user = ? ");
+					.prepareStatement("SELECT * FROM tb_user WHERE email_user = ? and password_user = ?");
 			stmt.setString(1, request.getEmail());
 			stmt.setString(2, request.getPassword());
 			ResultSet rs = stmt.executeQuery();
-
+			
+			// Verificação de Status ativo. Se status == true, retorna o grupo do usuario
+			// Se status for status == false, retorna 0
+			
 			while (rs.next()) {
-				return  new AuthenticateUserBackOfficeResponseDAO(rs.getInt("group_user"));
+				boolean status = rs.getBoolean("status_user");
+				if (status == true) {
+					return new AuthenticateUserBackOfficeResponseDAO(rs.getInt("group_user"));
+				} return new AuthenticateUserBackOfficeResponseDAO(0);
 			}
-
+	
 		} catch (Exception e) {
 			System.out.println("Erro ao autenticar usuario!" + e.getMessage() + e.getCause());
 			return null;
