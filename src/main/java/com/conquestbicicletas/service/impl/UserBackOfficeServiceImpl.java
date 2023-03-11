@@ -1,7 +1,5 @@
 package com.conquestbicicletas.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
@@ -13,9 +11,9 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService{
 
 	@Autowired
 	private UserBackOfficeRepository userRepository;
-	
-	public List<UserBackOfficeDAO> getListUsers() {
-		List<UserBackOfficeDAO> listUsers = userRepository.getListUsers();
-		return listUsers;
-	}	
+
+	public boolean updateStatusUser(UserBackOfficeDAO request) {
+		boolean updateStatus = userRepository.updateStatusUser(request);
+		return updateStatus;
+	}
 }
