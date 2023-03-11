@@ -4,6 +4,8 @@ package com.conquestbicicletas.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,17 @@ public class UserBackOfficeController {
 	
 	@Autowired
 	private UserBackOfficeService userService;
+	 
+	@PostMapping(value = "/user/registeruser", consumes = "application/json", produces = "application/json")
+	public boolean registerUser(@RequestBody UserBackOfficeDAO requestUser){
+		boolean response =  userService.registerUser(requestUser);
+		
+		if (response != true) {
+			return true;
+		}
+		
+		return false;
+    }
 	
 	@PutMapping(value = "/user/update/status", consumes = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> updateStatusUser(@RequestBody UserBackOfficeDAO request){

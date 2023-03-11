@@ -7,13 +7,18 @@ import com.conquestbicicletas.repository.UserBackOfficeRepository;
 import com.conquestbicicletas.service.UserBackOfficeService;
 
 @Component
-public class UserBackOfficeServiceImpl implements UserBackOfficeService{
+public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 
 	@Autowired
 	private UserBackOfficeRepository userRepository;
 
+	public boolean registerUser(UserBackOfficeDAO requestUser) {
+		boolean createUser = userRepository.registerUser(requestUser);
+		return createUser;
+    
 	public boolean updateStatusUser(UserBackOfficeDAO request) {
 		boolean updateStatus = userRepository.updateStatusUser(request);
 		return updateStatus;
+
 	}
 }
