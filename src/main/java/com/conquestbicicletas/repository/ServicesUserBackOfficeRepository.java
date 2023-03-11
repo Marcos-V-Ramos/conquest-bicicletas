@@ -37,7 +37,7 @@ public class ServicesUserBackOfficeRepository extends ConnectionFactory {
 
 	
 	
-	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch) {
+	public List<UserBackOfficeDAO> getListUsersSearch(UserBackOfficeDAO requestUserSearch) {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 
@@ -55,7 +55,7 @@ public class ServicesUserBackOfficeRepository extends ConnectionFactory {
 				}
 				return listUsers;
 
-			} else if (requestUserSearch.getNameUser() != null && requestUserSearch.getCpf() == null) {
+			} else if (requestUserSearch.getNameUser() == null && requestUserSearch.getCpf() != null) {
 				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE cpf_user = ?");
 				stmt.setString(1, requestUserSearch.getCpf());
 				ResultSet rs = stmt.executeQuery();

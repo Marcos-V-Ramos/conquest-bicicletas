@@ -15,10 +15,10 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	public boolean registerUser(UserBackOfficeDAO requestUser) {
 		boolean createUser = userRepository.registerUser(requestUser);
 		return createUser;
-    
+	}
+	
 	public boolean updateStatusUser(UserBackOfficeDAO request) {
 		boolean updateStatus = userRepository.updateStatusUser(request);
 		return updateStatus;
-
 	}
 }

@@ -22,7 +22,7 @@ public class ServicesUserBackOfficeServiceImpl implements ServicesUserBackOffice
 	
 	
 	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO request){
-		List<UserBackOfficeDAO> listUsersSearch = userServiceRepository.getListUsers();
+		List<UserBackOfficeDAO> listUsersSearch = userServiceRepository.getListUsersSearch(request);
 		return listUsersSearch;
 	}
 }
