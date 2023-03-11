@@ -35,6 +35,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		return false;
 	}
 
+	
 	public boolean registerUser(UserBackOfficeDAO request) {
 		try {
 			Connection connection = super.getConnection();
