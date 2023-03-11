@@ -1,11 +1,10 @@
-package com.conquestbicicletas.controlller;
+package com.conquestbicicletas.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +19,8 @@ public class UserBackOfficeController {
 	@Autowired
 	private UserBackOfficeService userService;
 	 
-	@GetMapping(value = "/user/listusers", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<List<UserBackOfficeDAO>> getListUsers(@RequestBody UserBackOfficeDAO userBackOffice) {
+	@GetMapping(value = "/user/listusers", produces = "application/json")
+    public ResponseEntity<List<UserBackOfficeDAO>> getListUsers() {
     	
 		List<UserBackOfficeDAO> response = userService.getListUsers();
     	
