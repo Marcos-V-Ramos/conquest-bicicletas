@@ -7,4 +7,6 @@ import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 @Service
 public interface UserBackOfficeService {
 	List<UserBackOfficeDAO> getListUsers();
+	
+	boolean registerUser(UserBackOfficeDAO requestUser);
 }
