@@ -33,7 +33,7 @@ public class ServicesUserBackOfficeController {
     	return ResponseEntity.badRequest().body(null);
     }
 	
-	
+
 	@PostMapping(value = "/user/listusers/search", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(@RequestBody UserBackOfficeDAO request){
 		
