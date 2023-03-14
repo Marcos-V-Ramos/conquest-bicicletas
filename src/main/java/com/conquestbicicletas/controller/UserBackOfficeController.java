@@ -38,35 +38,22 @@ public class UserBackOfficeController {
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o usuario"));
     }
-	
+		
 	
 	/**
 	 * 
-	 * 
-	 * @param requestUpdateStatus
+	 * @param requestUpdateUser
 	 * @return
 	 */
-	@PutMapping(value = "/user/update/status", consumes = "application/json")
-	public ResponseEntity<Boolean> updateStatusUser(@RequestBody UserBackOfficeDAO requestUpdateStatus){
-		
-		boolean updateStatusUser = userService.updateStatusUser(requestUpdateStatus);
-		
-		if(updateStatusUser == true) {
-			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateStatus.getStatus());
-		}
-    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	} 
-		
-	
 	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO request) {
+	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO requestUpdateUser) {
 		
-		boolean isUpdated = userService.updateUser(request);
+		boolean isUpdated = userService.updateUser(requestUpdateUser);
 		
 		if (isUpdated) {
-			return ResponseEntity.status(HttpStatus.OK).body(request);
+			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateUser);
 		}
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(request);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestUpdateUser);
 	}
 }

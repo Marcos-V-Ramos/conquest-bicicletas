@@ -17,10 +17,6 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 		return createUser;
 	}
 	
-	public boolean updateStatusUser(UserBackOfficeDAO requestUpdateStatus) {
-		boolean updateStatus = userRepository.updateStatusUser(requestUpdateStatus);
-		return updateStatus;
-	}
 	
 	//TODO realizar testes.
 	public boolean updateUser(UserBackOfficeDAO request) {
