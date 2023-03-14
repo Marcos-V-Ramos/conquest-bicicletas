@@ -21,8 +21,13 @@ public class ServicesUserBackOfficeServiceImpl implements ServicesUserBackOffice
 	}	
 	
 	
-	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO request){
-		List<UserBackOfficeDAO> listUsersSearch = userServiceRepository.getListUsersSearch(request);
+	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch){
+		List<UserBackOfficeDAO> listUsersSearch = userServiceRepository.getListUsersSearch(requestUserSearch);
 		return listUsersSearch;
+	}
+	
+	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser){
+		List<UserBackOfficeDAO> listUsersFilterGroup = userServiceRepository.filterGroupUser(requestTypeGroupUser);
+		return listUsersFilterGroup;
 	}
 }

@@ -22,29 +22,41 @@ public class UserBackOfficeController {
 	@Autowired
 	private UserBackOfficeService userService;
 	 
+	/**
+	 * Registra usuario
+	 * 
+	 * @param requestRegisterUser
+	 * @return
+	 */
 	@PostMapping(value = "/user/registeruser", consumes = "application/json", produces = "application/json")
-	public boolean registerUser(@RequestBody UserBackOfficeDAO requestUser){
-		boolean response =  userService.registerUser(requestUser);
+	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser){
+		boolean response =  userService.registerUser(requestRegisterUser);
 		
 		if (response != false) {
-			return true;
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStatusLogDAO(200, "O usuario foi registrado com sucesso!") );
 		}
 		
-		return false;
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o usuario"));
     }
 	
 	
+	/**
+	 * 
+	 * 
+	 * @param requestUpdateStatus
+	 * @return
+	 */
 	@PutMapping(value = "/user/update/status", consumes = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> updateStatusUser(@RequestBody UserBackOfficeDAO request){
+	public ResponseEntity<Boolean> updateStatusUser(@RequestBody UserBackOfficeDAO requestUpdateStatus){
 		
-		 boolean updateStatusUser = userService.updateStatusUser(request);
+		boolean updateStatusUser = userService.updateStatusUser(requestUpdateStatus);
 		
 		if(updateStatusUser == true) {
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStatusLogDAO(200, "O usuario foi modificado para o status:" + request.getStatus()));
+			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateStatus.getStatus());
 		}
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	} 
 		
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseStatusLogDAO(500, "Não foi possivel modificar o status do usuario para: " + request.getStatus()));
-	}
 	
 	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO request) {

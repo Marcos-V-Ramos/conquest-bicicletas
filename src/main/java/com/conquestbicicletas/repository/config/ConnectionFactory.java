@@ -20,7 +20,6 @@ public class ConnectionFactory {
 
 	private static Connection connection = null;
 
-	// tenta a conexão com o banco se utilizando das Strings
 	protected Connection getConnection() {
 		try {
 			Class.forName(driver);
@@ -28,7 +27,6 @@ public class ConnectionFactory {
 			connection.beginRequest();
 			return connection;
 		} catch (Exception e) {
-			// Melhorar essa Exception posteriormente
 			System.out.println("Erro ao conectar com o banco" + e.getMessage());
 			return null;
 		}
