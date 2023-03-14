@@ -19,10 +19,16 @@ public class AuthenticateUserBackOfficeController {
 	@Autowired
 	private AuthenticateUserBackOfficeService authenticateUserBackOfficeService;
 
+	/**
+	 * Recebe email e senha do usuario via Json do front-end
+	 * 
+	 * @param requestLoginUser
+	 * @return O grupo que o usuario pertence 
+	 */
 	@PostMapping(value = "/user/loginbackoffice", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<AuthenticateUserBackOfficeResponseDAO> login(@RequestBody AuthenticateUserBackOfficeRequestDAO requestLogin) {
+	public ResponseEntity<AuthenticateUserBackOfficeResponseDAO> login(@RequestBody AuthenticateUserBackOfficeRequestDAO requestLoginUser) {
 		
-		AuthenticateUserBackOfficeResponseDAO response = authenticateUserBackOfficeService.authenticateUserBackOffice(requestLogin);
+		AuthenticateUserBackOfficeResponseDAO response = authenticateUserBackOfficeService.authenticateUserBackOffice(requestLoginUser);
 		
 		if(response != null) {
 			return  ResponseEntity.status(HttpStatus.OK).body(response);

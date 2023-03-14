@@ -12,13 +12,13 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	@Autowired
 	private UserBackOfficeRepository userRepository;
 
-	public boolean registerUser(UserBackOfficeDAO requestUser) {
-		boolean createUser = userRepository.registerUser(requestUser);
+	public boolean registerUser(UserBackOfficeDAO requestRegisterUser) {
+		boolean createUser = userRepository.registerUser(requestRegisterUser);
 		return createUser;
 	}
 	
-	public boolean updateStatusUser(UserBackOfficeDAO request) {
-		boolean updateStatus = userRepository.updateStatusUser(request);
+	public boolean updateStatusUser(UserBackOfficeDAO requestUpdateStatus) {
+		boolean updateStatus = userRepository.updateStatusUser(requestUpdateStatus);
 		return updateStatus;
 	}
 }

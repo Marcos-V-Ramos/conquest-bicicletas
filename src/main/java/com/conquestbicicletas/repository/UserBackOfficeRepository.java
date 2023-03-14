@@ -36,16 +36,16 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	}
 
 	
-	public boolean registerUser(UserBackOfficeDAO request) {
+	public boolean registerUser(UserBackOfficeDAO requestRegisterUser) {
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
 					"INSERT INTO tb_user (name_user, cpf_user, email_user, password_user, status_user, group_user) VALUES (?, ?, ?, ?, TRUE, ?)");
-			stmt.setString(1, request.getNameUser());
-			stmt.setString(2, request.getCpf());
-			stmt.setString(3, request.getEmail());
-			stmt.setString(4, request.getPassword());
-			stmt.setInt(5, request.getGroup());
+			stmt.setString(1, requestRegisterUser.getNameUser());
+			stmt.setString(2, requestRegisterUser.getCpf());
+			stmt.setString(3, requestRegisterUser.getEmail());
+			stmt.setString(4, requestRegisterUser.getPassword());
+			stmt.setInt(5, requestRegisterUser.getGroup());
 
 			int rows = stmt.executeUpdate();
 
