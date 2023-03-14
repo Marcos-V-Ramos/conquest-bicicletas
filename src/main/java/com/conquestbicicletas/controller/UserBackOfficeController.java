@@ -22,6 +22,12 @@ public class UserBackOfficeController {
 	@Autowired
 	private UserBackOfficeService userService;
 	 
+	/**
+	 * Registra usuario
+	 * 
+	 * @param requestRegisterUser
+	 * @return
+	 */
 	@PostMapping(value = "/user/registeruser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser){
 		boolean response =  userService.registerUser(requestRegisterUser);
@@ -35,15 +41,21 @@ public class UserBackOfficeController {
 	
 	
 	
+	/**
+	 * 
+	 * 
+	 * @param requestUpdateStatus
+	 * @return
+	 */
 	@PutMapping(value = "/user/update/status", consumes = "application/json")
 	public ResponseEntity<Boolean> updateStatusUser(@RequestBody UserBackOfficeDAO requestUpdateStatus){
 		
-		 boolean updateStatusUser = userService.updateStatusUser(requestUpdateStatus);
+		boolean updateStatusUser = userService.updateStatusUser(requestUpdateStatus);
 		
 		if(updateStatusUser == true) {
 			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateStatus.getStatus());
 		}
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(requestUpdateStatus.getStatus());
-	}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	} 
 }
