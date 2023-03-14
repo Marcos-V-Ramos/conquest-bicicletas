@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 
 @Service
-public interface UserBackOfficeService {r
-	boolean updateUser(UserBackOfficeDAO request);
+public interface UserBackOfficeService {
+	boolean updateUser(UserBackOfficeDAO requestUpdateUser);
 	boolean registerUser(UserBackOfficeDAO requestRegisterUser);
-	boolean updateStatusUser(UserBackOfficeDAO requestUpdateStatus);
 }
