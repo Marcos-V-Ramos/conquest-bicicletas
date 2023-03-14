@@ -22,28 +22,38 @@ public class UserBackOfficeController {
 	@Autowired
 	private UserBackOfficeService userService;
 	 
+	/**
+	 * Registra usuario
+	 * 
+	 * @param requestRegisterUser
+	 * @return
+	 */
 	@PostMapping(value = "/user/registeruser", consumes = "application/json", produces = "application/json")
-	public boolean registerUser(@RequestBody UserBackOfficeDAO requestUser){
-		boolean response =  userService.registerUser(requestUser);
+	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser){
+		boolean response =  userService.registerUser(requestRegisterUser);
 		
 		if (response != false) {
-			return true;
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStatusLogDAO(200, "O usuario foi registrado com sucesso!") );
 		}
 		
-		return false;
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o usuario"));
     }
-	
-	
-	
-	@PutMapping(value = "/user/update/status", consumes = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> updateStatusUser(@RequestBody UserBackOfficeDAO request){
 		
-		 boolean updateStatusUser = userService.updateStatusUser(request);
+	
+	/**
+	 * 
+	 * @param requestUpdateUser
+	 * @return
+	 */
+	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO requestUpdateUser) {
 		
-		if(updateStatusUser == true) {
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStatusLogDAO(200, "O usuario foi modificado para o status:" + request.getStatus()));
+		boolean isUpdated = userService.updateUser(requestUpdateUser);
+		
+		if (isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateUser);
 		}
 		
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseStatusLogDAO(500, "Não foi possivel modificar o status do usuario para: " + request.getStatus()));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestUpdateUser);
 	}
 }
