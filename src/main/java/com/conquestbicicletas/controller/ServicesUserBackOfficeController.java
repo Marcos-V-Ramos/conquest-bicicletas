@@ -38,10 +38,9 @@ public class ServicesUserBackOfficeController {
     	
     	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-	
-	
+
 	/**
-	 * Pesquisa no banco de dados um determinado usuario por nome, cpf ou grupo
+	 * Pesquisa no banco de dados um determinado usuario por nome, cpf
 	 * 
 	 * @param requestUserSearch
 	 * @return
