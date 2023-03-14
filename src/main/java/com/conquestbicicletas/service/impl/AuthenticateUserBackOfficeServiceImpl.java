@@ -14,10 +14,10 @@ public class AuthenticateUserBackOfficeServiceImpl implements  AuthenticateUserB
 	@Autowired
 	private AutenticateUserBackOfficeRepository authenticateRepository;
 	
-	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO request) {
-		if(request.getEmail() != null && request.getPassword() != null) {
+	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO requestLoginUser) {
+		if(requestLoginUser.getEmail() != null && requestLoginUser.getPassword() != null) {
 			try {
-				return authenticateRepository.authenticateUserBackOffice(request);
+				return authenticateRepository.authenticateUserBackOffice(requestLoginUser);
 			} catch (Exception e) {
 				System.out.println("Error");
 			}

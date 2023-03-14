@@ -7,5 +7,5 @@ import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeResponseDAO;
 
 @Service
 public interface AuthenticateUserBackOfficeService {
-	AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO request);
+	AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO requestLoginUser);
 }
