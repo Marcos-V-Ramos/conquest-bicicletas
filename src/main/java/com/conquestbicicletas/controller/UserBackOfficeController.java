@@ -34,7 +34,6 @@ public class UserBackOfficeController {
     }
 	
 	
-	
 	@PutMapping(value = "/user/update/status", consumes = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> updateStatusUser(@RequestBody UserBackOfficeDAO request){
 		
@@ -45,5 +44,17 @@ public class UserBackOfficeController {
 		}
 		
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseStatusLogDAO(500, "Não foi possivel modificar o status do usuario para: " + request.getStatus()));
+	}
+	
+	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO request) {
+		
+		boolean isUpdated = userService.updateUser(request);
+		
+		if (isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK).body(request);
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(request);
 	}
 }

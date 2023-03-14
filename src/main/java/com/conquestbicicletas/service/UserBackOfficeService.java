@@ -8,4 +8,5 @@ import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 public interface UserBackOfficeService {
 	boolean registerUser(UserBackOfficeDAO requestUser);
 	boolean updateStatusUser(UserBackOfficeDAO request);
+	boolean updateUser(UserBackOfficeDAO request);
 }
