@@ -40,7 +40,6 @@ public class UserBackOfficeController {
     }
 	
 	
-	
 	/**
 	 * 
 	 * 
@@ -55,7 +54,19 @@ public class UserBackOfficeController {
 		if(updateStatusUser == true) {
 			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateStatus.getStatus());
 		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	} 
+		
+	
+	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO request) {
+		
+		boolean isUpdated = userService.updateUser(request);
+		
+		if (isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK).body(request);
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(request);
+	}
 }
