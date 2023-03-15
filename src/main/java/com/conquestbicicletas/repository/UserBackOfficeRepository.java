@@ -12,6 +12,12 @@ import com.conquestbicicletas.repository.config.ConnectionFactory;
 @Repository
 public class UserBackOfficeRepository extends ConnectionFactory {
 	
+	/**
+	 * Registra o usuario
+	 * 
+	 * @param request
+	 * @return retorna TRUE para usuario registrado, e false para usuario NÃO registrado
+	 */
 	public boolean registerUser(UserBackOfficeDAO request) {
 		try {
 			Connection connection = super.getConnection();
@@ -20,7 +26,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			// Se não existirem, insira os dados no banco
 			if (created != true) {
 				PreparedStatement stmt = connection.prepareStatement(
-						"INSERT INTO tb_user (name_user, cpf_user, email_user, password_user, status_user, group_user) VALUES (?, ?, ?, ?, TRUE, ?)");
+						"INSERT INTO tb_user (name_user, cpf_user, email_user, password_user, status_user, group_user) VALUES (?, ?, ?, AES_ENCRYPT(?, 'chave'), TRUE, ?)");
 				stmt.setString(1, request.getNameUser());
 				stmt.setString(2, request.getCpf());
 				stmt.setString(3, request.getEmail());
@@ -47,9 +53,8 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean result = false;
 
-		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, password_user = ?, status_user = ?, group_user = ? where cpf_user = ?";
+		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, password_user = AES_ENCRYPT(?, 'chave'), status_user = ?, group_user = ? where cpf_user = ?";
 		try {
-			// TODO chamar o encriptador.
 			Connection connection = super.getConnection();
 			PreparedStatement updateUser = connection.prepareStatement(SQL_QUERY);
 			updateUser.setString(1, request.getNameUser());
@@ -74,7 +79,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 
 	
 	/**
-	 * Checa se o Email e senha já estão no banco de dados
+	 * Checa se o Email e CPF já estão no banco de dados
 	 * 
 	 * 
 	 * @param request

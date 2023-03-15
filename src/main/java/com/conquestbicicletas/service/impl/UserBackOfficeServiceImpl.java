@@ -18,7 +18,6 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	}
 	
 	
-	//TODO realizar testes.
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean isUpdated = userRepository.updateUser(request);
 		return isUpdated;

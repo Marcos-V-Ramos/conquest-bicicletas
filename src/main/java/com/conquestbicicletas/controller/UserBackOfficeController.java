@@ -4,6 +4,7 @@ package com.conquestbicicletas.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.conquestbicicletas.service.UserBackOfficeService;
 
 
 @RestController
+@CrossOrigin(value="*")
 @RequestMapping("/conquest")
 public class UserBackOfficeController {
 	
@@ -23,7 +25,7 @@ public class UserBackOfficeController {
 	private UserBackOfficeService userService;
 	 
 	/**
-	 * Registra usuario
+	 * Registra um usuario
 	 * 
 	 * @param requestRegisterUser
 	 * @return
@@ -41,9 +43,10 @@ public class UserBackOfficeController {
 		
 	
 	/**
+	 * Solicita o update de um usuario
 	 * 
 	 * @param requestUpdateUser
-	 * @return
+	 * @return se o usuario foi atualizado ou não
 	 */
 	@PutMapping(value = "/user/update/updateuser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO requestUpdateUser) {

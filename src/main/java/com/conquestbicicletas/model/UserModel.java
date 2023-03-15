@@ -1,5 +1,6 @@
 package com.conquestbicicletas.model;
 
+
 public class UserModel {
 
 	private String nameUser;

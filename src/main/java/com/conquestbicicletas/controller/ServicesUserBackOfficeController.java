@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.conquestbicicletas.service.ServicesUserBackOfficeService;
 
 
 @RestController
+@CrossOrigin(value="*")
 @RequestMapping("/conquest")
 public class ServicesUserBackOfficeController {
 
@@ -59,6 +61,7 @@ public class ServicesUserBackOfficeController {
 	
 	
 	/**
+	 * Filtra o usuário por grupo
 	 * 
 	 * @param requestTypeGroupUser; tipo de grupo
 	 * @return retorna uma lista com o filtro selecionado.

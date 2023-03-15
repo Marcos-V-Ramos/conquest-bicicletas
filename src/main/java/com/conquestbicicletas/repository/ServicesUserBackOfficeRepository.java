@@ -14,6 +14,10 @@ import com.conquestbicicletas.repository.config.ConnectionFactory;
 @Repository
 public class ServicesUserBackOfficeRepository extends ConnectionFactory {
 
+	/**
+	 * 
+	 * @return listUsers
+	 */
 	public List<UserBackOfficeDAO> getListUsers() {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
@@ -36,7 +40,13 @@ public class ServicesUserBackOfficeRepository extends ConnectionFactory {
 	}
 
 	
-	
+	/**
+	 * 
+	 * Retorna a lista de usuarios tendo o nome ou CPF como parâmetro
+	 * 
+	 * @param requestUserSearch
+	 * @return listUsers
+	 */
 	public List<UserBackOfficeDAO> getListUsersSearch(UserBackOfficeDAO requestUserSearch) {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
@@ -77,7 +87,13 @@ public class ServicesUserBackOfficeRepository extends ConnectionFactory {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * retorna a lista de usuários filtrando por grupo
+	 * 
+	 * @param requestTypeGroupUser
+	 * @return listUsers
+	 */
 	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser){		
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
