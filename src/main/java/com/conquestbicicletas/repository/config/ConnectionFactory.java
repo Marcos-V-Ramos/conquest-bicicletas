@@ -3,7 +3,9 @@ package com.conquestbicicletas.repository.config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ConnectionFactory {
 
 	@Value("${conquestbicicletas.database.driver}")

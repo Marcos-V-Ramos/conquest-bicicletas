@@ -3,6 +3,7 @@ package com.conquestbicicletas.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeResponseDAO;
 import com.conquestbicicletas.service.AuthenticateUserBackOfficeService;
 
 @RestController
+@CrossOrigin(value="*")
 @RequestMapping("/conquest")
 public class AuthenticateUserBackOfficeController {
 	
