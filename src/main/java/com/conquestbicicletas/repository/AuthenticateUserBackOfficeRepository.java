@@ -26,7 +26,7 @@ public class AuthenticateUserBackOfficeRepository extends ConnectionFactory {
 
 		try {
 			PreparedStatement stmt = conexao
-					.prepareStatement("SELECT * FROM tb_user WHERE email_user = ? and password_user = ?");
+					.prepareStatement("SELECT * FROM tb_user WHERE email_user = ? AND AES_DECRYPT(password_user, 'chave') = ?");
 			stmt.setString(1, requestLoginUser.getEmail());
 			stmt.setString(2, requestLoginUser.getPassword());
 			ResultSet rs = stmt.executeQuery();
@@ -50,3 +50,4 @@ public class AuthenticateUserBackOfficeRepository extends ConnectionFactory {
 		return null;
 	}
 }
+
