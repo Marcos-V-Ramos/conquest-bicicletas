@@ -155,6 +155,7 @@ public class UserBackOfficeAdminRepository extends ConnectionFactory {
 	}
 	
 	
+	/// Atualizar User
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean result = false;
 
