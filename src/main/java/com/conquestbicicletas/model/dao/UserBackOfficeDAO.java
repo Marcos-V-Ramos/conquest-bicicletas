@@ -4,12 +4,12 @@ import com.conquestbicicletas.model.UserModel;
 
 public class UserBackOfficeDAO extends UserModel {
 	private int group;
-	private Boolean status;
+	private boolean status;
 	
 	public UserBackOfficeDAO() {
 	}
 	
-	public UserBackOfficeDAO(String nameUser,String cpf, String email, String password, Boolean status, int group) {
+	public UserBackOfficeDAO(String nameUser,String cpf, String email, String password, boolean status, int group) {
 		super(nameUser, cpf, email, password);
 		this.group = group;
 		this.status = status;
@@ -24,11 +24,11 @@ public class UserBackOfficeDAO extends UserModel {
 		this.group = group;
 	}
 
-	public Boolean getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 }
