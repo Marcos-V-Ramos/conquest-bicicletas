@@ -9,11 +9,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 import com.conquestbicicletas.repository.config.ConnectionFactory;
 
 @Repository
-public class UserBackOfficeAdminRepository extends ConnectionFactory {
+public class UserBackOfficeRepository extends ConnectionFactory {
 
 	/**
 	 * 
@@ -155,6 +156,7 @@ public class UserBackOfficeAdminRepository extends ConnectionFactory {
 	}
 	
 	
+	/// Atualizar User
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean result = false;
 
@@ -181,6 +183,48 @@ public class UserBackOfficeAdminRepository extends ConnectionFactory {
 
 		return result;
 	}
+	
+	
+
+	/**
+	 * 
+	 * @param requestUpdateStatus
+	 * @return
+	 */
+	public boolean updateStatus(UpdateStatusUserDAO requestUpdateStatus) {
+
+		try {
+			Connection connection = super.getConnection();
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("UPDATE tb_user ");
+			sb.append(" SET status_user = ?");
+			sb.append(" WHERE cpf_user = ?");
+
+			PreparedStatement stmt = connection.prepareStatement(sb.toString());
+			stmt.setBoolean(1, requestUpdateStatus.getStatusUser());
+			stmt.setString(2, requestUpdateStatus.getCpf());
+
+			int rowsAffected = stmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				super.closeConnection();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+	
 
 	
 	/**
