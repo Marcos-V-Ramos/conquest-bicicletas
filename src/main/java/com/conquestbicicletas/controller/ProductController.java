@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.conquestbicicletas.model.dao.ProductModelDAO;
@@ -37,7 +38,7 @@ public class ProductController {
 	@GetMapping(value = "/backoffice/product/listproduct", produces = "application/json")
     public ResponseEntity<List<ProductModelDAO>> getListAllProduct() {
     	
-		List<ProductModelDAO> response = productService.getListProduct();
+		List<ProductModelDAO> response = productService.getAllListProduct();
     	
     	if (response != null) {
     		return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -45,6 +46,28 @@ public class ProductController {
     	
     	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+	
+	
+	
+	/**
+	 * Retorna a pesquisa de um produto pesquisado pelo nome, com busca parcial
+	 * 
+	 * @param requestUserSearch
+	 * @return
+	 */
+	@GetMapping(value = "/backoffice/product/visualize", produces = "application/json")
+	public ResponseEntity<ProductModelDAO> visualizeProduct(@RequestParam(value="product_id") int productId){
+		
+		ProductModelDAO response = productService.visualizeProduct(productId);
+		
+		if(response != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	
+	
 	
 	/**
 	 * Registra um produto
@@ -62,6 +85,8 @@ public class ProductController {
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o produto"));
     }
+	
+	
 	
 	/**
 	 * Solicita o update de um produto
@@ -111,9 +136,9 @@ public class ProductController {
 	 * @return
 	 */
 	@PostMapping(value = "/backoffice/product/search", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<List<ProductModelDAO>> getListSearchName(@RequestBody ProductModelDAO requestUserSearch){
+	public ResponseEntity<List<ProductModelDAO>> getListSearchProduct(@RequestBody ProductModelDAO requestUserSearch){
 		
-		List<ProductModelDAO> response = productService.getListProductSearchName(requestUserSearch);
+		List<ProductModelDAO> response = productService.getListProductSearch(requestUserSearch);
 		
 		if(response != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(response);

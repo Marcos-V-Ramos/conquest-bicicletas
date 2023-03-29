@@ -1,30 +1,26 @@
 package com.conquestbicicletas.model.dao;
 
-import java.util.Base64;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ImageProductModelDAO {
 
 	private int idImage;
-	private Base64 imageBase64;
-	@JsonIgnore
+	private String imageBase64;
 	private int productId;
 	
 	public ImageProductModelDAO() {
 	}
 
-	public ImageProductModelDAO(int idImage, Base64 imageBase64, int idProduct) {
+	public ImageProductModelDAO(int idImage, String imageBase64, int idProduct) {
 		this.idImage = idImage;
 		this.imageBase64 = imageBase64;
 		this.productId = idProduct;
 	}
 	
-	public Base64 getImageBase64() {
+	public String getImageBase64() {
 		return imageBase64;
 	}
 	
-	public void setImageBase64(Base64 imageBase64) {
+	public void setImageBase64(String imageBase64) {
 		this.imageBase64 = imageBase64;
 	}
 	

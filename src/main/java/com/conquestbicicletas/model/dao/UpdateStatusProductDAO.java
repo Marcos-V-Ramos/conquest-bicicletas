@@ -20,11 +20,11 @@ public class UpdateStatusProductDAO {
 		this.productId = productId;
 	}
 
-	public boolean getstatusProduct() {
+	public boolean getStatusProduct() {
 		return statusProduct;
 	}
 
-	public void setstatusProduct(boolean statusProduct) {
+	public void setStatusProduct(boolean statusProduct) {
 		this.statusProduct = statusProduct;
 	}
 	

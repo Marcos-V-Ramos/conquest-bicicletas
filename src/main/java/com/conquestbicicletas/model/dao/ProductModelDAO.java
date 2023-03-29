@@ -1,6 +1,6 @@
 package com.conquestbicicletas.model.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProductModelDAO {
 
@@ -10,22 +10,33 @@ public class ProductModelDAO {
 	private int productQuantity;
 	private double productValue;
 	private double productReview; /// Ver para mudar a avaliação para int.
-	private boolean status;	
-	private ArrayList<ImageProductModelDAO> productImage;
+	private boolean productStatus;	
+	private List<ImageProductModelDAO> productImages;
 	
 	public ProductModelDAO() {
 	}
 
 	public ProductModelDAO(int productId, String productName, String productDescription,
-			int productQuantity, double productValue, double productReview, boolean status, ArrayList<ImageProductModelDAO> productImage) {
+			int productQuantity, double productValue, double productReview, boolean productStatus, List<ImageProductModelDAO> productImages) {
 		this.productId = productId;
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productQuantity = productQuantity;
 		this.productValue = productValue;
 		this.productReview = productReview;
-		this.status = status;
-		this.productImage = productImage;
+		this.productStatus = productStatus;
+		this.productImages = productImages;
+	}
+	
+	public ProductModelDAO(int productId, String productName, String productDescription,
+			int productQuantity, double productValue, double productReview, boolean productStatus) {
+		this.productId = productId;
+		this.productName = productName;
+		this.productDescription = productDescription;
+		this.productQuantity = productQuantity;
+		this.productValue = productValue;
+		this.productReview = productReview;
+		this.productStatus = productStatus;
 	}
 
 	public int getProductId() {
@@ -76,20 +87,20 @@ public class ProductModelDAO {
 		this.productReview = productReview;
 	}
 
-	public boolean getStatus() {
-		return status;
+	public boolean getProductStatus() {
+		return productStatus;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setProductStatus(boolean productStatus) {
+		this.productStatus = productStatus;
 	}
 
-	public ArrayList<ImageProductModelDAO> getProductImage() {
-		return productImage;
+	public List<ImageProductModelDAO> getProductImages() {
+		return productImages;
 	}
 
-	public void setProductImage(ArrayList<ImageProductModelDAO> productImage) {
-		this.productImage = productImage;
+	public void setProductImages(List<ImageProductModelDAO> productImages) {
+		this.productImages = productImages;
 	}
 	
 }
