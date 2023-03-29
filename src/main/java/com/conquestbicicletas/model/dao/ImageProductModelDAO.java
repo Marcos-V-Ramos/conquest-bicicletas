@@ -39,5 +39,12 @@ public class ImageProductModelDAO {
 	public void setIdImage(int idImage) {
 		this.idImage = idImage;
 	}
+
+	@Override
+	public String toString() {
+		return "ImageProductModelDAO [idImage=" + idImage + ", imageBase64=" + imageBase64 + ", productId=" + productId
+				+ "]";
+	}
+	
 		
 }

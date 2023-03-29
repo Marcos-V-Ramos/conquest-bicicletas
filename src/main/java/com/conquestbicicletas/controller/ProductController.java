@@ -34,7 +34,6 @@ public class ProductController {
 	 * @return Lista de produtos
 	 */
 	
-	//// ARRUMAR A ROTA
 	@GetMapping(value = "/backoffice/product/listproduct", produces = "application/json")
     public ResponseEntity<List<ProductModelDAO>> getListAllProduct() {
     	
@@ -50,7 +49,7 @@ public class ProductController {
 	
 	
 	/**
-	 * Retorna a pesquisa de um produto pesquisado pelo nome, com busca parcial
+	 * Visualiza o produto
 	 * 
 	 * @param requestUserSearch
 	 * @return

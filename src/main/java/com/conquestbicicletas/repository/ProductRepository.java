@@ -17,8 +17,7 @@ import com.conquestbicicletas.repository.config.ConnectionFactory;
 
 @Repository
 public class ProductRepository extends ConnectionFactory {
-	
-	
+
 	/**
 	 * 
 	 * @return listProduct
@@ -32,8 +31,9 @@ public class ProductRepository extends ConnectionFactory {
 
 			while (rs.next()) {
 				listProduct.add(new ProductModelDAO(rs.getInt("product_id"), rs.getString("product_name"),
-						rs.getString("product_description"), rs.getInt("product_quantity"), rs.getDouble("product_value"),
-						rs.getDouble("product_review"), rs.getBoolean("product_status")));
+						rs.getString("product_description"), rs.getInt("product_quantity"),
+						rs.getDouble("product_value"), rs.getDouble("product_review"),
+						rs.getBoolean("product_status")));
 			}
 			return listProduct;
 		} catch (Exception e) {
@@ -44,8 +44,7 @@ public class ProductRepository extends ConnectionFactory {
 		return null;
 
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param productId
@@ -58,12 +57,11 @@ public class ProductRepository extends ConnectionFactory {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_product WHERE product_id = ?");
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
-			
-			
+
 			while (rs.next()) {
-				infoProduct = new ProductModelDAO (rs.getInt("product_id"), rs.getString("product_name"),
-						rs.getString("product_description"), rs.getInt("product_quantity"), rs.getDouble("product_value"),
-						rs.getDouble("product_review"), rs.getBoolean("product_status"));
+				infoProduct = new ProductModelDAO(rs.getInt("product_id"), rs.getString("product_name"),
+						rs.getString("product_description"), rs.getInt("product_quantity"),
+						rs.getDouble("product_value"), rs.getDouble("product_review"), rs.getBoolean("product_status"));
 			}
 			return infoProduct;
 		} catch (Exception e) {
@@ -73,7 +71,7 @@ public class ProductRepository extends ConnectionFactory {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param productId
@@ -82,14 +80,13 @@ public class ProductRepository extends ConnectionFactory {
 	public List<ImageProductModelDAO> visualizeProductImage(int productId) {
 
 		List<ImageProductModelDAO> imgProduct = new ArrayList<>();
-		
+
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_imagem WHERE product_id = ?");
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
-			
-			
+
 			while (rs.next()) {
 				imgProduct.add(new ImageProductModelDAO(rs.getInt("id_imagem"), rs.getString("img_base64"),
 						rs.getInt("product_id")));
@@ -102,8 +99,6 @@ public class ProductRepository extends ConnectionFactory {
 		}
 		return null;
 	}
-	
-	
 
 	/**
 	 * Registra o produto
@@ -114,10 +109,10 @@ public class ProductRepository extends ConnectionFactory {
 	 */
 	public Integer registerProduct(ProductModelDAO requestRegisterProduct) {
 		Integer productId = null;
-		
+
 		try {
 			Connection connection = super.getConnection();
-			
+
 			final String queryRegisterProduct = "INSERT INTO tb_product (product_name, product_description, product_quantity, product_value, product_review, product_status) VALUES (?, ?, ?, ?, ?,TRUE)";
 			PreparedStatement stmt = connection.prepareStatement(queryRegisterProduct, Statement.RETURN_GENERATED_KEYS);
 
@@ -126,19 +121,18 @@ public class ProductRepository extends ConnectionFactory {
 			stmt.setInt(3, requestRegisterProduct.getProductQuantity());
 			stmt.setDouble(4, requestRegisterProduct.getProductValue());
 			stmt.setDouble(5, requestRegisterProduct.getProductReview());
-			
 
 			int rowsAffected = stmt.executeUpdate();
 
 			if (rowsAffected > 0) {
-				
+
 				ResultSet generatedId = stmt.getGeneratedKeys();
-				
-				if(generatedId.next()) {
+
+				if (generatedId.next()) {
 					productId = generatedId.getInt(1);
 					return productId;
 				}
-				
+
 				generatedId.close();
 			}
 
@@ -151,9 +145,7 @@ public class ProductRepository extends ConnectionFactory {
 		System.out.println("Esse Usuario ja existe!!!");
 		return productId;
 	}
-	
-	
-	
+
 	/**
 	 * 
 	 * @param requestRegisterImage
@@ -162,17 +154,16 @@ public class ProductRepository extends ConnectionFactory {
 	public boolean registerImage(ImageProductModelDAO requestRegisterImage) {
 		try {
 			Connection connection = super.getConnection();
-			
+
 			final String queryRegisterImage = "INSERT INTO tb_imagem (product_id, img_base64) VALUES (?, ?)";
 			PreparedStatement stmt = connection.prepareStatement(queryRegisterImage);
-			
-			
+
 			stmt.setInt(1, requestRegisterImage.getIdProduct());
 			stmt.setString(2, requestRegisterImage.getImageBase64());
 			int rowsAffected = stmt.executeUpdate();
 
 			if (rowsAffected > 0) {
-					return true;
+				return true;
 			}
 
 		} catch (Exception e) {
@@ -184,29 +175,26 @@ public class ProductRepository extends ConnectionFactory {
 		System.out.println("Esse Usuario ja existe!!!");
 		return false;
 	}
-	
-	
 
 	/**
 	 * 
-	 * @param request
+	 * @param Alterar produtos.
 	 * @return
 	 */
 	public boolean updateProduct(ProductModelDAO request) {
 		boolean result = false;
 
-		final String SQL_QUERY = "UPDATE tb_product SET product_id = ?, product_name = ?, product_description = ?, "
+		final String SQL_QUERY = "UPDATE tb_product SET product_name = ?, product_description = ?, "
 				+ "product_quantity = ? , product_value = ? , product_status = ? where product_id = ?";
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement updateProduct = connection.prepareStatement(SQL_QUERY);
-			updateProduct.setInt(1, request.getProductId());
-			updateProduct.setString(2, request.getProductName());
-			updateProduct.setString(3, request.getProductDescription());
-			updateProduct.setInt(4, request.getProductQuantity());
-			updateProduct.setDouble(5, request.getProductValue());
-			updateProduct.setBoolean(6, request.getProductStatus());
-			updateProduct.setInt(7, request.getProductId());
+			updateProduct.setString(1, request.getProductName());
+			updateProduct.setString(2, request.getProductDescription());
+			updateProduct.setInt(3, request.getProductQuantity());
+			updateProduct.setDouble(4, request.getProductValue());
+			updateProduct.setBoolean(5, request.getProductStatus());
+			updateProduct.setInt(6, request.getProductId());
 
 			int rows = updateProduct.executeUpdate();
 
@@ -221,42 +209,40 @@ public class ProductRepository extends ConnectionFactory {
 
 		return result;
 	}
-	
-	
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public boolean updateImageProduct(ProductModelDAO request) {
-		boolean result = false;
 
-		final String SQL_QUERY = "UPDATE tb_product SET product_id = ?, product_name = ?, product_description = ?, "
-				+ "product_quantity = ? , product_value = ? , product_status = ? where product_id = ?";
-		try {
-			Connection connection = super.getConnection();
-			PreparedStatement updateProduct = connection.prepareStatement(SQL_QUERY);
-			updateProduct.setInt(1, request.getProductId());
-			updateProduct.setString(2, request.getProductName());
-			updateProduct.setString(3, request.getProductDescription());
-			updateProduct.setInt(4, request.getProductQuantity());
-			updateProduct.setDouble(5, request.getProductValue());
-			updateProduct.setBoolean(6, request.getProductStatus());
-			updateProduct.setInt(7, request.getProductId());
-
-			int rows = updateProduct.executeUpdate();
-
-			result = rows > 0 ? true : false;
-
-		} catch (SQLException e) {
-			System.out.format("Houve um erro ao atualizar o usuário: %s /n %s /n %s", e.getMessage(), e.getSQLState(),
-					e.getLocalizedMessage());
-		} finally {
-			super.closeConnection();
-		}
-
-		return result;
-	}
+	/*	
+		*//**
+			 * 
+			 * @param request
+			 * @return
+			 *//*
+				 * public boolean updateImageProduct(ProductModelDAO request) { boolean result =
+				 * false;
+				 * 
+				 * final String SQL_QUERY =
+				 * "UPDATE tb_product SET product_id = ?, product_name = ?, product_description = ?, "
+				 * +
+				 * "product_quantity = ? , product_value = ? , product_status = ? where product_id = ?"
+				 * ; try { Connection connection = super.getConnection(); PreparedStatement
+				 * updateProduct = connection.prepareStatement(SQL_QUERY);
+				 * updateProduct.setInt(1, request.getProductId()); updateProduct.setString(2,
+				 * request.getProductName()); updateProduct.setString(3,
+				 * request.getProductDescription()); updateProduct.setInt(4,
+				 * request.getProductQuantity()); updateProduct.setDouble(5,
+				 * request.getProductValue()); updateProduct.setBoolean(6,
+				 * request.getProductStatus()); updateProduct.setInt(7, request.getProductId());
+				 * 
+				 * int rows = updateProduct.executeUpdate();
+				 * 
+				 * result = rows > 0 ? true : false;
+				 * 
+				 * } catch (SQLException e) {
+				 * System.out.format("Houve um erro ao atualizar o usuário: %s /n %s /n %s",
+				 * e.getMessage(), e.getSQLState(), e.getLocalizedMessage()); } finally {
+				 * super.closeConnection(); }
+				 * 
+				 * return result; }
+				 */
 
 	/**
 	 * 
@@ -316,8 +302,9 @@ public class ProductRepository extends ConnectionFactory {
 
 			while (rs.next()) {
 				listProduct.add(new ProductModelDAO(rs.getInt("product_id"), rs.getString("product_name"),
-						rs.getString("product_description"), rs.getInt("product_quantity"), rs.getDouble("product_value"),
-						rs.getDouble("product_review"), rs.getBoolean("product_status")));
+						rs.getString("product_description"), rs.getInt("product_quantity"),
+						rs.getDouble("product_value"), rs.getDouble("product_review"),
+						rs.getBoolean("product_status")));
 			}
 			return listProduct;
 		} catch (Exception e) {
