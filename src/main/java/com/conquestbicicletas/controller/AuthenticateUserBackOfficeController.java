@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeRequestDAO;
 import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeResponseDAO;
 import com.conquestbicicletas.service.AuthenticateUserBackOfficeService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @CrossOrigin(value="*")
 @RequestMapping("/conquest")
@@ -33,10 +35,10 @@ public class AuthenticateUserBackOfficeController {
 		AuthenticateUserBackOfficeResponseDAO response = authenticateUserBackOfficeService.authenticateUserBackOffice(requestLoginUser);
 		
 		if(response != null) {
-			return  ResponseEntity.status(HttpStatus.OK).body(response);
+			log.info("[INFO] Login successful");
+			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthenticateUserBackOfficeResponseDAO());
+		log.error("[ERROR] Error when logging in");
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new AuthenticateUserBackOfficeResponseDAO());
 	}
-	
 }

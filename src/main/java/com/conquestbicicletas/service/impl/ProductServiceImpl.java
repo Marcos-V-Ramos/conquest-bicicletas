@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
 		if (idProductRegister != null) {
 			for (ImageProductModelDAO eachImage : requestRegisterProduct.getProductImages()) {
-				eachImage.setIdProduct(idProductRegister);
+				eachImage.setProductId(idProductRegister);
 				productRepository.registerImage(eachImage);
 			}
 
@@ -57,24 +57,24 @@ public class ProductServiceImpl implements ProductService {
 		boolean isUpdatedProduct = productRepository.updateProduct(requestUpdateProduct);
 
 		if (isUpdatedProduct) {
-			List<ImageProductModelDAO> images = productRepository
+			List<ImageProductModelDAO> imagesRegistered = productRepository
 					.visualizeProductImage(requestUpdateProduct.getProductId());
-
-			if (images.size() == 0) {
-				for (ImageProductModelDAO image : requestUpdateProduct.getProductImages()) {
+			List<ImageProductModelDAO> imagesRequested = requestUpdateProduct.getProductImages();
+			if (imagesRegistered.size() == 0) {
+				for (ImageProductModelDAO image : imagesRequested) {
 					try {
-						image.setIdProduct(requestUpdateProduct.getProductId());
+						image.setProductId(requestUpdateProduct.getProductId());
 						productRepository.registerImage(image);
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 				}
 			} else {
-				for (ImageProductModelDAO newImage : requestUpdateProduct.getProductImages()) {
-					for (ImageProductModelDAO image : images) {
-						if (image.getIdProduct() != newImage.getIdProduct()) {
+				for (ImageProductModelDAO newImage : imagesRequested) {
+					for (ImageProductModelDAO image : imagesRegistered) {
+						if (image.getProductId() != newImage.getProductId()) {
 							try {
-								newImage.setIdProduct(requestUpdateProduct.getProductId());
+								newImage.setProductId(requestUpdateProduct.getProductId());
 								productRepository.registerImage(newImage);
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
@@ -92,6 +92,14 @@ public class ProductServiceImpl implements ProductService {
 	public boolean updateStatusProduct(UpdateStatusProductDAO requestUpdateStatusProduct) {
 		boolean isUpdatedStatusProduct = productRepository.updateStatusProduct(requestUpdateStatusProduct);
 		return isUpdatedStatusProduct;
+	}
+
+	public boolean deleteImage(int idImage) {
+		boolean isDeleteImage = productRepository.deleteImage(idImage);
+		if (isDeleteImage) {
+			return true;
+		}
+		return false;
 	}
 
 }

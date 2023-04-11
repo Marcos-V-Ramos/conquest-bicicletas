@@ -41,7 +41,6 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		return null;
 	}
 
-	
 	/**
 	 * 
 	 * Retorna a lista de usuarios tendo o nome ou CPF como parâmetro
@@ -56,7 +55,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			Connection connection = super.getConnection();
 
 			if (requestUserSearch.getNameUser() != null && requestUserSearch.getCpf() == null) {
-				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE name_user = ?");
+				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE name_user COLLATE utf8mb4_general_ci LIKE ?");
 				stmt.setString(1, requestUserSearch.getNameUser());
 				ResultSet rs = stmt.executeQuery();
 
@@ -68,7 +67,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 				return listUsers;
 
 			} else if (requestUserSearch.getNameUser() == null && requestUserSearch.getCpf() != null) {
-				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE cpf_user = ?");
+				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE cpf_user COLLATE utf8mb4_general_ci LIKE ?");
 				stmt.setString(1, requestUserSearch.getCpf());
 				ResultSet rs = stmt.executeQuery();
 
@@ -87,8 +86,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * 
 	 * retorna a lista de usuários filtrando por grupo
@@ -96,7 +94,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	 * @param requestTypeGroupUser
 	 * @return listUsers
 	 */
-	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser){		
+	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser) {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
@@ -117,12 +115,13 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Registra o usuario
 	 * 
 	 * @param request
-	 * @return retorna TRUE para usuario registrado, e false para usuario NÃO registrado
+	 * @return retorna TRUE para usuario registrado, e false para usuario NÃO
+	 *         registrado
 	 */
 	public boolean registerUser(UserBackOfficeDAO request) {
 		try {
@@ -154,13 +153,12 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		System.out.println("Esse Usuario ja existe!!!");
 		return false;
 	}
-	
-	
+
 	/// Atualizar User
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean result = false;
 
-		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, password_user = AES_ENCRYPT(?, 'chave'), status_user = ?, group_user = ? where cpf_user = ?";
+		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, password_user = AES_ENCRYPT(?, 'chave'), status_user = ?, group_user = ? WHERE cpf_user = ?";
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement updateUser = connection.prepareStatement(SQL_QUERY);
@@ -183,8 +181,6 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 
 		return result;
 	}
-	
-	
 
 	/**
 	 * 
@@ -224,9 +220,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 
 		return false;
 	}
-	
 
-	
 	/**
 	 * Checa se o Email e CPF já estão no banco de dados
 	 * 

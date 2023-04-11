@@ -15,4 +15,5 @@ public interface ProductService {
 	boolean updateProduct(ProductModelDAO requestUpadateProduct); // Faltam as imagens 
 	boolean updateStatusProduct(UpdateStatusProductDAO requestUpdateStatusProduct);
 	boolean registerProduct(ProductModelDAO requestRegisterProduct);
+	boolean deleteImage(int idImage);
 }

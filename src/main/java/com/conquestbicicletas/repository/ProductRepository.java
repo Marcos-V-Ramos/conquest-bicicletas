@@ -83,13 +83,13 @@ public class ProductRepository extends ConnectionFactory {
 
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_imagem WHERE product_id = ?");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_img_product WHERE fk_product_id = ?");
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				imgProduct.add(new ImageProductModelDAO(rs.getInt("id_imagem"), rs.getString("img_base64"),
-						rs.getInt("product_id")));
+				imgProduct.add(new ImageProductModelDAO(rs.getInt("img_id"),rs.getInt("fk_product_id"),
+						rs.getString("img_base64")));
 			}
 			return imgProduct;
 		} catch (Exception e) {
@@ -142,7 +142,6 @@ public class ProductRepository extends ConnectionFactory {
 		} finally {
 			super.closeConnection();
 		}
-		System.out.println("Esse Usuario ja existe!!!");
 		return productId;
 	}
 
@@ -155,10 +154,10 @@ public class ProductRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 
-			final String queryRegisterImage = "INSERT INTO tb_imagem (product_id, img_base64) VALUES (?, ?)";
+			final String queryRegisterImage = "INSERT INTO tb_img_product (fk_product_id, img_base64) VALUES (?, ?)";
 			PreparedStatement stmt = connection.prepareStatement(queryRegisterImage);
 
-			stmt.setInt(1, requestRegisterImage.getIdProduct());
+			stmt.setInt(1, requestRegisterImage.getProductId());
 			stmt.setString(2, requestRegisterImage.getImageBase64());
 			int rowsAffected = stmt.executeUpdate();
 
@@ -172,10 +171,39 @@ public class ProductRepository extends ConnectionFactory {
 		} finally {
 			super.closeConnection();
 		}
-		System.out.println("Esse Usuario ja existe!!!");
 		return false;
 	}
 
+	
+	/**
+	 * Deleta imagem do produto
+	 * @param idImage
+	 * @return
+	 */
+	public boolean deleteImage(int idImage) {
+		try {
+			Connection connection = super.getConnection();
+
+			final String queryDeleteImage = "DELETE FROM tb_img_product WHERE img_id = ?";
+			PreparedStatement stmt = connection.prepareStatement(queryDeleteImage);
+
+			stmt.setInt(1, idImage);
+			int rowsAffected = stmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				return true;
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			super.closeConnection();
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * 
 	 * @param Alterar produtos.
@@ -185,7 +213,7 @@ public class ProductRepository extends ConnectionFactory {
 		boolean result = false;
 
 		final String SQL_QUERY = "UPDATE tb_product SET product_name = ?, product_description = ?, "
-				+ "product_quantity = ? , product_value = ? , product_status = ? where product_id = ?";
+				+ "product_quantity = ? , product_value = ? , product_status = ? WHERE product_id = ?";
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement updateProduct = connection.prepareStatement(SQL_QUERY);
@@ -210,39 +238,6 @@ public class ProductRepository extends ConnectionFactory {
 		return result;
 	}
 
-	/*	
-		*//**
-			 * 
-			 * @param request
-			 * @return
-			 *//*
-				 * public boolean updateImageProduct(ProductModelDAO request) { boolean result =
-				 * false;
-				 * 
-				 * final String SQL_QUERY =
-				 * "UPDATE tb_product SET product_id = ?, product_name = ?, product_description = ?, "
-				 * +
-				 * "product_quantity = ? , product_value = ? , product_status = ? where product_id = ?"
-				 * ; try { Connection connection = super.getConnection(); PreparedStatement
-				 * updateProduct = connection.prepareStatement(SQL_QUERY);
-				 * updateProduct.setInt(1, request.getProductId()); updateProduct.setString(2,
-				 * request.getProductName()); updateProduct.setString(3,
-				 * request.getProductDescription()); updateProduct.setInt(4,
-				 * request.getProductQuantity()); updateProduct.setDouble(5,
-				 * request.getProductValue()); updateProduct.setBoolean(6,
-				 * request.getProductStatus()); updateProduct.setInt(7, request.getProductId());
-				 * 
-				 * int rows = updateProduct.executeUpdate();
-				 * 
-				 * result = rows > 0 ? true : false;
-				 * 
-				 * } catch (SQLException e) {
-				 * System.out.format("Houve um erro ao atualizar o usuário: %s /n %s /n %s",
-				 * e.getMessage(), e.getSQLState(), e.getLocalizedMessage()); } finally {
-				 * super.closeConnection(); }
-				 * 
-				 * return result; }
-				 */
 
 	/**
 	 * 

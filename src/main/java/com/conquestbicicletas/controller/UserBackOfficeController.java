@@ -18,77 +18,38 @@ import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 import com.conquestbicicletas.service.UserBackOfficeService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
-@CrossOrigin(value="*")
+@CrossOrigin(value = "*")
 @RequestMapping("/conquest")
 public class UserBackOfficeController {
 
 	@Autowired
 	private UserBackOfficeService userBackOfficeService;
-	 
-	
+
 	/**
 	 * Lista todos os usuarios cadastrados no backOffice
 	 * 
 	 * @return Lista de usuarios
 	 */
-	@GetMapping(value = "/backoffice/user/listusers", produces = "application/json")
-    public ResponseEntity<List<UserBackOfficeDAO>> getListAllUsers() {
-    	
-		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers();
-    	
-    	if (response != null) {
-    		return ResponseEntity.status(HttpStatus.OK).body(response);
-    	}
-    	
-    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-    }
+	@GetMapping(value = "/backoffice/user/list", produces = "application/json")
+	public ResponseEntity<List<UserBackOfficeDAO>> getListAllUsers() {
 
-	
-	
-	/**
-	 * Pesquisa no banco de dados um determinado usuario por nome, cpf
-	 * 
-	 * @param requestUserSearch
-	 * @return
-	 */
-	@PostMapping(value = "/backoffice/user/search", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(@RequestBody UserBackOfficeDAO requestUserSearch){
-		
-		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers(requestUserSearch);
-		
-		if(response != null) {
+		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers();
+
+		if (response != null && response.size() > 0) {
+			log.info("[INFO] Success in list user");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} else if (response.size() == 0) {
+			log.info("[INFO] List without content");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
 		}
-		
+		log.error("[ERROR] Unable to list user");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	
-	
-	
-	
-	/**
-	 * Filtra o usuário por grupo
-	 * 
-	 * @param requestTypeGroupUser; tipo de grupo
-	 * @return retorna uma lista com o filtro selecionado.
-	 */
-	@PostMapping(value = "/backoffice/user/filtergroup", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<List<UserBackOfficeDAO>> filterGroupUser(@RequestBody UserBackOfficeDAO requestTypeGroupUser){
-		
-		List<UserBackOfficeDAO> response = userBackOfficeService.filterGroupUser(requestTypeGroupUser);
-		
-		if(response != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(response);
-		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	}
-	
-	
-	
-	
+
 	/**
 	 * Registra um usuario
 	 * 
@@ -96,19 +57,19 @@ public class UserBackOfficeController {
 	 * @return
 	 */
 	@PostMapping(value = "/backoffice/user/register", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser){
-		boolean isRegister =  userBackOfficeService.registerUser(requestRegisterUser);
-		
+	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser) {
+		boolean isRegister = userBackOfficeService.registerUser(requestRegisterUser);
+
 		if (isRegister != false) {
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStatusLogDAO(200, "O usuario foi registrado com sucesso!") );
+			log.info("[INFO] Success in registering user");
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(new ResponseStatusLogDAO(201, "O usuario foi registrado com sucesso!"));
 		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o usuario"));
-    }
-		
-	
-	
-	
+		log.error("[ERROR] Error in registering user");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o usuario"));
+	}
+
 	/**
 	 * Solicita o update de um usuario
 	 * 
@@ -116,41 +77,84 @@ public class UserBackOfficeController {
 	 * @return se o usuario foi atualizado ou não
 	 */
 	@PutMapping(value = "/backoffice/user/update", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<UserBackOfficeDAO> updateUser(@RequestBody UserBackOfficeDAO requestUpdateUser) {
-		
+	public ResponseEntity<ResponseStatusLogDAO> updateUser(@RequestBody UserBackOfficeDAO requestUpdateUser) {
+
 		boolean isUpdated = userBackOfficeService.updateUser(requestUpdateUser);
-		
+
 		if (isUpdated) {
-			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateUser);
+			log.info("[INFO] Success in updating user");
+			return ResponseEntity.status(HttpStatus.ACCEPTED)
+					.body(new ResponseStatusLogDAO(202, "O usuario foi alterado com sucesso!"));
 		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(requestUpdateUser);
+		log.error("[ERROR] Error updating user");
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+				.body(new ResponseStatusLogDAO(406, "Erro ao alterar usuario!"));
 	}
-	
-	
-	
+
 	/**
 	 * Update status user
 	 * 
 	 * @param requestUpdateStatus
 	 * @return
 	 */
-	@PutMapping(value = "/backoffice/user/updatestatus", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<UpdateStatusUserDAO> updateStatus(@RequestBody UpdateStatusUserDAO requestUpdateStatus) {
-		
-		boolean isUpdatedStatus = userBackOfficeService.updateStatusUser(requestUpdateStatus);
-		
+	@PutMapping(value = "/backoffice/user/update/status", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<UpdateStatusUserDAO> updateStatus(@RequestBody UpdateStatusUserDAO requestUpdateStatusUser) {
+
+		boolean isUpdatedStatus = userBackOfficeService.updateStatusUser(requestUpdateStatusUser);
+
 		if (isUpdatedStatus) {
-			return ResponseEntity.status(HttpStatus.OK).body(requestUpdateStatus);
+			log.info("[INFO] Success in updating status user");
+			return ResponseEntity.status(HttpStatus.ACCEPTED)
+					.body(requestUpdateStatusUser);
 		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(requestUpdateStatus);
+		log.error("[ERROR] Error updating status user");
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+				.body(requestUpdateStatusUser);
+	}
+
+	/**
+	 * Filtra o usuário por grupo
+	 * 
+	 * @param requestTypeGroupUser; tipo de grupo
+	 * @return retorna uma lista com o filtro selecionado.
+	 */
+	@PostMapping(value = "/backoffice/user/filtergroup", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<List<UserBackOfficeDAO>> filterGroupUser(
+			@RequestBody UserBackOfficeDAO requestTypeGroupUser) {
+
+		List<UserBackOfficeDAO> response = userBackOfficeService.filterGroupUser(requestTypeGroupUser);
+
+		if (response != null && response.size() > 0) {
+			log.info("[INFO] Success in list user");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} else if (response.size() == 0) {
+			log.info("[INFO] List without content");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+		}
+		log.error("[ERROR] Unable to list user");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+
+	/**
+	 * Pesquisa no banco de dados um determinado usuario por nome, cpf
+	 * 
+	 * @param requestUserSearch
+	 * @return
+	 */
+	@GetMapping(value = "/backoffice/user/search", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(
+			@RequestBody UserBackOfficeDAO requestUserSearch) {
+
+		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers(requestUserSearch);
+
+		if (response != null && response.size() > 0) {
+			log.info("[INFO] Success in list user");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} else if (response.size() == 0) {
+			log.info("[INFO] List without content");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+		}
+		log.error("[ERROR] Unable to list user");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 }
-
-
-
-
-
-
-

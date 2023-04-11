@@ -28,4 +28,10 @@ public class AuthenticateUserBackOfficeResponseDAO {
 	public void setGrupo(int group) {
 		this.group = group;
 	}
+
+	@Override
+	public String toString() {
+		return "AuthenticateUserBackOfficeResponseDAO [idUser=" + idUser + ", group=" + group + "]";
+	}
+	
 }

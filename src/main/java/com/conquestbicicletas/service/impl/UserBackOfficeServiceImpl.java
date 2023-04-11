@@ -12,37 +12,35 @@ import com.conquestbicicletas.service.UserBackOfficeService;
 
 @Component
 public class UserBackOfficeServiceImpl implements UserBackOfficeService {
-	
+
 	@Autowired
 	private UserBackOfficeRepository userBackOfficeRepository;
-	
+
 	public List<UserBackOfficeDAO> getListUsers() {
 		List<UserBackOfficeDAO> listUsers = userBackOfficeRepository.getListUsers();
 		return listUsers;
-	}	
-	
-	
-	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch){
+	}
+
+	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch) {
 		List<UserBackOfficeDAO> listUsersSearch = userBackOfficeRepository.getListUsersSearch(requestUserSearch);
 		return listUsersSearch;
 	}
-	
-	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser){
+
+	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser) {
 		List<UserBackOfficeDAO> listUsersFilterGroup = userBackOfficeRepository.filterGroupUser(requestTypeGroupUser);
 		return listUsersFilterGroup;
 	}
-	
+
 	public boolean registerUser(UserBackOfficeDAO requestRegisterUser) {
 		boolean createUser = userBackOfficeRepository.registerUser(requestRegisterUser);
 		return createUser;
 	}
-	
-	
+
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean isUpdated = userBackOfficeRepository.updateUser(request);
 		return isUpdated;
 	}
-	
+
 	@Override
 	public boolean updateStatusUser(UpdateStatusUserDAO requestUpdateStatus) {
 		boolean updateStatusUser = userBackOfficeRepository.updateStatus(requestUpdateStatus);

@@ -102,5 +102,12 @@ public class ProductModelDAO {
 	public void setProductImages(List<ImageProductModelDAO> productImages) {
 		this.productImages = productImages;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ProductModelDAO [productId=" + productId + ", productName=" + productName + ", productDescription="
+				+ productDescription + ", productQuantity=" + productQuantity + ", productValue=" + productValue
+				+ ", productReview=" + productReview + ", productStatus=" + productStatus + "]";
+	}
+
 }
