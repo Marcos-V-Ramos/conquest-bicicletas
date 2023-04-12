@@ -16,18 +16,18 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	@Autowired
 	private UserBackOfficeRepository userBackOfficeRepository;
 
-	public List<UserBackOfficeDAO> getListUsers() {
-		List<UserBackOfficeDAO> listUsers = userBackOfficeRepository.getListUsers();
+	public List<UserBackOfficeDAO> getListUser() {
+		List<UserBackOfficeDAO> listUsers = userBackOfficeRepository.getListUser();
 		return listUsers;
 	}
 
-	public List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch) {
-		List<UserBackOfficeDAO> listUsersSearch = userBackOfficeRepository.getListUsersSearch(requestUserSearch);
+	public List<UserBackOfficeDAO> getListUser(UserBackOfficeDAO requestUserSearch) {
+		List<UserBackOfficeDAO> listUsersSearch = userBackOfficeRepository.getListUserSearch(requestUserSearch);
 		return listUsersSearch;
 	}
 
-	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser) {
-		List<UserBackOfficeDAO> listUsersFilterGroup = userBackOfficeRepository.filterGroupUser(requestTypeGroupUser);
+	public List<UserBackOfficeDAO> filterGroupUser(int typeGroup) {
+		List<UserBackOfficeDAO> listUsersFilterGroup = userBackOfficeRepository.filterGroupUser(typeGroup);
 		return listUsersFilterGroup;
 	}
 

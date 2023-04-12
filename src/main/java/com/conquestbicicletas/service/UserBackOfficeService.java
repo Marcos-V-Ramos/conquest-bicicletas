@@ -9,9 +9,9 @@ import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 
 @Service
 public interface UserBackOfficeService {
-	List<UserBackOfficeDAO> getListUsers();
-	List<UserBackOfficeDAO> getListUsers(UserBackOfficeDAO requestUserSearch);
-	List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser);
+	List<UserBackOfficeDAO> getListUser();
+	List<UserBackOfficeDAO> getListUser(UserBackOfficeDAO requestUserSearch);
+	List<UserBackOfficeDAO> filterGroupUser(int typeGroup);
 	boolean updateUser(UserBackOfficeDAO requestUpdateUser);
 	boolean registerUser(UserBackOfficeDAO requestRegisterUser);
 	boolean updateStatusUser(UpdateStatusUserDAO requestUpdateStatus);

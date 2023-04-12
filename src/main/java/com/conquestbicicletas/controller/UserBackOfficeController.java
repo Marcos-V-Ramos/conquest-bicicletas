@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.conquestbicicletas.model.dao.ResponseStatusLogDAO;
@@ -37,7 +38,7 @@ public class UserBackOfficeController {
 	@GetMapping(value = "/backoffice/user/list", produces = "application/json")
 	public ResponseEntity<List<UserBackOfficeDAO>> getListAllUsers() {
 
-		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers();
+		List<UserBackOfficeDAO> response = userBackOfficeService.getListUser();
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list user");
@@ -118,11 +119,11 @@ public class UserBackOfficeController {
 	 * @param requestTypeGroupUser; tipo de grupo
 	 * @return retorna uma lista com o filtro selecionado.
 	 */
-	@PostMapping(value = "/backoffice/user/filtergroup", consumes = "application/json", produces = "application/json")
+	@GetMapping(value = "/backoffice/user/filtergroup", produces = "application/json")
 	public ResponseEntity<List<UserBackOfficeDAO>> filterGroupUser(
-			@RequestBody UserBackOfficeDAO requestTypeGroupUser) {
+			@RequestParam(value="filter_type_group") int typeGroup) {
 
-		List<UserBackOfficeDAO> response = userBackOfficeService.filterGroupUser(requestTypeGroupUser);
+		List<UserBackOfficeDAO> response = userBackOfficeService.filterGroupUser(typeGroup);
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list user");
@@ -145,7 +146,7 @@ public class UserBackOfficeController {
 	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(
 			@RequestBody UserBackOfficeDAO requestUserSearch) {
 
-		List<UserBackOfficeDAO> response = userBackOfficeService.getListUsers(requestUserSearch);
+		List<UserBackOfficeDAO> response = userBackOfficeService.getListUser(requestUserSearch);
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list user");

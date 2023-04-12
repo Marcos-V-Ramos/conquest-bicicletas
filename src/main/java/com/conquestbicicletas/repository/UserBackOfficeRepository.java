@@ -20,11 +20,16 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	 * 
 	 * @return listUsers
 	 */
-	public List<UserBackOfficeDAO> getListUsers() {
+	public List<UserBackOfficeDAO> getListUser() {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user");
+			final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, "
+					+ "AES_DECRYPT(password_user, 'chave') AS password_user, "
+					+ "status_user, group_user "
+					+ "FROM tb_user";
+			
+			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -48,14 +53,19 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	 * @param requestUserSearch
 	 * @return listUsers
 	 */
-	public List<UserBackOfficeDAO> getListUsersSearch(UserBackOfficeDAO requestUserSearch) {
+	public List<UserBackOfficeDAO> getListUserSearch(UserBackOfficeDAO requestUserSearch) {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
-
 			Connection connection = super.getConnection();
-
+			
 			if (requestUserSearch.getNameUser() != null && requestUserSearch.getCpf() == null) {
-				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE name_user COLLATE utf8mb4_general_ci LIKE ?");
+				
+				final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+						+ "AS password_user, status_user, group_user "
+						+ "FROM tb_user WHERE name_user "
+						+ "COLLATE utf8mb4_general_ci LIKE ?";
+				
+				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 				stmt.setString(1, requestUserSearch.getNameUser());
 				ResultSet rs = stmt.executeQuery();
 
@@ -67,7 +77,13 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 				return listUsers;
 
 			} else if (requestUserSearch.getNameUser() == null && requestUserSearch.getCpf() != null) {
-				PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE cpf_user COLLATE utf8mb4_general_ci LIKE ?");
+				
+				final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+						+ "AS password_user, status_user, group_user "
+						+ "FROM tb_user WHERE cpf_user "
+						+ "COLLATE utf8mb4_general_ci LIKE ?";
+				
+				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 				stmt.setString(1, requestUserSearch.getCpf());
 				ResultSet rs = stmt.executeQuery();
 
@@ -94,12 +110,17 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	 * @param requestTypeGroupUser
 	 * @return listUsers
 	 */
-	public List<UserBackOfficeDAO> filterGroupUser(UserBackOfficeDAO requestTypeGroupUser) {
+	public List<UserBackOfficeDAO> filterGroupUser(int requestTypeGroupUser) {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE group_user = ?");
-			stmt.setInt(1, requestTypeGroupUser.getGroup());
+			
+			final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+					+ "AS password_user, status_user, group_user "
+					+ "FROM tb_user WHERE group_user = ? ";
+			
+			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
+			stmt.setInt(1, requestTypeGroupUser);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
