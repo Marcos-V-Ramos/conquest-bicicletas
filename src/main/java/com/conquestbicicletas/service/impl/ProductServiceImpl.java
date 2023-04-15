@@ -1,5 +1,6 @@
 package com.conquestbicicletas.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import com.conquestbicicletas.model.dao.UpdateStatusProductDAO;
 import com.conquestbicicletas.repository.ProductRepository;
 import com.conquestbicicletas.service.ProductService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ProductServiceImpl implements ProductService {
 
@@ -20,6 +24,21 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductModelDAO> getAllListProduct() {
 		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
 		return listProduct;
+	}
+	
+	public List<ProductModelDAO> visualizeListAllProduct() {
+		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
+		List<ProductModelDAO> detailsProduct = new ArrayList<>();
+		for(ProductModelDAO product : listProduct) {
+			List<ImageProductModelDAO> images = productRepository.visualizeProductImage(product.getProductId());
+			if(images != null) {
+				product.setProductImages(images);
+				detailsProduct.add(product);
+			}
+			log.info("[INFO] There are no images for the product");
+			product.setProductImages(null);
+			}
+		return detailsProduct;
 	}
 
 	public ProductModelDAO visualizeProduct(int productId) {

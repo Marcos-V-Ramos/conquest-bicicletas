@@ -50,6 +50,28 @@ public class ProductController {
 		log.error("[ERROR] Unable to list product");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
+	
+	
+	/**
+	 * Lista todos os produtos cadastrados no backOffice com imagens
+	 * 
+	 * @return Lista de produtos
+	 */
+	@GetMapping(value = "/backoffice/product/details", produces = "application/json")
+	public ResponseEntity<List<ProductModelDAO>> visualizeListAllProduct() {
+
+		List<ProductModelDAO> response = productService.visualizeListAllProduct();
+
+		if (response != null && response.size() > 0) {
+			log.info("[INFO] Success in list products");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} else if (response.size() == 0) {
+			log.info("[INFO] List without content");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+		}
+		log.error("[ERROR] Unable to list product");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
 
 	/**
 	 * Visualiza o produto
