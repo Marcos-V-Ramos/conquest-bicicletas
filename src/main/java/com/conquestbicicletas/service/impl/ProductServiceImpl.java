@@ -25,19 +25,20 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
 		return listProduct;
 	}
-	
+
 	public List<ProductModelDAO> visualizeListAllProduct() {
 		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
 		List<ProductModelDAO> detailsProduct = new ArrayList<>();
-		for(ProductModelDAO product : listProduct) {
+		for (ProductModelDAO product : listProduct) {
 			List<ImageProductModelDAO> images = productRepository.visualizeProductImage(product.getProductId());
-			if(images != null) {
+			if (images != null) {
 				product.setProductImages(images);
 				detailsProduct.add(product);
+			} else {
+				log.info("[INFO] There are no images for the product");
+				product.setProductImages(null);
 			}
-			log.info("[INFO] There are no images for the product");
-			product.setProductImages(null);
-			}
+		}
 		return detailsProduct;
 	}
 
