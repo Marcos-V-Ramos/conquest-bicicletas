@@ -1,37 +1,32 @@
 package com.conquestbicicletas.model.dao;
 
 public class AuthenticateUserBackOfficeResponseDAO {
-	private int idUser;
-	private int group;
-	
+	private int userId;
+	private int userGroup;
 
+	
 	public AuthenticateUserBackOfficeResponseDAO() {
 	}
 
-	public AuthenticateUserBackOfficeResponseDAO(int idUser, int group) {
-		this.idUser = idUser;
-		this.group = group;
+	public AuthenticateUserBackOfficeResponseDAO(int userId, int userGroup) {
+		this.userId = userId;
+		this.userGroup = userGroup;
 	}
 
-	public int getIdUser() {
-		return idUser;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public int getGrupo() {
-		return group;
+	public int getUserGroup() {
+		return userGroup;
 	}
 
-	public void setGrupo(int group) {
-		this.group = group;
+	public void setUserGroup(int userGroup) {
+		this.userGroup = userGroup;
 	}
 
-	@Override
-	public String toString() {
-		return "AuthenticateUserBackOfficeResponseDAO [idUser=" + idUser + ", group=" + group + "]";
-	}
-	
 }

@@ -24,18 +24,18 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		List<UserBackOfficeDAO> listUsers = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
-			final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, "
-					+ "AES_DECRYPT(password_user, 'chave') AS password_user, "
-					+ "status_user, group_user "
+			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+					+ "AES_DECRYPT(password_user, 'chave') AS password_user, group_user,"
+					+ "status_user "
 					+ "FROM tb_user";
 			
 			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				listUsers.add(new UserBackOfficeDAO(rs.getString("name_user"), rs.getString("cpf_user"),
-						rs.getString("email_user"), rs.getString("password_user"), rs.getBoolean("status_user"),
-						rs.getInt("group_user")));
+				listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"), rs.getString("cpf_user"),
+						rs.getString("email_user"), rs.getString("password_user"),
+						rs.getInt("group_user"), rs.getBoolean("status_user")));
 			}
 			return listUsers;
 		} catch (Exception e) {
@@ -58,39 +58,39 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 			
-			if (requestUserSearch.getNameUser() != null && requestUserSearch.getCpf() == null) {
+			if (requestUserSearch.getUserName() != null && requestUserSearch.getUserCpf() == null) {
 				
-				final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
 						+ "AS password_user, status_user, group_user "
 						+ "FROM tb_user WHERE name_user "
 						+ "COLLATE utf8mb4_general_ci LIKE ?";
 				
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
-				stmt.setString(1, requestUserSearch.getNameUser());
+				stmt.setString(1, requestUserSearch.getUserName());
 				ResultSet rs = stmt.executeQuery();
 
 				while (rs.next()) {
-					listUsers.add(new UserBackOfficeDAO(rs.getString("name_user"), rs.getString("cpf_user"),
-							rs.getString("email_user"), rs.getString("password_user"), rs.getBoolean("status_user"),
-							rs.getInt("group_user")));
+					listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"), rs.getString("cpf_user"),
+							rs.getString("email_user"), rs.getString("password_user"),
+							rs.getInt("group_user"), rs.getBoolean("status_user")));
 				}
 				return listUsers;
 
-			} else if (requestUserSearch.getNameUser() == null && requestUserSearch.getCpf() != null) {
+			} else if (requestUserSearch.getUserName() == null && requestUserSearch.getUserCpf() != null) {
 				
-				final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
 						+ "AS password_user, status_user, group_user "
 						+ "FROM tb_user WHERE cpf_user "
 						+ "COLLATE utf8mb4_general_ci LIKE ?";
 				
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
-				stmt.setString(1, requestUserSearch.getCpf());
+				stmt.setString(1, requestUserSearch.getUserCpf());
 				ResultSet rs = stmt.executeQuery();
 
 				while (rs.next()) {
-					listUsers.add(new UserBackOfficeDAO(rs.getString("name_user"), rs.getString("cpf_user"),
-							rs.getString("email_user"), rs.getString("password_user"), rs.getBoolean("status_user"),
-							rs.getInt("group_user")));
+					listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"), rs.getString("cpf_user"),
+							rs.getString("email_user"), rs.getString("password_user"),
+							rs.getInt("group_user"), rs.getBoolean("status_user")));
 				}
 				return listUsers;
 			}
@@ -115,7 +115,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 			
-			final String SQL_QUERY = "SELECT name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
+			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
 					+ "AS password_user, status_user, group_user "
 					+ "FROM tb_user WHERE group_user = ? ";
 			
@@ -124,9 +124,9 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				listUsers.add(new UserBackOfficeDAO(rs.getString("name_user"), rs.getString("cpf_user"),
-						rs.getString("email_user"), rs.getString("password_user"), rs.getBoolean("status_user"),
-						rs.getInt("group_user")));
+				listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user") ,rs.getString("name_user"), rs.getString("cpf_user"),
+						rs.getString("email_user"), rs.getString("password_user"),
+						rs.getInt("group_user"), rs.getBoolean("status_user")));
 			}
 			return listUsers;
 		} catch (Exception e) {
@@ -153,11 +153,11 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			if (created != true) {
 				PreparedStatement stmt = connection.prepareStatement(
 						"INSERT INTO tb_user (name_user, cpf_user, email_user, password_user, status_user, group_user) VALUES (?, ?, ?, AES_ENCRYPT(?, 'chave'), TRUE, ?)");
-				stmt.setString(1, request.getNameUser());
-				stmt.setString(2, request.getCpf());
-				stmt.setString(3, request.getEmail());
-				stmt.setString(4, request.getPassword());
-				stmt.setInt(5, request.getGroup());
+				stmt.setString(1, request.getUserName());
+				stmt.setString(2, request.getUserCpf());
+				stmt.setString(3, request.getUserEmail());
+				stmt.setString(4, request.getUserPassword());
+				stmt.setInt(5, request.getUserGroup());
 
 				int rows = stmt.executeUpdate();
 
@@ -179,15 +179,15 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	public boolean updateUser(UserBackOfficeDAO request) {
 		boolean result = false;
 
-		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, cpf_user = ?, password_user = AES_ENCRYPT(?, 'chave'), group_user = ? WHERE email_user = ?";
+		final String SQL_QUERY = "UPDATE tb_user SET name_user = ?, cpf_user = ?, password_user = AES_ENCRYPT(?, 'chave'), group_user = ? WHERE id_user = ?";
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement updateUser = connection.prepareStatement(SQL_QUERY);
-			updateUser.setString(1, request.getNameUser());
-			updateUser.setString(2, request.getCpf());
-			updateUser.setString(3, request.getPassword());
-			updateUser.setInt(4, request.getGroup());
-			updateUser.setString(5, request.getEmail());
+			updateUser.setString(1, request.getUserName());
+			updateUser.setString(2, request.getUserCpf());
+			updateUser.setString(3, request.getUserPassword());
+			updateUser.setInt(4, request.getUserGroup());
+			updateUser.setInt(5, request.getUserId());
 
 			int rows = updateUser.executeUpdate();
 
@@ -216,11 +216,11 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			StringBuilder sb = new StringBuilder();
 			sb.append("UPDATE tb_user ");
 			sb.append(" SET status_user = ?");
-			sb.append(" WHERE cpf_user = ?");
+			sb.append(" WHERE id_user = ?");
 
 			PreparedStatement stmt = connection.prepareStatement(sb.toString());
-			stmt.setBoolean(1, requestUpdateStatus.getStatusUser());
-			stmt.setString(2, requestUpdateStatus.getCpf());
+			stmt.setBoolean(1, requestUpdateStatus.getUserStatus());
+			stmt.setInt(2, requestUpdateStatus.getUserId());
 
 			int rowsAffected = stmt.executeUpdate();
 
@@ -254,8 +254,8 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		try {
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT * from tb_user WHERE cpf_user = ? OR email_user = ?");
-			stmt.setString(1, request.getCpf());
-			stmt.setString(2, request.getEmail());
+			stmt.setString(1, request.getUserCpf());
+			stmt.setString(2, request.getUserEmail());
 
 			ResultSet rs = stmt.executeQuery();
 

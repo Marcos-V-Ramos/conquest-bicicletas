@@ -2,14 +2,14 @@ package com.conquestbicicletas.model.dao;
 
 public class UpdateStatusProductDAO {
 	private int productId;
-	private boolean statusProduct;
+	private boolean productStatus;
 	
 	public UpdateStatusProductDAO() {
 	}
 	
-	public UpdateStatusProductDAO(int productId, boolean statusProduct) {
+	public UpdateStatusProductDAO(int productId, boolean productStatus) {
 		this.productId = productId;
-		this.statusProduct = statusProduct;
+		this.productStatus = productStatus;
 	}
 
 	public int getProductId() {
@@ -20,12 +20,12 @@ public class UpdateStatusProductDAO {
 		this.productId = productId;
 	}
 
-	public boolean getStatusProduct() {
-		return statusProduct;
+	public boolean getProductStatus() {
+		return productStatus;
 	}
 
-	public void setStatusProduct(boolean statusProduct) {
-		this.statusProduct = statusProduct;
+	public void setProductStatus(boolean productStatus) {
+		this.productStatus = productStatus;
 	}
 	
 }

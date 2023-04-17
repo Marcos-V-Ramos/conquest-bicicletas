@@ -255,7 +255,7 @@ public class ProductRepository extends ConnectionFactory {
 			sb.append(" WHERE product_id = ?");
 
 			PreparedStatement stmt = connection.prepareStatement(sb.toString());
-			stmt.setBoolean(1, requestUpdateStatusProduct.getStatusProduct());
+			stmt.setBoolean(1, requestUpdateStatusProduct.getProductStatus());
 			stmt.setInt(2, requestUpdateStatusProduct.getProductId());
 
 			int rowsAffected = stmt.executeUpdate();

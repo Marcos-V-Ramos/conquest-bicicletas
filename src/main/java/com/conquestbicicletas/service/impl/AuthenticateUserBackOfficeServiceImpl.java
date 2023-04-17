@@ -15,7 +15,7 @@ public class AuthenticateUserBackOfficeServiceImpl implements  AuthenticateUserB
 	private AuthenticateUserBackOfficeRepository authenticateRepository;
 	
 	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserBackOfficeRequestDAO requestLoginUser) {
-		if(requestLoginUser.getEmail() != null && requestLoginUser.getPassword() != null) {
+		if(requestLoginUser.getUserEmail() != null && requestLoginUser.getUserPassword() != null) {
 			try {
 				return authenticateRepository.authenticateUserBackOffice(requestLoginUser);
 			} catch (Exception e) {
