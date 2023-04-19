@@ -5,18 +5,18 @@ import java.util.List;
 
 import com.conquestbicicletas.model.UserModel;
 
-public class UserClientDAO extends UserModel {
+public class UserCustomerDAO extends UserModel {
 
 	private String userGender;
 	private Calendar userBirthDate;
-	private List<UserAdressDAO> userAdress;
+	private List<UserCustomerAdressDAO> userAdress;
 
-	public UserClientDAO() {
+	public UserCustomerDAO() {
 		super();
 	}
 
-	public UserClientDAO(int userId, String userName, String userCpf, String userEmail, String userPassword,
-			String userGender, Calendar userBirthDate, List<UserAdressDAO> userAdress) {
+	public UserCustomerDAO(int userId, String userName, String userCpf, String userEmail, String userPassword,
+			String userGender, Calendar userBirthDate, List<UserCustomerAdressDAO> userAdress) {
 		super(userId, userName, userCpf, userEmail, userPassword);
 		this.userGender = userGender;
 		this.userBirthDate = userBirthDate;
@@ -39,11 +39,11 @@ public class UserClientDAO extends UserModel {
 		this.userBirthDate = userBirthDate;
 	}
 
-	public List<UserAdressDAO> getUserAdress() {
+	public List<UserCustomerAdressDAO> getUserAdress() {
 		return userAdress;
 	}
 
-	public void setUserAdress(List<UserAdressDAO> userAdress) {
+	public void setUserAdress(List<UserCustomerAdressDAO> userAdress) {
 		this.userAdress = userAdress;
 	}
 

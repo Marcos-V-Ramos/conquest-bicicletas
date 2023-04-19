@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.conquestbicicletas.service.UserClientService;
+import com.conquestbicicletas.service.UserCustomerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @CrossOrigin(value = "*")
 @RequestMapping("/conquest")
-public class UserClientController {
+public class UserCustomerController {
 	
 	@Autowired
-	private UserClientService userClientService;
+	private UserCustomerService userCustomerService;
 
 }

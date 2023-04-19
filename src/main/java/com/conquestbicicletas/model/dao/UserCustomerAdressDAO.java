@@ -1,6 +1,6 @@
 package com.conquestbicicletas.model.dao;
 
-public class UserAdressDAO {
+public class UserCustomerAdressDAO {
 
 	private int cep;
 	private String logradouro;
@@ -10,10 +10,10 @@ public class UserAdressDAO {
 	private String complemento;
 	private int numero;
 
-	public UserAdressDAO() {
+	public UserCustomerAdressDAO() {
 	}
 
-	public UserAdressDAO(int cep, String logradouro, String bairro, String localidade, String uf, String complemento,
+	public UserCustomerAdressDAO(int cep, String logradouro, String bairro, String localidade, String uf, String complemento,
 			int numero) {
 		this.cep = cep;
 		this.logradouro = logradouro;
