@@ -31,14 +31,14 @@ public class ProductController {
 	private ProductService productService;
 
 	/**
-	 * Lista todos os produtos cadastrados no backOffice
+	 * Lista todos os produtos cadastrados no backOffice com imagens
 	 * 
 	 * @return Lista de produtos
 	 */
-	@GetMapping(value = "/backoffice/product/list", produces = "application/json")
-	public ResponseEntity<List<ProductModelDAO>> getListAllProduct() {
+	@GetMapping(value = "/backoffice/product", produces = "application/json")
+	public ResponseEntity<List<ProductModelDAO>> visualizeListAllProduct() {
 
-		List<ProductModelDAO> response = productService.getAllListProduct();
+		List<ProductModelDAO> response = productService.visualizeListAllProduct();
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list products");
@@ -50,17 +50,16 @@ public class ProductController {
 		log.error("[ERROR] Unable to list product");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	
-	
+
 	/**
-	 * Lista todos os produtos cadastrados no backOffice com imagens
+	 * Lista todos os produtos cadastrados no backOffice
 	 * 
 	 * @return Lista de produtos
 	 */
-	@GetMapping(value = "/backoffice/product/details", produces = "application/json")
-	public ResponseEntity<List<ProductModelDAO>> visualizeListAllProduct() {
+	@GetMapping(value = "/backoffice/product/list", produces = "application/json")
+	public ResponseEntity<List<ProductModelDAO>> getListAllProduct() {
 
-		List<ProductModelDAO> response = productService.visualizeListAllProduct();
+		List<ProductModelDAO> response = productService.getAllListProduct();
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list products");
@@ -111,7 +110,7 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o produto"));
 	}
-	
+
 	/**
 	 * Registra um produto
 	 * 
@@ -119,7 +118,7 @@ public class ProductController {
 	 * @return
 	 */
 	@DeleteMapping(value = "/backoffice/product/image", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> deleteImage(@RequestParam(value="img_id") int idImage) {
+	public ResponseEntity<ResponseStatusLogDAO> deleteImage(@RequestParam(value = "img_id") int idImage) {
 		boolean isDeleting = productService.deleteImage(idImage);
 
 		if (isDeleting != false) {
@@ -168,12 +167,10 @@ public class ProductController {
 
 		if (isUpdatedStatus) {
 			log.info("[INFO] Success in updating status product");
-			return ResponseEntity.status(HttpStatus.ACCEPTED)
-					.body(requestUpdateStatusProduct);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(requestUpdateStatusProduct);
 		}
 		log.error("[ERROR] Error updating status product");
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-				.body(requestUpdateStatusProduct);
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(requestUpdateStatusProduct);
 	}
 
 	/**

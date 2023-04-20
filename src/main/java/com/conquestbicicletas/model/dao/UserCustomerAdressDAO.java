@@ -9,12 +9,13 @@ public class UserCustomerAdressDAO {
 	private String uf;
 	private String complemento;
 	private int numero;
+	private boolean isAdressCustomer;
 
 	public UserCustomerAdressDAO() {
 	}
 
 	public UserCustomerAdressDAO(int cep, String logradouro, String bairro, String localidade, String uf, String complemento,
-			int numero) {
+			int numero, boolean isAdressCustomer) {
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
@@ -22,6 +23,7 @@ public class UserCustomerAdressDAO {
 		this.uf = uf;
 		this.complemento = complemento;
 		this.numero = numero;
+		this.isAdressCustomer = isAdressCustomer;
 	}
 
 	public int getCep() {
@@ -78,6 +80,14 @@ public class UserCustomerAdressDAO {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public boolean isAdressCustomer() {
+		return isAdressCustomer;
+	}
+
+	public void setAdressCustomer(boolean isAdressCustomer) {
+		this.isAdressCustomer = isAdressCustomer;
 	}
 
 }
