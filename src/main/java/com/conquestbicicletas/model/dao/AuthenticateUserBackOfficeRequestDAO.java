@@ -1,32 +1,32 @@
 package com.conquestbicicletas.model.dao;
 
 public class AuthenticateUserBackOfficeRequestDAO {
-    private String email;
-    private String password;
+    private String userEmail;
+    private String userPassword;
     
     
 	public AuthenticateUserBackOfficeRequestDAO() {
 	}
 
-	public AuthenticateUserBackOfficeRequestDAO(String email, String password) {
-		this.email = email;
-		this.password = password;
+	public AuthenticateUserBackOfficeRequestDAO(String userEmail, String userPassword) {
+		this.userEmail = userEmail;
+		this.userPassword = userPassword;
 	}
-	
-	public String getEmail() {
-		return email;
+
+	public String getUserEmail() {
+		return userEmail;
 	}
-	
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	
-	public String getPassword() {
-		return password;
+
+	public String getUserPassword() {
+		return userPassword;
 	}
-	
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 	
 }

@@ -3,32 +3,33 @@ package com.conquestbicicletas.model.dao;
 import com.conquestbicicletas.model.UserModel;
 
 public class UserBackOfficeDAO extends UserModel {
-	private int group;
-	private Boolean status;
-	
+	private int userGroup;
+	private boolean userStatus;
+
 	public UserBackOfficeDAO() {
 	}
-	
-	public UserBackOfficeDAO(String nameUser,String cpf, String email, String password, Boolean status, int group) {
-		super(nameUser, cpf, email, password);
-		this.group = group;
-		this.status = status;
-		
+
+	public UserBackOfficeDAO(int userId, String userName, String userCpf, String userEmail, String userPassword,
+			int userGroup, boolean userStatus) {
+		super(userId, userName, userCpf, userEmail, userPassword);
+		this.userGroup = userGroup;
+		this.userStatus = userStatus;
 	}
 
-	public int getGroup() {
-		return group;
+	public int getUserGroup() {
+		return userGroup;
 	}
 
-	public void setGroup(int group) {
-		this.group = group;
+	public void setUserGroup(int userGroup) {
+		this.userGroup = userGroup;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public boolean isUserStatus() {
+		return userStatus;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setUserStatus(boolean userStatus) {
+		this.userStatus = userStatus;
 	}
+
 }
