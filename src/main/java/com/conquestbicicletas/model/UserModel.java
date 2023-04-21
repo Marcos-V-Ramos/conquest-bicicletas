@@ -3,52 +3,53 @@ package com.conquestbicicletas.model;
 
 public class UserModel {
 
-	private String nameUser;
-	private String cpf;
-	private String email;
-	private String password;
+	private int userId;
+	private String userName;
+	private String userCpf;
+	private String userEmail;
+	private String userPassword;
 	
-	
+		
 	public UserModel() {
 	}
-	
-	public UserModel(String nameUser, String cpf, String email, String password) {
-		this.nameUser = nameUser;
-		this.cpf = cpf;
-		this.email = email;
-		this.password = password;
-	}
-	
-	public String getNameUser() {
-		return nameUser;
-	}
-	
-	public void setNameUser(String nameUser) {
-		this.nameUser = nameUser;
-	}	
-	
-	public String getCpf() {
-		return cpf;
-	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
+	public UserModel(int userId, String userName, String userCpf, String userEmail, String userPassword) {
+		this.userId = userId;
+		this.userName = userName;
+		this.userCpf = userCpf;
+		this.userEmail = userEmail;
+		this.userPassword = userPassword;
 	}
 	
-	public String getPassword() {
-		return password;
+	public int getUserId() {
+		return userId;
 	}
-	
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserCpf() {
+		return userCpf;
+	}
+	public void setUserCpf(String userCpf) {
+		this.userCpf = userCpf;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	public String getUserPassword() {
+		return userPassword;
+	}
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 	
 }

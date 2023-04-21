@@ -4,16 +4,17 @@ package com.conquestbicicletas.model.dao;
 public class ImageProductModelDAO {
 
 	private int idImage;
-	private String imageBase64;
 	private int productId;
+	private String imageBase64;
+	
 	
 	public ImageProductModelDAO() {
 	}
 
-	public ImageProductModelDAO(int idImage, String imageBase64, int idProduct) {
+	public ImageProductModelDAO(int idImage, int productId, String imageBase64) {
 		this.idImage = idImage;
+		this.productId = productId;
 		this.imageBase64 = imageBase64;
-		this.productId = idProduct;
 	}
 	
 	public String getImageBase64() {
@@ -24,12 +25,12 @@ public class ImageProductModelDAO {
 		this.imageBase64 = imageBase64;
 	}
 	
-	public int getIdProduct() {
+	public int getProductId() {
 		return productId;
 	}
 	
-	public void setIdProduct(int idProduct) {
-		this.productId = idProduct;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public int getIdImage() {
@@ -39,12 +40,5 @@ public class ImageProductModelDAO {
 	public void setIdImage(int idImage) {
 		this.idImage = idImage;
 	}
-
-	@Override
-	public String toString() {
-		return "ImageProductModelDAO [idImage=" + idImage + ", imageBase64=" + imageBase64 + ", productId=" + productId
-				+ "]";
-	}
-	
 		
 }

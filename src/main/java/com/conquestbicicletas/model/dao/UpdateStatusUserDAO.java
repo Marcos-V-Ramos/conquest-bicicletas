@@ -1,32 +1,31 @@
 package com.conquestbicicletas.model.dao;
 
-
 public class UpdateStatusUserDAO {
-	private String cpf;
-	private boolean statusUser;
-	
+	private int userId;
+	private boolean userStatus;
+
 	public UpdateStatusUserDAO() {
 	}
-	
-	public UpdateStatusUserDAO(String cpf, boolean statusUser) {
-		this.cpf = cpf;
-		this.statusUser = statusUser;
+
+	public UpdateStatusUserDAO(int userId, boolean userStatus) {
+		this.userId = userId;
+		this.userStatus = userStatus;
 	}
-	
-	public String getCpf() {
-		return cpf;
+
+	public int getUserId() {
+		return userId;
 	}
-	
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	
-	public boolean getStatusUser() {
-		return statusUser;
+
+	public boolean getUserStatus() {
+		return userStatus;
 	}
-	
-	public void setStatusUser(boolean statusUser) {
-		this.statusUser = statusUser;
+
+	public void setUserStatus(boolean userStatus) {
+		this.userStatus = userStatus;
 	}
 
 }

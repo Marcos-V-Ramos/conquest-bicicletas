@@ -1,5 +1,6 @@
 package com.conquestbicicletas.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import com.conquestbicicletas.model.dao.UpdateStatusProductDAO;
 import com.conquestbicicletas.repository.ProductRepository;
 import com.conquestbicicletas.service.ProductService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ProductServiceImpl implements ProductService {
 
@@ -20,6 +24,22 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductModelDAO> getAllListProduct() {
 		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
 		return listProduct;
+	}
+
+	public List<ProductModelDAO> visualizeListAllProduct() {
+		List<ProductModelDAO> listProduct = productRepository.getAllListProduct();
+		List<ProductModelDAO> detailsProduct = new ArrayList<>();
+		for (ProductModelDAO product : listProduct) {
+			List<ImageProductModelDAO> images = productRepository.visualizeProductImage(product.getProductId());
+			if (images != null) {
+				product.setProductImages(images);
+				detailsProduct.add(product);
+			} else {
+				log.info("[INFO] There are no images for the product");
+				product.setProductImages(null);
+			}
+		}
+		return detailsProduct;
 	}
 
 	public ProductModelDAO visualizeProduct(int productId) {
@@ -44,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
 		if (idProductRegister != null) {
 			for (ImageProductModelDAO eachImage : requestRegisterProduct.getProductImages()) {
-				eachImage.setIdProduct(idProductRegister);
+				eachImage.setProductId(idProductRegister);
 				productRepository.registerImage(eachImage);
 			}
 
@@ -57,24 +77,24 @@ public class ProductServiceImpl implements ProductService {
 		boolean isUpdatedProduct = productRepository.updateProduct(requestUpdateProduct);
 
 		if (isUpdatedProduct) {
-			List<ImageProductModelDAO> images = productRepository
+			List<ImageProductModelDAO> imagesRegistered = productRepository
 					.visualizeProductImage(requestUpdateProduct.getProductId());
-
-			if (images.size() == 0) {
-				for (ImageProductModelDAO image : requestUpdateProduct.getProductImages()) {
+			List<ImageProductModelDAO> imagesRequested = requestUpdateProduct.getProductImages();
+			if (imagesRegistered.size() == 0) {
+				for (ImageProductModelDAO image : imagesRequested) {
 					try {
-						image.setIdProduct(requestUpdateProduct.getProductId());
+						image.setProductId(requestUpdateProduct.getProductId());
 						productRepository.registerImage(image);
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 				}
 			} else {
-				for (ImageProductModelDAO newImage : requestUpdateProduct.getProductImages()) {
-					for (ImageProductModelDAO image : images) {
-						if (image.getIdProduct() != newImage.getIdProduct()) {
+				for (ImageProductModelDAO newImage : imagesRequested) {
+					for (ImageProductModelDAO image : imagesRegistered) {
+						if (image.getProductId() != newImage.getProductId()) {
 							try {
-								newImage.setIdProduct(requestUpdateProduct.getProductId());
+								newImage.setProductId(requestUpdateProduct.getProductId());
 								productRepository.registerImage(newImage);
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
@@ -92,6 +112,14 @@ public class ProductServiceImpl implements ProductService {
 	public boolean updateStatusProduct(UpdateStatusProductDAO requestUpdateStatusProduct) {
 		boolean isUpdatedStatusProduct = productRepository.updateStatusProduct(requestUpdateStatusProduct);
 		return isUpdatedStatusProduct;
+	}
+
+	public boolean deleteImage(int idImage) {
+		boolean isDeleteImage = productRepository.deleteImage(idImage);
+		if (isDeleteImage) {
+			return true;
+		}
+		return false;
 	}
 
 }
