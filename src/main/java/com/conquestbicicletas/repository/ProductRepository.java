@@ -26,7 +26,7 @@ public class ProductRepository extends ConnectionFactory {
 		List<ProductModelDAO> listProduct = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_product ORDER BY product_id DESC");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_product ORDER BY product_id");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
