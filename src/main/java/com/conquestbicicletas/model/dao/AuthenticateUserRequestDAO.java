@@ -1,14 +1,14 @@
 package com.conquestbicicletas.model.dao;
 
-public class AuthenticateUserBackOfficeRequestDAO {
+public class AuthenticateUserRequestDAO {
     private String userEmail;
     private String userPassword;
     
     
-	public AuthenticateUserBackOfficeRequestDAO() {
+	public AuthenticateUserRequestDAO() {
 	}
 
-	public AuthenticateUserBackOfficeRequestDAO(String userEmail, String userPassword) {
+	public AuthenticateUserRequestDAO(String userEmail, String userPassword) {
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 	}

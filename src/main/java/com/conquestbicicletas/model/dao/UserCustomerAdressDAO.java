@@ -9,14 +9,14 @@ public class UserCustomerAdressDAO {
 	private String localidade;
 	private String uf;
 	private String complemento;
-	private int numero;
+	private String numero;
 	private boolean isAdressCustomer;
 	
 	public UserCustomerAdressDAO() {
 	}
 
 	public UserCustomerAdressDAO(int userId, int cep, String logradouro, String bairro, String localidade, String uf,
-			String complemento, int numero, boolean isAdressCustomer) {
+			String complemento, String numero, boolean isAdressCustomer) {
 		super();
 		this.userId = userId;
 		this.cep = cep;
@@ -85,15 +85,15 @@ public class UserCustomerAdressDAO {
 		this.complemento = complemento;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
-	public boolean isAdressCustomer() {
+	public boolean getAdressCustomer() {
 		return isAdressCustomer;
 	}
 

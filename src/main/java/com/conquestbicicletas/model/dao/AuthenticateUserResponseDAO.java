@@ -1,14 +1,14 @@
 package com.conquestbicicletas.model.dao;
 
-public class AuthenticateUserBackOfficeResponseDAO {
+public class AuthenticateUserResponseDAO {
 	private int userId;
 	private int userGroup;
 
 	
-	public AuthenticateUserBackOfficeResponseDAO() {
+	public AuthenticateUserResponseDAO() {
 	}
 
-	public AuthenticateUserBackOfficeResponseDAO(int userId, int userGroup) {
+	public AuthenticateUserResponseDAO(int userId, int userGroup) {
 		this.userId = userId;
 		this.userGroup = userGroup;
 	}
