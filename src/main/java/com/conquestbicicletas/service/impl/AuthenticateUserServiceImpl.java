@@ -26,7 +26,6 @@ public class AuthenticateUserServiceImpl implements  AuthenticateUserService{
 		return null;
 	}
 	
-	@Autowired
 	public AuthenticateCustomerResponseDAO authenticateUserCustomer(AuthenticateUserRequestDAO requestLoginCustomer) {
 		if(requestLoginCustomer.getUserEmail() != null && requestLoginCustomer.getUserPassword() != null) {
 			try {
@@ -37,7 +36,4 @@ public class AuthenticateUserServiceImpl implements  AuthenticateUserService{
 		}
 		return null;
 	}
-
-
-
 }

@@ -3,7 +3,7 @@ package com.conquestbicicletas.model.dao;
 public class UserCustomerAdressDAO {
 
 	private int userId;
-	private int cep;
+	private String cep;
 	private String logradouro;
 	private String bairro;
 	private String localidade;
@@ -15,7 +15,7 @@ public class UserCustomerAdressDAO {
 	public UserCustomerAdressDAO() {
 	}
 
-	public UserCustomerAdressDAO(int userId, int cep, String logradouro, String bairro, String localidade, String uf,
+	public UserCustomerAdressDAO(int userId, String cep, String logradouro, String bairro, String localidade, String uf,
 			String complemento, String numero, boolean isAdressCustomer) {
 		super();
 		this.userId = userId;
@@ -37,11 +37,11 @@ public class UserCustomerAdressDAO {
 		this.userId = userId;
 	}
 
-	public int getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(int cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 
