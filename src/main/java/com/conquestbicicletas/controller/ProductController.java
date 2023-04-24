@@ -179,7 +179,7 @@ public class ProductController {
 	 * @param requestUserSearch
 	 * @return
 	 */
-	@GetMapping(value = "/backoffice/product/search", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/backoffice/product/search", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<List<ProductModelDAO>> getListSearchProduct(@RequestBody ProductModelDAO requestUserSearch) {
 
 		List<ProductModelDAO> response = productService.getListProductSearch(requestUserSearch);

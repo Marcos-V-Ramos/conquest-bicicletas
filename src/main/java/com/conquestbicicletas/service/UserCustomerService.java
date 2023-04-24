@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserCustomerService {
 	
-	boolean encherto();
+	void enxerto();
 
 }
