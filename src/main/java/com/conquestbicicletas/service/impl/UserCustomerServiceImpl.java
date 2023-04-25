@@ -15,11 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 public class UserCustomerServiceImpl implements UserCustomerService{
-	
+
 	@Autowired
 	private UserCustomerRepository userCustomerRepository;
 	
-
 	public boolean registerCustomer(UserCustomerDAO requestRegisterCustomer) {
 		Integer idCustomerRegister = userCustomerRepository.registerCustomer(requestRegisterCustomer);
 
