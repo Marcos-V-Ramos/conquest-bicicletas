@@ -13,7 +13,7 @@ public interface ProductService {
 	List<ProductModelDAO> getAllListProduct();
 	List<ProductModelDAO> visualizeListAllProduct();
 	List<ProductModelDAO> getListProductSearch(ProductModelDAO requestProductSearchName);
-	boolean updateProduct(ProductModelDAO requestUpadateProduct); // Faltam as imagens 
+	boolean updateProduct(ProductModelDAO requestUpadateProduct);
 	boolean updateStatusProduct(UpdateStatusProductDAO requestUpdateStatusProduct);
 	boolean registerProduct(ProductModelDAO requestRegisterProduct);
 	boolean deleteImage(int idImage);
