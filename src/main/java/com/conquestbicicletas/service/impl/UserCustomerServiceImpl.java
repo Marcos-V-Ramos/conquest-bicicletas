@@ -1,7 +1,7 @@
 package com.conquestbicicletas.service.impl;
 
-import java.util.List;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +14,26 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Component
-
-public class UserCustomerServiceImpl implements UserCustomerService {
-
+public class UserCustomerServiceImpl implements UserCustomerService{
+	
 	@Autowired
 	private UserCustomerRepository userCustomerRepository;
+	
+
+	public boolean registerCustomer(UserCustomerDAO requestRegisterCustomer) {
+		Integer idCustomerRegister = userCustomerRepository.registerCustomer(requestRegisterCustomer);
+
+		if (idCustomerRegister != null) {
+			for (UserCustomerAdressDAO eachAdress : requestRegisterCustomer.getUserAdress()) {
+				eachAdress.setUserId(idCustomerRegister);
+				userCustomerRepository.registerAdress(eachAdress);
+			}
+
+			return true;
+		}
+		return false;
+	}
+
 
 	public boolean updateCustomer(UserCustomerDAO requestUpdateCustomer) {
 		boolean isUpdated = userCustomerRepository.updateCustomer(requestUpdateCustomer);

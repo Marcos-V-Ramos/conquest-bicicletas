@@ -30,6 +30,26 @@ public class UserCustomerController {
 	
 	@Autowired
 	private UserCustomerService userCustomerService;
+	
+	/**
+	 * Registra um cliente
+	 * 
+	 * @param requestRegisteCustomer
+	 * @return
+	 */
+	@PostMapping(value = "/backoffice/customer/register", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<ResponseStatusLogDAO> registerCustomer(@RequestBody UserCustomerDAO requestRegisteCustomer) {
+		boolean isRegister = userCustomerService.registerCustomer(requestRegisteCustomer);
+
+		if (isRegister != false) {
+			log.info("[INFO] Success in registering customer");
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(new ResponseStatusLogDAO(201, "O cliente foi registrado com sucesso!"));
+		}
+		log.error("[ERROR] Error in registering customer");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o cliente"));
+	}
 
 	/**
 	 * Solicita o update do cliente
