@@ -1,6 +1,5 @@
 package com.conquestbicicletas.model.dao;
 
-import java.util.Calendar;
 import java.util.List;
 
 import com.conquestbicicletas.model.UserModel;
@@ -8,7 +7,7 @@ import com.conquestbicicletas.model.UserModel;
 public class UserCustomerDAO extends UserModel {
 
 	private String userGender;
-	private Calendar userBirthDate;
+	private String userBirthDate;
 	private List<UserCustomerAdressDAO> userAdress;
 
 	public UserCustomerDAO() {
@@ -16,7 +15,7 @@ public class UserCustomerDAO extends UserModel {
 	}
 
 	public UserCustomerDAO(int userId, String userName, String userCpf, String userEmail, String userPassword,
-			String userGender, Calendar userBirthDate, List<UserCustomerAdressDAO> userAdress) {
+			String userGender, String userBirthDate, List<UserCustomerAdressDAO> userAdress) {
 		super(userId, userName, userCpf, userEmail, userPassword);
 		this.userGender = userGender;
 		this.userBirthDate = userBirthDate;
@@ -31,11 +30,11 @@ public class UserCustomerDAO extends UserModel {
 		this.userGender = userGender;
 	}
 
-	public Calendar getUserBirthDate() {
+	public String getUserBirthDate() {
 		return userBirthDate;
 	}
 
-	public void setUserBirthDate(Calendar userBirthDate) {
+	public void setUserBirthDate(String userBirthDate) {
 		this.userBirthDate = userBirthDate;
 	}
 
