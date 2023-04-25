@@ -7,11 +7,12 @@ import com.conquestbicicletas.model.dao.UserCustomerAdressDAO;
 import com.conquestbicicletas.model.dao.UserCustomerDAO;
 
 @Service
-public interface UserCustomerService {	
+public interface UserCustomerService {
+	UserCustomerDAO getCustomer(int userId);
 	boolean registerCustomer(UserCustomerDAO requestRegisterCustomer);
 	boolean updateCustomer(UserCustomerDAO requestUpdateCustomer);
 	boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress);
 	boolean disableAdress(int adressId);
-  List<UserCustomerAdressDAO> getAllAdressCustomer(int userId);
+	List<UserCustomerAdressDAO> getAllAdressCustomer(int userId);
 	boolean encherto();
 }

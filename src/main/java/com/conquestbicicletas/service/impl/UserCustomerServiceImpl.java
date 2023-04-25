@@ -1,6 +1,5 @@
 package com.conquestbicicletas.service.impl;
 
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,15 +9,21 @@ import com.conquestbicicletas.model.dao.UserCustomerDAO;
 import com.conquestbicicletas.repository.UserCustomerRepository;
 import com.conquestbicicletas.service.UserCustomerService;
 
-import lombok.extern.slf4j.Slf4j;
-
-
 @Component
-public class UserCustomerServiceImpl implements UserCustomerService{
+public class UserCustomerServiceImpl implements UserCustomerService {
 
 	@Autowired
 	private UserCustomerRepository userCustomerRepository;
-	
+
+	public UserCustomerDAO getCustomer(int userId) {
+		UserCustomerDAO customer = userCustomerRepository.getCustomer(userId);
+		if (customer != null) {
+			customer.setUserAdress(userCustomerRepository.getAllAdressCustomer(userId));
+			return customer;
+		}
+		return customer;
+	}
+
 	public boolean registerCustomer(UserCustomerDAO requestRegisterCustomer) {
 		Integer idCustomerRegister = userCustomerRepository.registerCustomer(requestRegisterCustomer);
 
@@ -33,7 +38,6 @@ public class UserCustomerServiceImpl implements UserCustomerService{
 		return false;
 	}
 
-
 	public boolean updateCustomer(UserCustomerDAO requestUpdateCustomer) {
 		boolean isUpdated = userCustomerRepository.updateCustomer(requestUpdateCustomer);
 		return isUpdated;
@@ -47,13 +51,14 @@ public class UserCustomerServiceImpl implements UserCustomerService{
 	public boolean disableAdress(int adressId) {
 		boolean isDisable = userCustomerRepository.disableAdress(adressId);
 		return isDisable;
-    
-	public boolean encherto() {
-		return false;
 	}
 
 	public List<UserCustomerAdressDAO> getAllAdressCustomer(int userId) {
 		List<UserCustomerAdressDAO> response = userCustomerRepository.getAllAdressCustomer(userId);
 		return response;
+	}
+
+	public boolean encherto() {
+		return false;
 	}
 }

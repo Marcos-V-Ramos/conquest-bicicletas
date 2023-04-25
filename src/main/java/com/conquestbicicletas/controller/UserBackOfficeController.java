@@ -105,12 +105,10 @@ public class UserBackOfficeController {
 
 		if (isUpdatedStatus) {
 			log.info("[INFO] Success in updating status user");
-			return ResponseEntity.status(HttpStatus.ACCEPTED)
-					.body(requestUpdateStatusUser);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(requestUpdateStatusUser);
 		}
 		log.error("[ERROR] Error updating status user");
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-				.body(requestUpdateStatusUser);
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(requestUpdateStatusUser);
 	}
 
 	/**
@@ -121,7 +119,7 @@ public class UserBackOfficeController {
 	 */
 	@GetMapping(value = "/backoffice/user/filtergroup", produces = "application/json")
 	public ResponseEntity<List<UserBackOfficeDAO>> filterGroupUser(
-			@RequestParam(value="filter_type_group") int typeGroup) {
+			@RequestParam(value = "filter_type_group") int typeGroup) {
 
 		List<UserBackOfficeDAO> response = userBackOfficeService.filterGroupUser(typeGroup);
 

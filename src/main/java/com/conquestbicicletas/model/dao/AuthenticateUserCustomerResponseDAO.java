@@ -1,14 +1,14 @@
 package com.conquestbicicletas.model.dao;
 
-public class AuthenticateCustomerResponseDAO {
+public class AuthenticateUserCustomerResponseDAO {
 
 	private int customerId;
 
-	public AuthenticateCustomerResponseDAO() {
+	public AuthenticateUserCustomerResponseDAO() {
 		super();
 	}
 
-	public AuthenticateCustomerResponseDAO(int customerId) {
+	public AuthenticateUserCustomerResponseDAO(int customerId) {
 		super();
 		this.customerId = customerId;
 	}

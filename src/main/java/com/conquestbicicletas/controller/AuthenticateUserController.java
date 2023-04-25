@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.conquestbicicletas.model.dao.AuthenticateCustomerResponseDAO;
+import com.conquestbicicletas.model.dao.AuthenticateUserCustomerResponseDAO;
 import com.conquestbicicletas.model.dao.AuthenticateUserRequestDAO;
-import com.conquestbicicletas.model.dao.AuthenticateUserResponseDAO;
+import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeResponseDAO;
 import com.conquestbicicletas.service.AuthenticateUserService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(value="*")
+@CrossOrigin(value = "*")
 @RequestMapping("/conquest")
 public class AuthenticateUserController {
-	
+
 	@Autowired
 	private AuthenticateUserService authenticateUserService;
 
@@ -29,37 +29,35 @@ public class AuthenticateUserController {
 	 * Recebe email e senha do usuario via Json do front-end
 	 * 
 	 * @param requestLoginUser
-	 * @return O grupo que o usuario pertence 
+	 * @return O grupo que o usuario pertence
 	 */
 	@PostMapping(value = "/user/loginbackoffice", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<AuthenticateUserResponseDAO> loginBackoffice(@RequestBody AuthenticateUserRequestDAO requestLoginUser) {
-		
-		AuthenticateUserResponseDAO response = authenticateUserService.authenticateUserBackOffice(requestLoginUser);
-		
-		if(response != null) {
-			log.info("[INFO] Login successful");
-			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-		}
-		log.error("[ERROR] Error when logging in");
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new AuthenticateUserResponseDAO());
-	}
-	
-	
+	public ResponseEntity<AuthenticateUserBackOfficeResponseDAO> loginBackoffice(
+			@RequestBody AuthenticateUserRequestDAO requestLoginUser) {
 
-	
-	@PostMapping(value = "/customer/logincustomer", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<AuthenticateCustomerResponseDAO> loginCustomer(@RequestBody AuthenticateUserRequestDAO requestLoginCustomer){
-		
-		AuthenticateCustomerResponseDAO response = authenticateUserService.authenticateUserCustomer(requestLoginCustomer);
-		
-		if(response != null) {
+		AuthenticateUserBackOfficeResponseDAO response = authenticateUserService.authenticateUserBackOffice(requestLoginUser);
+
+		if (response != null) {
 			log.info("[INFO] Login successful");
-			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 		}
 		log.error("[ERROR] Error when logging in");
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new AuthenticateCustomerResponseDAO());
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new AuthenticateUserBackOfficeResponseDAO());
 	}
-	
-	
-	
+
+	@PostMapping(value = "/customer/logincustomer", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<AuthenticateUserCustomerResponseDAO> loginCustomer(
+			@RequestBody AuthenticateUserRequestDAO requestLoginCustomer) {
+
+		AuthenticateUserCustomerResponseDAO response = authenticateUserService
+				.authenticateUserCustomer(requestLoginCustomer);
+
+		if (response != null) {
+			log.info("[INFO] Login successful");
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+		}
+		log.error("[ERROR] Error when logging in");
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new AuthenticateUserCustomerResponseDAO());
+	}
+
 }

@@ -1,10 +1,10 @@
 package com.conquestbicicletas.repository;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +19,40 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 public class UserCustomerRepository extends ConnectionFactory {
+
+	public UserCustomerDAO getCustomer(int userId) {
+		UserCustomerDAO customer = null;
+		try {
+			Connection connection = super.getConnection();
+
+			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+					+ "AES_DECRYPT(password_user, 'chave') AS password_user, gender_user, "
+					+ "birthdate_user FROM tb_customer WHERE id_user = ?";
+
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setInt(1, userId);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				customer = new UserCustomerDAO();
+				customer.setUserId(rs.getInt("id_user"));
+				customer.setUserName(rs.getString("name_user"));
+				customer.setUserCpf(rs.getString("cpf_user"));
+				customer.setUserEmail(rs.getString("email_user"));
+				customer.setUserPassword(rs.getString("password_user"));
+				customer.setUserGender(rs.getString("gender_user"));
+				customer.setUserBirthDate(rs.getString("birthdate_user"));
+			}
+
+			return customer;
+
+		} catch (SQLException e) {
+			log.info("There was an error connecting to the database: %s /n %s /n %s", e.getMessage(), e.getSQLState(),
+					e.getLocalizedMessage());
+		}finally {
+			super.closeConnection();
+		}
+		return customer;
+	}
 
 	/**
 	 * Registra o cliente
@@ -36,7 +70,8 @@ public class UserCustomerRepository extends ConnectionFactory {
 			// Se não existirem, insira os dados no banco
 			final String queryRegisterCustomer = "INSERT INTO tb_customer (name_user, cpf_user, email_user, password_user, gender_user, birthdate_user) VALUES (?, ?, ?, AES_ENCRYPT(?, 'chave'), ?, ?)";
 			if (created != true) {
-				PreparedStatement stmt = connection.prepareStatement(queryRegisterCustomer, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement stmt = connection.prepareStatement(queryRegisterCustomer,
+						Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, request.getUserName());
 				stmt.setString(2, request.getUserCpf());
 				stmt.setString(3, request.getUserEmail());
@@ -65,44 +100,6 @@ public class UserCustomerRepository extends ConnectionFactory {
 		return customerId;
 	}
 
-	/**
-	 * Registra o endereço do cliente
-	 * 
-	 * @param
-	 * @return
-	 */
-	public boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress) {
-		try {
-			Connection connection = super.getConnection();
-
-			final String queryRegisterAdress = "INSERT INTO tb_adress (cep, logradouro, bairro, localidade, uf, complemento,numero,is_adress_customer, fk_id_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(queryRegisterAdress);
-
-			stmt.setString(1, requestRegisterAdress.getCep());
-			stmt.setString(2, requestRegisterAdress.getLogradouro());
-			stmt.setString(3, requestRegisterAdress.getBairro());
-			stmt.setString(4, requestRegisterAdress.getLocalidade());
-			stmt.setString(5, requestRegisterAdress.getUf());
-			stmt.setString(6, requestRegisterAdress.getComplemento());
-			stmt.setString(7, requestRegisterAdress.getNumero());
-			stmt.setBoolean(8, requestRegisterAdress.getAdressCustomer());
-			stmt.setInt(9, requestRegisterAdress.getUserId());
-
-			int rowsAffected = stmt.executeUpdate();
-
-			if (rowsAffected > 0) {
-				return true;
-			}
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			super.closeConnection();
-		}
-		return false;
-	}
-
 	/*
 	 * Executa o update do cliente
 	 */
@@ -112,13 +109,13 @@ public class UserCustomerRepository extends ConnectionFactory {
 		final String SQL_QUERY = "UPDATE tb_customer SET name_user = ?, birthdate_user = ?, gender_user = ?,  password_user = AES_ENCRYPT(?, 'chave') WHERE fk_id_user = ?";
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement updateCustomer = connection.prepareStatement(SQL_QUERY);
-			updateCustomer.setString(1, requestUpdateCustomer.getUserName());
-			updateCustomer.setString(2, requestUpdateCustomer.getUserBirthDate());
-			updateCustomer.setString(3, requestUpdateCustomer.getUserGender());
-			updateCustomer.setString(4, requestUpdateCustomer.getUserPassword());
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setString(1, requestUpdateCustomer.getUserName());
+			psmt.setString(2, requestUpdateCustomer.getUserBirthDate());
+			psmt.setString(3, requestUpdateCustomer.getUserGender());
+			psmt.setString(4, requestUpdateCustomer.getUserPassword());
 
-			int rows = updateCustomer.executeUpdate();
+			int rows = psmt.executeUpdate();
 
 			return response = rows > 0 ? true : false;
 
@@ -142,25 +139,24 @@ public class UserCustomerRepository extends ConnectionFactory {
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)";
 
 			Connection connection = super.getConnection();
-			PreparedStatement insertAdress = connection.prepareStatement(SQL_QUERY);
-			insertAdress.setString(1, requestRegisterAdress.getCep());
-			insertAdress.setString(2, requestRegisterAdress.getLogradouro());
-			insertAdress.setString(3, requestRegisterAdress.getBairro());
-			insertAdress.setString(4, requestRegisterAdress.getLocalidade());
-			insertAdress.setString(5, requestRegisterAdress.getUf());
-			insertAdress.setString(6, requestRegisterAdress.getComplemento());
-			insertAdress.setInt(7, requestRegisterAdress.getNumero());
-			insertAdress.setBoolean(8, requestRegisterAdress.isStatus());
-			insertAdress.setBoolean(9, requestRegisterAdress.isAdressCustomer());
-			insertAdress.setInt(10, requestRegisterAdress.getUserId());
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setString(1, requestRegisterAdress.getCep());
+			psmt.setString(2, requestRegisterAdress.getLogradouro());
+			psmt.setString(3, requestRegisterAdress.getBairro());
+			psmt.setString(4, requestRegisterAdress.getLocalidade());
+			psmt.setString(5, requestRegisterAdress.getUf());
+			psmt.setString(6, requestRegisterAdress.getComplemento());
+			psmt.setInt(7, requestRegisterAdress.getNumero());
+			psmt.setBoolean(8, requestRegisterAdress.isAdressCustomer());
+			psmt.setInt(9, requestRegisterAdress.getUserId());
 
-			int rows = insertAdress.executeUpdate();
+			int rows = psmt.executeUpdate();
 
 			return response = rows > 0 ? true : false;
 
 		} catch (SQLException e) {
-			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage(), e.getSQLState(),
-					e.getLocalizedMessage());
+			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage(),
+					e.getSQLState(), e.getLocalizedMessage());
 		} finally {
 			super.closeConnection();
 		}
@@ -183,9 +179,9 @@ public class UserCustomerRepository extends ConnectionFactory {
 			final String SQL_QUERY = "SELECT id_adress, cep, logradouro, bairro, localidade, "
 					+ "uf, complemento, numero, status, is_adress_customer " + "FROM tb_adress WHERE fk_id_user = ? ";
 
-			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
-			stmt.setInt(1, userId);
-			ResultSet rs = stmt.executeQuery();
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setInt(1, userId);
+			ResultSet rs = psmt.executeQuery();
 
 			while (rs.next()) {
 				UserCustomerAdressDAO adress = new UserCustomerAdressDAO();
@@ -223,21 +219,23 @@ public class UserCustomerRepository extends ConnectionFactory {
 
 			final String SQL_QUERY = "UPDATE tb_adress SET status = FALSE WHERE id_adress = ?";
 
-			PreparedStatement disableAdress = connection.prepareStatement(SQL_QUERY);
-			disableAdress.setInt(1, adressId);
-			
-			int rows = disableAdress.executeUpdate();
-			
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setInt(1, adressId);
+
+			int rows = psmt.executeUpdate();
+
 			return response = rows > 0 ? true : false;
-			
+
 		} catch (SQLException e) {
 			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage());
+		} finally {
+			super.closeConnection();
 		}
 		log.info("[ERROR] Unable to disable address");
-		return response;	
+		return response;
 	}
-  
-  	/**
+
+	/**
 	 * Verifica se o Email e CPF já estão cadastrados no banco de dados
 	 * 
 	 * 

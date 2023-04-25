@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 
 import org.springframework.stereotype.Repository;
 
-import com.conquestbicicletas.model.dao.AuthenticateCustomerResponseDAO;
+import com.conquestbicicletas.model.dao.AuthenticateUserCustomerResponseDAO;
 import com.conquestbicicletas.model.dao.AuthenticateUserRequestDAO;
-import com.conquestbicicletas.model.dao.AuthenticateUserResponseDAO;
+import com.conquestbicicletas.model.dao.AuthenticateUserBackOfficeResponseDAO;
 import com.conquestbicicletas.repository.config.ConnectionFactory;
 
 @Repository
@@ -16,19 +16,18 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 
 	/**
 	 * Verificação de Status ativo. Se status == true, retorna o grupo do usuario se
-	 * status for status == false, retorna 0
-	 * Autenticação de cliente backoffice ao fazer login 
+	 * status for status == false, retorna 0 Autenticação de cliente backoffice ao
+	 * fazer login
 	 *
 	 * @param requestLoginUser
 	 * @return grupo em que o usuario logado pertence
 	 */
-	public AuthenticateUserResponseDAO authenticateUserBackOffice(
-			AuthenticateUserRequestDAO requestLoginUser) {
+	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserRequestDAO requestLoginUser) {
 		Connection conexao = super.getConnection();
 
 		try {
-			PreparedStatement stmt = conexao
-					.prepareStatement("SELECT * FROM tb_user WHERE email_user = ? AND AES_DECRYPT(password_user, 'chave') = ?");
+			PreparedStatement stmt = conexao.prepareStatement(
+					"SELECT * FROM tb_user WHERE email_user = ? AND AES_DECRYPT(password_user, 'chave') = ?");
 			stmt.setString(1, requestLoginUser.getUserEmail());
 			stmt.setString(2, requestLoginUser.getUserPassword());
 			ResultSet rs = stmt.executeQuery();
@@ -36,10 +35,10 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 			while (rs.next()) {
 				boolean status = rs.getBoolean("status_user");
 				if (status == true) {
-					return new AuthenticateUserResponseDAO(rs.getInt("id_user"), rs.getInt("group_user"));
+					return new AuthenticateUserBackOfficeResponseDAO(rs.getInt("id_user"), rs.getInt("group_user"));
 				}
 
-				return new AuthenticateUserResponseDAO(0, 0);
+				return new AuthenticateUserBackOfficeResponseDAO(0, 0);
 			}
 
 		} catch (Exception e) {
@@ -51,16 +50,15 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 
 		return null;
 	}
-	
-	
+
 	/// ALTERAR ROTAS
 	/***
 	 * Autenticação de cliente ao fazer login
+	 * 
 	 * @param requestLoginCustomer
 	 * @return
 	 */
-	public AuthenticateCustomerResponseDAO authenticateCustomer(
-			AuthenticateUserRequestDAO requestLoginCustomer) {
+	public AuthenticateUserCustomerResponseDAO authenticateCustomer(AuthenticateUserRequestDAO requestLoginCustomer) {
 		Connection connection = super.getConnection();
 
 		try {
@@ -73,10 +71,10 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 			while (rs.next()) {
 				boolean status = rs.getBoolean("status_user");
 				if (status == true) {
-					return new AuthenticateCustomerResponseDAO(rs.getInt("id_user"));
+					return new AuthenticateUserCustomerResponseDAO(rs.getInt("id_user"));
 				}
 
-				return new AuthenticateCustomerResponseDAO(0);
+				return new AuthenticateUserCustomerResponseDAO(0);
 			}
 
 		} catch (Exception e) {
@@ -88,9 +86,5 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 
 		return null;
 	}
-	
-	
-	
-	
-}
 
+}

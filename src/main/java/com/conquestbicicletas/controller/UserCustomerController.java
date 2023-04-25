@@ -27,17 +27,29 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(value = "*")
 @RequestMapping("/conquest")
 public class UserCustomerController {
-	
+
 	@Autowired
 	private UserCustomerService userCustomerService;
-	
+
+	@GetMapping(value = "/customer", produces = "application/json")
+	public ResponseEntity<UserCustomerDAO> getCustomer(@RequestParam(value = "id_customer") int userId) {
+		UserCustomerDAO customer = userCustomerService.getCustomer(userId);
+
+		if (customer != null) {
+			log.info("[INFO] Success in get customer");
+			return ResponseEntity.status(HttpStatus.OK).body(customer);
+		}
+		log.info("[ERROR] Success in get customer");
+		return ResponseEntity.status(HttpStatus.OK).body(customer);
+	}
+
 	/**
 	 * Registra um cliente
 	 * 
 	 * @param requestRegisteCustomer
 	 * @return
 	 */
-	@PostMapping(value = "/backoffice/customer/register", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/customer/register", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> registerCustomer(@RequestBody UserCustomerDAO requestRegisteCustomer) {
 		boolean isRegister = userCustomerService.registerCustomer(requestRegisteCustomer);
 
@@ -71,7 +83,7 @@ public class UserCustomerController {
 		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
 				.body(new ResponseStatusLogDAO(406, "Erro ao alterar cliente!"));
 	}
-	
+
 	/**
 	 * Registra um usuario
 	 * 
@@ -79,7 +91,8 @@ public class UserCustomerController {
 	 * @return
 	 */
 	@PostMapping(value = "/customer/register/adress", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> registerAdress(@RequestBody UserCustomerAdressDAO requestRegisterAdress) {
+	public ResponseEntity<ResponseStatusLogDAO> registerAdress(
+			@RequestBody UserCustomerAdressDAO requestRegisterAdress) {
 		boolean isRegister = userCustomerService.registerAdress(requestRegisterAdress);
 
 		if (isRegister != false) {
@@ -91,7 +104,7 @@ public class UserCustomerController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o endereco"));
 	}
-	
+
 	/**
 	 * Lista todos os enderecos.
 	 * 
@@ -100,7 +113,7 @@ public class UserCustomerController {
 	 */
 	@GetMapping(value = "/customer/list/adress", produces = "application/json")
 	public ResponseEntity<List<UserCustomerAdressDAO>> getAllAdressCustomer(
-			@RequestParam(value="id_customer") int userId) {
+			@RequestParam(value = "id_customer") int userId) {
 
 		List<UserCustomerAdressDAO> response = userCustomerService.getAllAdressCustomer(userId);
 
@@ -114,7 +127,7 @@ public class UserCustomerController {
 		log.error("[ERROR] Unable to list adress");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	
+
 	/**
 	 * Desativa endereco.
 	 * 
@@ -122,8 +135,7 @@ public class UserCustomerController {
 	 * @return retorna uma lista de enderecos.
 	 */
 	@DeleteMapping(value = "/customer/disable/adress", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> disableAdress(
-			@RequestParam(value="id_adress") int adressId) {
+	public ResponseEntity<ResponseStatusLogDAO> disableAdress(@RequestParam(value = "id_adress") int adressId) {
 
 		boolean isDisable = userCustomerService.disableAdress(adressId);
 
@@ -135,5 +147,5 @@ public class UserCustomerController {
 		log.error("[ERROR] Error in disable adress");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel desativado o endereco"));
-	}	
+	}
 }

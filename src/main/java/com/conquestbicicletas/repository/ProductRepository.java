@@ -83,12 +83,13 @@ public class ProductRepository extends ConnectionFactory {
 
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM tb_img_product WHERE fk_product_id = ?");
+			PreparedStatement stmt = connection
+					.prepareStatement("SELECT * FROM tb_img_product WHERE fk_product_id = ?");
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				imgProduct.add(new ImageProductModelDAO(rs.getInt("img_id"),rs.getInt("fk_product_id"),
+				imgProduct.add(new ImageProductModelDAO(rs.getInt("img_id"), rs.getInt("fk_product_id"),
 						rs.getString("img_base64")));
 			}
 			return imgProduct;
@@ -174,9 +175,9 @@ public class ProductRepository extends ConnectionFactory {
 		return false;
 	}
 
-	
 	/**
 	 * Deleta imagem do produto
+	 * 
 	 * @param idImage
 	 * @return
 	 */
@@ -202,8 +203,7 @@ public class ProductRepository extends ConnectionFactory {
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param Alterar produtos.
@@ -237,7 +237,6 @@ public class ProductRepository extends ConnectionFactory {
 
 		return result;
 	}
-
 
 	/**
 	 * 
@@ -290,8 +289,8 @@ public class ProductRepository extends ConnectionFactory {
 
 		try {
 			Connection connection = super.getConnection();
-			PreparedStatement stmt = connection
-					.prepareStatement("SELECT * FROM tb_product WHERE product_name COLLATE utf8mb4_general_ci LIKE ? ORDER BY product_id DESC");
+			PreparedStatement stmt = connection.prepareStatement(
+					"SELECT * FROM tb_product WHERE product_name COLLATE utf8mb4_general_ci LIKE ? ORDER BY product_id DESC");
 			stmt.setString(1, "%" + requestProductSearchName.getProductName() + "%");
 			ResultSet rs = stmt.executeQuery();
 
