@@ -142,7 +142,7 @@ public class UserBackOfficeController {
 	 * @param requestUserSearch
 	 * @return
 	 */
-	@GetMapping(value = "/backoffice/user/search", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/backoffice/user/search", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<List<UserBackOfficeDAO>> getListSearchUsers(
 			@RequestBody UserBackOfficeDAO requestUserSearch) {
 

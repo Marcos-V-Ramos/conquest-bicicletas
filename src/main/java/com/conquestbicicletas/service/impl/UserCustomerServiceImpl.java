@@ -10,8 +10,11 @@ import com.conquestbicicletas.model.dao.UserCustomerDAO;
 import com.conquestbicicletas.repository.UserCustomerRepository;
 import com.conquestbicicletas.service.UserCustomerService;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Component
+
 public class UserCustomerServiceImpl implements UserCustomerService {
 
 	@Autowired
@@ -30,6 +33,9 @@ public class UserCustomerServiceImpl implements UserCustomerService {
 	public boolean disableAdress(int adressId) {
 		boolean isDisable = userCustomerRepository.disableAdress(adressId);
 		return isDisable;
+    
+	public boolean encherto() {
+		return false;
 	}
 
 	public List<UserCustomerAdressDAO> getAllAdressCustomer(int userId) {
