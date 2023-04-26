@@ -16,6 +16,11 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	@Autowired
 	private UserBackOfficeRepository userBackOfficeRepository;
 
+	public UserBackOfficeDAO getUser(int userId) {
+		UserBackOfficeDAO user = userBackOfficeRepository.getUser(userId);
+		return user;
+	}
+	
 	public List<UserBackOfficeDAO> getListUser() {
 		List<UserBackOfficeDAO> listUsers = userBackOfficeRepository.getListUser();
 		return listUsers;
@@ -41,7 +46,6 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 		return isUpdated;
 	}
 
-	@Override
 	public boolean updateStatusUser(UpdateStatusUserDAO requestUpdateStatus) {
 		boolean updateStatusUser = userBackOfficeRepository.updateStatus(requestUpdateStatus);
 		return updateStatusUser;

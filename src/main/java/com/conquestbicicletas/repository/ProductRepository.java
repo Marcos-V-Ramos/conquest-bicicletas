@@ -266,12 +266,7 @@ public class ProductRepository extends ConnectionFactory {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
-			try {
-				super.closeConnection();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			super.closeConnection();
 		}
 
 		return false;

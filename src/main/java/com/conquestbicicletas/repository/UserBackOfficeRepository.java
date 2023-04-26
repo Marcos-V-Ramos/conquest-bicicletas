@@ -13,8 +13,38 @@ import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 import com.conquestbicicletas.repository.config.ConnectionFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class UserBackOfficeRepository extends ConnectionFactory {
+
+	public UserBackOfficeDAO getUser(int userId) {
+		UserBackOfficeDAO userBackOffice = null;
+		try {
+			Connection connection = super.getConnection();
+			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+					+ "AES_DECRYPT(password_user, 'chave') AS password_user,"
+					+ " group_user, status_user FROM tb_user WHERE id_user = ?";
+
+			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
+			psmt.setInt(1, userId);
+			ResultSet rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				userBackOffice = new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"),
+						rs.getString("cpf_user"), rs.getString("email_user"), rs.getString("password_user"),
+						rs.getInt("group_user"), rs.getBoolean("status_user"));
+			}
+			return userBackOffice;
+		} catch (SQLException e) {
+			log.error("There was an error connecting to the database: %s /n %s /n %s", e.getMessage(), e.getSQLState(),
+					e.getLocalizedMessage());
+		} finally {
+			super.closeConnection();
+		}
+		return userBackOffice;
+	}
 
 	/**
 	 * 
@@ -25,16 +55,20 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
-					+ "AES_DECRYPT(password_user, 'chave') AS password_user, group_user," + "status_user "
-					+ "FROM tb_user";
+					+ "group_user, status_user FROM tb_user";
 
 			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"),
-						rs.getString("cpf_user"), rs.getString("email_user"), rs.getString("password_user"),
-						rs.getInt("group_user"), rs.getBoolean("status_user")));
+				UserBackOfficeDAO userBackOffice = new UserBackOfficeDAO();
+				userBackOffice.setUserId(rs.getInt("id_user"));
+				userBackOffice.setUserName(rs.getString("name_user"));
+				userBackOffice.setUserCpf(rs.getString("cpf_user"));
+				userBackOffice.setUserEmail(rs.getString("email_user"));
+				userBackOffice.setUserGroup(rs.getInt("group_user"));
+				userBackOffice.setUserStatus(rs.getBoolean("status_user"));
+				listUsers.add(userBackOffice);
 			}
 			return listUsers;
 		} catch (Exception e) {
@@ -59,35 +93,43 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 
 			if (requestUserSearch.getUserName() != null && requestUserSearch.getUserCpf() == null) {
 
-				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
-						+ "AS password_user, status_user, group_user " + "FROM tb_user WHERE name_user "
-						+ "COLLATE utf8mb4_general_ci LIKE ?";
+				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+						+ "status_user, group_user FROM tb_user WHERE name_user " + "COLLATE utf8mb4_general_ci LIKE ?";
 
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
-				stmt.setString(1, requestUserSearch.getUserName() + "%");
+				stmt.setString(1, "%" + requestUserSearch.getUserName() + "%");
 				ResultSet rs = stmt.executeQuery();
 
 				while (rs.next()) {
-					listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"),
-							rs.getString("cpf_user"), rs.getString("email_user"), rs.getString("password_user"),
-							rs.getInt("group_user"), rs.getBoolean("status_user")));
+					UserBackOfficeDAO userBackOffice = new UserBackOfficeDAO();
+					userBackOffice.setUserId(rs.getInt("id_user"));
+					userBackOffice.setUserName(rs.getString("name_user"));
+					userBackOffice.setUserCpf(rs.getString("cpf_user"));
+					userBackOffice.setUserEmail(rs.getString("email_user"));
+					userBackOffice.setUserStatus(rs.getBoolean("status_user"));
+					userBackOffice.setUserGroup(rs.getInt("group_user"));
+					listUsers.add(userBackOffice);
 				}
 				return listUsers;
 
 			} else if (requestUserSearch.getUserName() == null && requestUserSearch.getUserCpf() != null) {
 
-				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
-						+ "AS password_user, status_user, group_user " + "FROM tb_user WHERE cpf_user "
-						+ "COLLATE utf8mb4_general_ci LIKE ?";
+				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+						+ "status_user, group_user FROM tb_user WHERE cpf_user " + "COLLATE utf8mb4_general_ci LIKE ?";
 
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
-				stmt.setString(1, requestUserSearch.getUserCpf() + "%");
+				stmt.setString(1, "%" + requestUserSearch.getUserCpf() + "%");
 				ResultSet rs = stmt.executeQuery();
 
 				while (rs.next()) {
-					listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"),
-							rs.getString("cpf_user"), rs.getString("email_user"), rs.getString("password_user"),
-							rs.getInt("group_user"), rs.getBoolean("status_user")));
+					UserBackOfficeDAO userBackOffice = new UserBackOfficeDAO();
+					userBackOffice.setUserId(rs.getInt("id_user"));
+					userBackOffice.setUserName(rs.getString("name_user"));
+					userBackOffice.setUserCpf(rs.getString("cpf_user"));
+					userBackOffice.setUserEmail(rs.getString("email_user"));
+					userBackOffice.setUserStatus(rs.getBoolean("status_user"));
+					userBackOffice.setUserGroup(rs.getInt("group_user"));
+					listUsers.add(userBackOffice);
 				}
 				return listUsers;
 			}
@@ -112,17 +154,22 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 
-			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, AES_DECRYPT(password_user, 'chave') "
-					+ "AS password_user, status_user, group_user " + "FROM tb_user WHERE group_user = ? ";
+			final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
+					+ "status_user, group_user FROM tb_user WHERE group_user = ? ";
 
 			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 			stmt.setInt(1, requestTypeGroupUser);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				listUsers.add(new UserBackOfficeDAO(rs.getInt("id_user"), rs.getString("name_user"),
-						rs.getString("cpf_user"), rs.getString("email_user"), rs.getString("password_user"),
-						rs.getInt("group_user"), rs.getBoolean("status_user")));
+				UserBackOfficeDAO userBackOffice = new UserBackOfficeDAO();
+				userBackOffice.setUserId(rs.getInt("id_user"));
+				userBackOffice.setUserName(rs.getString("name_user"));
+				userBackOffice.setUserCpf(rs.getString("cpf_user"));
+				userBackOffice.setUserEmail(rs.getString("email_user"));
+				userBackOffice.setUserStatus(rs.getBoolean("status_user"));
+				userBackOffice.setUserGroup(rs.getInt("group_user"));
+				listUsers.add(userBackOffice);
 			}
 			return listUsers;
 		} catch (Exception e) {
@@ -227,14 +274,9 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
-			try {
-				super.closeConnection();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
+			super.closeConnection();
 
+		}
 		return false;
 	}
 

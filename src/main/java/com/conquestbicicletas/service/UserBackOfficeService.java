@@ -9,6 +9,7 @@ import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 
 @Service
 public interface UserBackOfficeService {
+	UserBackOfficeDAO getUser(int userId);
 	List<UserBackOfficeDAO> getListUser();
 	List<UserBackOfficeDAO> getListUser(UserBackOfficeDAO requestUserSearch);
 	List<UserBackOfficeDAO> filterGroupUser(int typeGroup);

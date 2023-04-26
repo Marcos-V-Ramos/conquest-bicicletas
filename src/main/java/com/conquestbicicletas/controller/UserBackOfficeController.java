@@ -31,6 +31,26 @@ public class UserBackOfficeController {
 	private UserBackOfficeService userBackOfficeService;
 
 	/**
+	 * Pega um usuario apartir do id do mesmo passado como 
+	 * 
+	 * @param 
+	 * @return Lista de usuarios
+	 */
+	@GetMapping(value = "/backoffice/user", produces = "application/json")
+	public ResponseEntity<UserBackOfficeDAO> getUser(@RequestParam(value="id_user") int userId) {
+
+		UserBackOfficeDAO user = userBackOfficeService.getUser(userId);
+
+		if (user != null) {
+			log.info("[INFO] Success in get user");
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+		} else {
+			log.info("[ERROR] Get user");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(user);
+		}
+	}
+
+	/**
 	 * Lista todos os usuarios cadastrados no backOffice
 	 * 
 	 * @return Lista de usuarios
