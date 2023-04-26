@@ -14,5 +14,4 @@ public interface UserCustomerService {
 	boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress);
 	boolean disableAdress(int adressId);
 	List<UserCustomerAdressDAO> getAllAdressCustomer(int userId);
-	boolean encherto();
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,7 +52,7 @@ public class UserCustomerController {
 	public ResponseEntity<ResponseStatusLogDAO> registerCustomer(@RequestBody UserCustomerDAO requestRegisteCustomer) {
 		boolean isRegister = userCustomerService.registerCustomer(requestRegisteCustomer);
 
-		if (isRegister != false) {
+		if (isRegister) {
 			log.info("[INFO] Success in registering customer");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O cliente foi registrado com sucesso!"));
@@ -95,7 +94,7 @@ public class UserCustomerController {
 			@RequestBody UserCustomerAdressDAO requestRegisterAdress) {
 		boolean isRegister = userCustomerService.registerAdress(requestRegisterAdress);
 
-		if (isRegister != false) {
+		if (isRegister) {
 			log.info("[INFO] Success in registering adress");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O endereco foi registrado com sucesso!"));
@@ -134,12 +133,12 @@ public class UserCustomerController {
 	 * @param id
 	 * @return retorna uma lista de enderecos.
 	 */
-	@DeleteMapping(value = "/customer/disable/adress", produces = "application/json")
+	@PutMapping(value = "/customer/disable/adress", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> disableAdress(@RequestParam(value = "id_adress") int adressId) {
 
 		boolean isDisable = userCustomerService.disableAdress(adressId);
 
-		if (isDisable != false) {
+		if (isDisable) {
 			log.info("[INFO] Success in disable adress");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O endereco foi desativado com sucesso!"));

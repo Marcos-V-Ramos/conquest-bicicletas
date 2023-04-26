@@ -81,7 +81,7 @@ public class UserBackOfficeController {
 	public ResponseEntity<ResponseStatusLogDAO> registerUser(@RequestBody UserBackOfficeDAO requestRegisterUser) {
 		boolean isRegister = userBackOfficeService.registerUser(requestRegisterUser);
 
-		if (isRegister != false) {
+		if (isRegister) {
 			log.info("[INFO] Success in registering user");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O usuario foi registrado com sucesso!"));
