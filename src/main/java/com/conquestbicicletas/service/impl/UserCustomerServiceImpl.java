@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.conquestbicicletas.model.dao.UserCustomerAdressDAO;
+import com.conquestbicicletas.model.dao.UserCustomerAddressDAO;
 import com.conquestbicicletas.model.dao.UserCustomerDAO;
 import com.conquestbicicletas.repository.UserCustomerRepository;
 import com.conquestbicicletas.service.UserCustomerService;
@@ -18,7 +18,7 @@ public class UserCustomerServiceImpl implements UserCustomerService {
 	public UserCustomerDAO getCustomer(int userId) {
 		UserCustomerDAO customer = userCustomerRepository.getCustomer(userId);
 		if (customer != null) {
-			customer.setUserAdress(userCustomerRepository.getAllAdressCustomer(userId));
+			customer.setUserAddress(userCustomerRepository.getAllAddressCustomer(userId));
 			return customer;
 		}
 		return customer;
@@ -28,9 +28,9 @@ public class UserCustomerServiceImpl implements UserCustomerService {
 		Integer idCustomerRegister = userCustomerRepository.registerCustomer(requestRegisterCustomer);
 
 		if (idCustomerRegister != null) {
-			for (UserCustomerAdressDAO eachAdress : requestRegisterCustomer.getUserAdress()) {
-				eachAdress.setUserId(idCustomerRegister);
-				userCustomerRepository.registerAdress(eachAdress);
+			for (UserCustomerAddressDAO eachAddress : requestRegisterCustomer.getUserAddress()) {
+				eachAddress.setUserId(idCustomerRegister);
+				userCustomerRepository.registerAddress(eachAddress);
 			}
 
 			return true;
@@ -43,22 +43,18 @@ public class UserCustomerServiceImpl implements UserCustomerService {
 		return isUpdated;
 	}
 
-	public boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress) {
-		boolean isRegister = userCustomerRepository.registerAdress(requestRegisterAdress);
+	public boolean registerAddress(UserCustomerAddressDAO requestRegisterAddress) {
+		boolean isRegister = userCustomerRepository.registerAddress(requestRegisterAddress);
 		return isRegister;
 	}
 
-	public boolean disableAdress(int adressId) {
-		boolean isDisable = userCustomerRepository.disableAdress(adressId);
+	public boolean disableAddress(int addressId) {
+		boolean isDisable = userCustomerRepository.disableAddress(addressId);
 		return isDisable;
 	}
 
-	public List<UserCustomerAdressDAO> getAllAdressCustomer(int userId) {
-		List<UserCustomerAdressDAO> response = userCustomerRepository.getAllAdressCustomer(userId);
+	public List<UserCustomerAddressDAO> getAllAddressCustomer(int userId) {
+		List<UserCustomerAddressDAO> response = userCustomerRepository.getAllAddressCustomer(userId);
 		return response;
-	}
-
-	public boolean encherto() {
-		return false;
 	}
 }

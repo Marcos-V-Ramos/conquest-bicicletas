@@ -1,9 +1,9 @@
 package com.conquestbicicletas.model.dao;
 
-public class UserCustomerAdressDAO {
+public class UserCustomerAddressDAO {
 
 	private int userId;
-	private int adressId;
+	private int addressId;
 	private String cep;
 	private String logradouro;
 	private String bairro;
@@ -12,16 +12,16 @@ public class UserCustomerAdressDAO {
 	private String complemento;
 	private int numero;
 	private boolean status;
-	private boolean isAdressCustomer;
-	
-	public UserCustomerAdressDAO() {
+	private boolean isAddressCustomer;
+
+	public UserCustomerAddressDAO() {
 	}
 
-	public UserCustomerAdressDAO(int userId, int adressId, String cep, String logradouro, String bairro, String localidade, String uf,
-			String complemento, int numero, boolean status, boolean isAdressCustomer) {
+	public UserCustomerAddressDAO(int userId, int addressId, String cep, String logradouro, String bairro,
+			String localidade, String uf, String complemento, int numero, boolean status, boolean isAddressCustomer) {
 		super();
 		this.userId = userId;
-		this.adressId = adressId;
+		this.addressId = addressId;
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
@@ -30,7 +30,7 @@ public class UserCustomerAdressDAO {
 		this.complemento = complemento;
 		this.numero = numero;
 		this.status = status;
-		this.isAdressCustomer = isAdressCustomer;
+		this.isAddressCustomer = isAddressCustomer;
 	}
 
 	public int getUserId() {
@@ -41,12 +41,12 @@ public class UserCustomerAdressDAO {
 		this.userId = userId;
 	}
 
-	public int getAdressId() {
-		return adressId;
+	public int getAddressId() {
+		return addressId;
 	}
 
-	public void setAdressId(int adressId) {
-		this.adressId = adressId;
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
 
 	public String getCep() {
@@ -113,12 +113,12 @@ public class UserCustomerAdressDAO {
 		this.status = status;
 	}
 
-	public boolean isAdressCustomer() {
-		return isAdressCustomer;
+	public boolean isAddressCustomer() {
+		return isAddressCustomer;
 	}
 
-	public void setAdressCustomer(boolean isAdressCustomer) {
-		this.isAdressCustomer = isAdressCustomer;
+	public void setAddressCustomer(boolean isAddressCustomer) {
+		this.isAddressCustomer = isAddressCustomer;
 	}
-	
+
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.conquestbicicletas.model.dao.UserCustomerAdressDAO;
+import com.conquestbicicletas.model.dao.UserCustomerAddressDAO;
 import com.conquestbicicletas.model.dao.UserCustomerDAO;
 import com.conquestbicicletas.repository.config.ConnectionFactory;
 
@@ -133,25 +133,25 @@ public class UserCustomerRepository extends ConnectionFactory {
 	/*
 	 * Inserir um novo endereco
 	 */
-	public boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress) {
+	public boolean registerAddress(UserCustomerAddressDAO requestRegisterAddress) {
 		boolean response = false;
 		try {
 
-			final String SQL_QUERY = "INSERT INTO tb_adress (cep, logradouro, bairro, localidade, uf, complemento, numero, status, is_adress_customer, fk_id_user) "
+			final String SQL_QUERY = "INSERT INTO tb_address (cep, logradouro, bairro, localidade, uf, complemento, numero, status, is_address_customer, fk_id_user) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)";
 
 			Connection connection = super.getConnection();
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
-			if (requestRegisterAdress.getUserId() > 0) {
-				psmt.setString(1, requestRegisterAdress.getCep());
-				psmt.setString(2, requestRegisterAdress.getLogradouro());
-				psmt.setString(3, requestRegisterAdress.getBairro());
-				psmt.setString(4, requestRegisterAdress.getLocalidade());
-				psmt.setString(5, requestRegisterAdress.getUf());
-				psmt.setString(6, requestRegisterAdress.getComplemento());
-				psmt.setInt(7, requestRegisterAdress.getNumero());
-				psmt.setBoolean(8, requestRegisterAdress.isAdressCustomer());
-				psmt.setInt(9, requestRegisterAdress.getUserId());
+			if (requestRegisterAddress.getUserId() > 0) {
+				psmt.setString(1, requestRegisterAddress.getCep());
+				psmt.setString(2, requestRegisterAddress.getLogradouro());
+				psmt.setString(3, requestRegisterAddress.getBairro());
+				psmt.setString(4, requestRegisterAddress.getLocalidade());
+				psmt.setString(5, requestRegisterAddress.getUf());
+				psmt.setString(6, requestRegisterAddress.getComplemento());
+				psmt.setInt(7, requestRegisterAddress.getNumero());
+				psmt.setBoolean(8, requestRegisterAddress.isAddressCustomer());
+				psmt.setInt(9, requestRegisterAddress.getUserId());
 
 				int rows = psmt.executeUpdate();
 
@@ -175,35 +175,35 @@ public class UserCustomerRepository extends ConnectionFactory {
 	 * @param requestTypeGroupUser
 	 * @return listUsers
 	 */
-	public List<UserCustomerAdressDAO> getAllAdressCustomer(int userId) {
-		List<UserCustomerAdressDAO> listAdress = new ArrayList<>();
+	public List<UserCustomerAddressDAO> getAllAddressCustomer(int userId) {
+		List<UserCustomerAddressDAO> listAddress = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
 
-			final String SQL_QUERY = "SELECT id_adress, cep, logradouro, bairro, localidade, "
-					+ "uf, complemento, numero, status, is_adress_customer, fk_id_user FROM tb_adress WHERE fk_id_user = ? ";
+			final String SQL_QUERY = "SELECT id_address, cep, logradouro, bairro, localidade, "
+					+ "uf, complemento, numero, status, is_address_customer, fk_id_user FROM tb_address WHERE fk_id_user = ? ";
 
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
 			psmt.setInt(1, userId);
 			ResultSet rs = psmt.executeQuery();
 
 			while (rs.next()) {
-				UserCustomerAdressDAO adress = new UserCustomerAdressDAO();
-				adress.setAdressId(rs.getInt("id_adress"));
-				adress.setCep(rs.getString("cep"));
-				adress.setLogradouro(rs.getString("logradouro"));
-				adress.setBairro(rs.getString("bairro"));
-				adress.setLocalidade(rs.getString("localidade"));
-				adress.setUf(rs.getString("uf"));
-				adress.setComplemento(rs.getString("complemento"));
-				adress.setNumero(rs.getInt("numero"));
-				adress.setStatus(rs.getBoolean("status"));
-				adress.setAdressCustomer(rs.getBoolean("is_adress_customer"));
-				adress.setUserId(rs.getInt("fk_id_user"));
-				listAdress.add(adress);
+				UserCustomerAddressDAO address = new UserCustomerAddressDAO();
+				address.setAddressId(rs.getInt("id_address"));
+				address.setCep(rs.getString("cep"));
+				address.setLogradouro(rs.getString("logradouro"));
+				address.setBairro(rs.getString("bairro"));
+				address.setLocalidade(rs.getString("localidade"));
+				address.setUf(rs.getString("uf"));
+				address.setComplemento(rs.getString("complemento"));
+				address.setNumero(rs.getInt("numero"));
+				address.setStatus(rs.getBoolean("status"));
+				address.setAddressCustomer(rs.getBoolean("is_address_customer"));
+				address.setUserId(rs.getInt("fk_id_user"));
+				listAddress.add(address);
 
 			}
-			return listAdress;
+			return listAddress;
 		} catch (Exception e) {
 			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage());
 		} finally {
@@ -217,15 +217,15 @@ public class UserCustomerRepository extends ConnectionFactory {
 	 * Desabilita endereco
 	 * 
 	 */
-	public boolean disableAdress(int adressId) {
+	public boolean disableAddress(int addressId) {
 		boolean response = false;
 		try {
 			Connection connection = super.getConnection();
 
-			final String SQL_QUERY = "UPDATE tb_adress SET status = FALSE WHERE id_adress = ?";
+			final String SQL_QUERY = "UPDATE tb_address SET status = FALSE WHERE id_address = ?";
 
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
-			psmt.setInt(1, adressId);
+			psmt.setInt(1, addressId);
 
 			int rows = psmt.executeUpdate();
 

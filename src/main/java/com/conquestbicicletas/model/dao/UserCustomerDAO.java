@@ -8,18 +8,18 @@ public class UserCustomerDAO extends UserModel {
 
 	private String userGender;
 	private String userBirthDate;
-	private List<UserCustomerAdressDAO> userAdress;
+	private List<UserCustomerAddressDAO> userAddress;
 
 	public UserCustomerDAO() {
 		super();
 	}
 
 	public UserCustomerDAO(int userId, String userName, String userCpf, String userEmail, String userPassword,
-			String userGender, String userBirthDate, List<UserCustomerAdressDAO> userAdress) {
+			String userGender, String userBirthDate, List<UserCustomerAddressDAO> userAddress) {
 		super(userId, userName, userCpf, userEmail, userPassword);
 		this.userGender = userGender;
 		this.userBirthDate = userBirthDate;
-		this.userAdress = userAdress;
+		this.userAddress = userAddress;
 	}
 
 	public String getUserGender() {
@@ -38,12 +38,12 @@ public class UserCustomerDAO extends UserModel {
 		this.userBirthDate = userBirthDate;
 	}
 
-	public List<UserCustomerAdressDAO> getUserAdress() {
-		return userAdress;
+	public List<UserCustomerAddressDAO> getUserAddress() {
+		return userAddress;
 	}
 
-	public void setUserAdress(List<UserCustomerAdressDAO> userAdress) {
-		this.userAdress = userAdress;
+	public void setUserAddress(List<UserCustomerAddressDAO> userAddress) {
+		this.userAddress = userAddress;
 	}
 
 }

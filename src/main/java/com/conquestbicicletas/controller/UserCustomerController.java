@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.conquestbicicletas.model.dao.ResponseStatusLogDAO;
-import com.conquestbicicletas.model.dao.UserCustomerAdressDAO;
+import com.conquestbicicletas.model.dao.UserCustomerAddressDAO;
 import com.conquestbicicletas.model.dao.UserCustomerDAO;
 import com.conquestbicicletas.service.UserCustomerService;
 
@@ -89,17 +89,17 @@ public class UserCustomerController {
 	 * @param requestRegisterUser
 	 * @return
 	 */
-	@PostMapping(value = "/customer/register/adress", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> registerAdress(
-			@RequestBody UserCustomerAdressDAO requestRegisterAdress) {
-		boolean isRegister = userCustomerService.registerAdress(requestRegisterAdress);
+	@PostMapping(value = "/customer/register/address", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<ResponseStatusLogDAO> registerAddress(
+			@RequestBody UserCustomerAddressDAO requestRegisterAddress) {
+		boolean isRegister = userCustomerService.registerAddress(requestRegisterAddress);
 
 		if (isRegister) {
-			log.info("[INFO] Success in registering adress");
+			log.info("[INFO] Success in registering address");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O endereco foi registrado com sucesso!"));
 		}
-		log.error("[ERROR] Error in registering adress");
+		log.error("[ERROR] Error in registering address");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel registrar o endereco"));
 	}
@@ -110,20 +110,20 @@ public class UserCustomerController {
 	 * @param id
 	 * @return retorna uma lista de enderecos.
 	 */
-	@GetMapping(value = "/customer/list/adress", produces = "application/json")
-	public ResponseEntity<List<UserCustomerAdressDAO>> getAllAdressCustomer(
+	@GetMapping(value = "/customer/list/address", produces = "application/json")
+	public ResponseEntity<List<UserCustomerAddressDAO>> getAllAddressCustomer(
 			@RequestParam(value = "id_customer") int userId) {
 
-		List<UserCustomerAdressDAO> response = userCustomerService.getAllAdressCustomer(userId);
+		List<UserCustomerAddressDAO> response = userCustomerService.getAllAddressCustomer(userId);
 
 		if (response != null && response.size() > 0) {
-			log.info("[INFO] Success in list adress");
+			log.info("[INFO] Success in list address");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} else if (response.size() == 0) {
 			log.info("[INFO] List without content");
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
 		}
-		log.error("[ERROR] Unable to list adress");
+		log.error("[ERROR] Unable to list address");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
@@ -133,17 +133,17 @@ public class UserCustomerController {
 	 * @param id
 	 * @return retorna uma lista de enderecos.
 	 */
-	@GetMapping(value = "/customer/disable/adress", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> disableAdress(@RequestParam(value = "id_adress") int adressId) {
+	@GetMapping(value = "/customer/disable/address", produces = "application/json")
+	public ResponseEntity<ResponseStatusLogDAO> disableAddress(@RequestParam(value = "id_address") int addressId) {
 
-		boolean isDisable = userCustomerService.disableAdress(adressId);
+		boolean isDisable = userCustomerService.disableAddress(addressId);
 
 		if (isDisable) {
-			log.info("[INFO] Success in disable adress");
+			log.info("[INFO] Success in disable address");
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new ResponseStatusLogDAO(201, "O endereco foi desativado com sucesso!"));
 		}
-		log.error("[ERROR] Error in disable adress");
+		log.error("[ERROR] Error in disable address");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel desativado o endereco"));
 	}
