@@ -48,7 +48,7 @@ public class UserCustomerRepository extends ConnectionFactory {
 		} catch (SQLException e) {
 			log.info("There was an error connecting to the database: %s /n %s /n %s", e.getMessage(), e.getSQLState(),
 					e.getLocalizedMessage());
-		}finally {
+		} finally {
 			super.closeConnection();
 		}
 		return customer;
@@ -106,7 +106,7 @@ public class UserCustomerRepository extends ConnectionFactory {
 	public boolean updateCustomer(UserCustomerDAO requestUpdateCustomer) {
 		boolean response = false;
 
-		final String SQL_QUERY = "UPDATE tb_customer SET name_user = ?, birthdate_user = ?, gender_user = ?,  password_user = AES_ENCRYPT(?, 'chave') WHERE fk_id_user = ?";
+		final String SQL_QUERY = "UPDATE tb_customer SET name_user = ?, birthdate_user = ?, gender_user = ?, password_user = AES_ENCRYPT(?, 'chave') WHERE id_user = ?";
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
@@ -114,6 +114,7 @@ public class UserCustomerRepository extends ConnectionFactory {
 			psmt.setString(2, requestUpdateCustomer.getUserBirthDate());
 			psmt.setString(3, requestUpdateCustomer.getUserGender());
 			psmt.setString(4, requestUpdateCustomer.getUserPassword());
+			psmt.setInt(5, requestUpdateCustomer.getUserId());
 
 			int rows = psmt.executeUpdate();
 
@@ -135,25 +136,28 @@ public class UserCustomerRepository extends ConnectionFactory {
 	public boolean registerAdress(UserCustomerAdressDAO requestRegisterAdress) {
 		boolean response = false;
 		try {
+
 			final String SQL_QUERY = "INSERT INTO tb_adress (cep, logradouro, bairro, localidade, uf, complemento, numero, status, is_adress_customer, fk_id_user) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)";
 
 			Connection connection = super.getConnection();
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
-			psmt.setString(1, requestRegisterAdress.getCep());
-			psmt.setString(2, requestRegisterAdress.getLogradouro());
-			psmt.setString(3, requestRegisterAdress.getBairro());
-			psmt.setString(4, requestRegisterAdress.getLocalidade());
-			psmt.setString(5, requestRegisterAdress.getUf());
-			psmt.setString(6, requestRegisterAdress.getComplemento());
-			psmt.setInt(7, requestRegisterAdress.getNumero());
-			psmt.setBoolean(8, requestRegisterAdress.isAdressCustomer());
-			psmt.setInt(9, requestRegisterAdress.getUserId());
+			if (requestRegisterAdress.getUserId() > 0) {
+				psmt.setString(1, requestRegisterAdress.getCep());
+				psmt.setString(2, requestRegisterAdress.getLogradouro());
+				psmt.setString(3, requestRegisterAdress.getBairro());
+				psmt.setString(4, requestRegisterAdress.getLocalidade());
+				psmt.setString(5, requestRegisterAdress.getUf());
+				psmt.setString(6, requestRegisterAdress.getComplemento());
+				psmt.setInt(7, requestRegisterAdress.getNumero());
+				psmt.setBoolean(8, requestRegisterAdress.isAdressCustomer());
+				psmt.setInt(9, requestRegisterAdress.getUserId());
 
-			int rows = psmt.executeUpdate();
+				int rows = psmt.executeUpdate();
 
-			return response = rows > 0 ? true : false;
-
+				return response = rows > 0 ? true : false;
+			}
+			return response;
 		} catch (SQLException e) {
 			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage(),
 					e.getSQLState(), e.getLocalizedMessage());
@@ -177,7 +181,7 @@ public class UserCustomerRepository extends ConnectionFactory {
 			Connection connection = super.getConnection();
 
 			final String SQL_QUERY = "SELECT id_adress, cep, logradouro, bairro, localidade, "
-					+ "uf, complemento, numero, status, is_adress_customer " + "FROM tb_adress WHERE fk_id_user = ? ";
+					+ "uf, complemento, numero, status, is_adress_customer, fk_id_user FROM tb_adress WHERE fk_id_user = ? ";
 
 			PreparedStatement psmt = connection.prepareStatement(SQL_QUERY);
 			psmt.setInt(1, userId);
@@ -195,6 +199,7 @@ public class UserCustomerRepository extends ConnectionFactory {
 				adress.setNumero(rs.getInt("numero"));
 				adress.setStatus(rs.getBoolean("status"));
 				adress.setAdressCustomer(rs.getBoolean("is_adress_customer"));
+				adress.setUserId(rs.getInt("fk_id_user"));
 				listAdress.add(adress);
 
 			}

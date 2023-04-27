@@ -38,7 +38,7 @@ public class UserCustomerController {
 			log.info("[INFO] Success in get customer");
 			return ResponseEntity.status(HttpStatus.OK).body(customer);
 		}
-		log.info("[ERROR] Success in get customer");
+		log.info("[ERROR] No user found");
 		return ResponseEntity.status(HttpStatus.OK).body(customer);
 	}
 
@@ -133,7 +133,7 @@ public class UserCustomerController {
 	 * @param id
 	 * @return retorna uma lista de enderecos.
 	 */
-	@PutMapping(value = "/customer/disable/adress", produces = "application/json")
+	@GetMapping(value = "/customer/disable/adress", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> disableAdress(@RequestParam(value = "id_adress") int adressId) {
 
 		boolean isDisable = userCustomerService.disableAdress(adressId);
