@@ -94,7 +94,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			if (requestUserSearch.getUserName() != null && requestUserSearch.getUserCpf() == null) {
 
 				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
-						+ "status_user, group_user FROM tb_user WHERE name_user " + "COLLATE utf8mb4_general_ci LIKE ?";
+						+ "status_user, group_user FROM tb_user WHERE name_user LIKE ?";
 
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 				stmt.setString(1, "%" + requestUserSearch.getUserName() + "%");
@@ -115,7 +115,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			} else if (requestUserSearch.getUserName() == null && requestUserSearch.getUserCpf() != null) {
 
 				final String SQL_QUERY = "SELECT id_user, name_user, cpf_user, email_user, "
-						+ "status_user, group_user FROM tb_user WHERE cpf_user " + "COLLATE utf8mb4_general_ci LIKE ?";
+						+ "status_user, group_user FROM tb_user WHERE cpf_user LIKE ?";
 
 				PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
 				stmt.setString(1, "%" + requestUserSearch.getUserCpf() + "%");

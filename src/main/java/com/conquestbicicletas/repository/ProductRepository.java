@@ -285,7 +285,7 @@ public class ProductRepository extends ConnectionFactory {
 		try {
 			Connection connection = super.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"SELECT * FROM tb_product WHERE product_name COLLATE utf8mb4_general_ci LIKE ? ORDER BY product_id DESC");
+					"SELECT * FROM tb_product WHERE product_name LIKE ? ORDER BY product_id DESC");
 			stmt.setString(1, "%" + requestProductSearchName.getProductName() + "%");
 			ResultSet rs = stmt.executeQuery();
 
