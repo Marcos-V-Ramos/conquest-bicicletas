@@ -37,9 +37,12 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 					return addCart;
 				}
 			} else if (product.getProductQuantity() > qtd && verifyCart == true && verifyCart != null) {
-				boolean updateQtdCart = customerCartRepository.updateQtdProductCart(productId, customerId, qtd);
-				if (updateQtdCart) {
-					return updateQtdCart;
+				Integer verifyQtd = customerCartRepository.verifyQtdProductCart(productId, customerId);
+				if (verifyQtd != null && verifyQtd > 0) {
+					boolean updateQtdCart = customerCartRepository.updateQtdProductCart(productId, customerId, verifyQtd + 1);
+					if (updateQtdCart) {
+						return updateQtdCart;
+					}
 				}
 			}
 		}
@@ -48,7 +51,7 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 	}
 
 	public CustomerCartDAO getCustomerCart(int customerId) {
-		
+
 		List<ProductCartDAO> listProdCart = new ArrayList<>();
 		List<InfoCartAuxDAO> productCart = customerCartRepository.getProductCartCustomer(customerId);
 		CustomerCartDAO customerCart = new CustomerCartDAO();
@@ -69,7 +72,7 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 	}
 
 	public boolean updateQtdProductCart(int productId, int customerId, int qtd) {
-		
+
 		if (qtd > 0) {
 			boolean updateQtdCart = customerCartRepository.updateQtdProductCart(productId, customerId, qtd);
 
@@ -81,7 +84,7 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 	}
 
 	public boolean removeProductCart(int productId, int customerId) {
-		
+
 		boolean updateQtdCart = customerCartRepository.removeProductCart(productId, customerId);
 
 		if (updateQtdCart) {

@@ -28,24 +28,21 @@ public class CustomerCartController {
 	private CustomerCartService customerCartService;
 
 	@GetMapping(value = "customer/cart", produces = "application/json")
-	public ResponseEntity<CustomerCartDAO> getCustomerCart(@RequestParam(value = "customer_id") int customerId){
+	public ResponseEntity<CustomerCartDAO> getCustomerCart(@RequestParam(value = "customer_id") int customerId) {
 
 		CustomerCartDAO getCustomerCart = customerCartService.getCustomerCart(customerId);
 
 		if (getCustomerCart != null) {
 			log.info("[INFO] Success in picking up cart");
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(getCustomerCart);
+			return ResponseEntity.status(HttpStatus.OK).body(getCustomerCart);
 		}
 		log.error("[ERROR] Error when picking up cart");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(null);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
-	
+
 	@PostMapping(value = "customer/cart/add", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> addProductCart(@RequestParam(value = "product_id") int productId,
-															   @RequestParam(value = "customer_id") int customerId, 
-															   @RequestParam(value = "qtd_product") int qtd) {
+			@RequestParam(value = "customer_id") int customerId, @RequestParam(value = "qtd_product") int qtd) {
 
 		boolean addProduct = customerCartService.addProductCart(productId, customerId, qtd);
 
@@ -62,8 +59,8 @@ public class CustomerCartController {
 
 	@PutMapping(value = "customer/cart/updateqtd", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> updateQtdProductCart(@RequestParam(value = "product_id") int productId,
-			   														 @RequestParam(value = "customer_id") int customerId, 
-			   														 @RequestParam(value = "qtd_product") int qtd){
+			@RequestParam(value = "customer_id") int customerId, @RequestParam(value = "qtd_product") int qtd) {
+		
 		boolean updateQtdProduct = customerCartService.updateQtdProductCart(productId, customerId, qtd);
 
 		if (updateQtdProduct == true) {
@@ -75,10 +72,11 @@ public class CustomerCartController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel alterar a quantidade do produto no carrinho"));
 	}
-	
+
 	@DeleteMapping(value = "customer/cart/remove", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> removeProductCart(@RequestParam(value = "product_id") int productId,
-				 											      @RequestParam(value = "customer_id") int customerId){
+			@RequestParam(value = "customer_id") int customerId) {
+		
 		boolean removeProduct = customerCartService.removeProductCart(productId, customerId);
 
 		if (removeProduct == true) {
@@ -90,5 +88,5 @@ public class CustomerCartController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new ResponseStatusLogDAO(500, "Não foi possivel remover o produto do carrinho"));
 	}
-	
+
 }

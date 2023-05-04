@@ -54,6 +54,22 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	public List<ProductModelDAO> getProductSearch(ProductModelDAO requestProductSearchName) {
+		List<ProductModelDAO> listProductSearchName = productRepository.getListProductSearch(requestProductSearchName);
+		List<ProductModelDAO> detailsProduct = new ArrayList<>();
+		for (ProductModelDAO product : listProductSearchName) {
+			List<ImageProductModelDAO> images = productRepository.visualizeProductImage(product.getProductId());
+			if (images != null) {
+				product.setProductImages(images);
+				detailsProduct.add(product);
+			} else {
+				log.info("[INFO] There are no images for the product");
+				product.setProductImages(null);
+			}
+		}
+		return detailsProduct;
+	}
+
 	public List<ProductModelDAO> getListProductSearch(ProductModelDAO requestProductSearchName) {
 		List<ProductModelDAO> listProductSearchName = productRepository.getListProductSearch(requestProductSearchName);
 		return listProductSearchName;

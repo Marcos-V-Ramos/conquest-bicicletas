@@ -40,6 +40,31 @@ public class CustomerCartRepository extends ConnectionFactory {
 		return response;
 	}
 
+	public Integer verifyQtdProductCart(int productId, int customerId) {
+		try {
+			Connection connection = super.getConnection();
+			final String SQL_QUERY = "SELECT qtd FROM tb_cart WHERE fk_id_product = ? AND fk_id_customer = ?";
+			PreparedStatement pstmt = connection.prepareStatement(SQL_QUERY);
+			pstmt.setInt(1, productId);
+			pstmt.setInt(2, customerId);
+			ResultSet rs = pstmt.executeQuery();
+			int qtd = 0;
+			
+			while (rs.next()) {
+				qtd = rs.getInt("qtd");
+			}
+			
+			return qtd;			
+		} catch (Exception e) {
+			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage(),
+					e.getLocalizedMessage());
+		} finally {
+			super.closeConnection();
+		}
+		return null;
+	}
+	
+	
 	public Boolean verifyProductCart(int productId, int customerId) {
 		try {
 			Connection connection = super.getConnection();
@@ -49,12 +74,16 @@ public class CustomerCartRepository extends ConnectionFactory {
 			pstmt.setInt(2, customerId);
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.getRow() > 0) {
-				while (rs.next()) {
-					return true;
-				}
-				return false;
+			int count = 0;
+			
+			while (rs.next()) {
+				count++;
 			}
+			
+			if(count > 0) {
+				return true;
+			}
+			return false;
 
 		} catch (Exception e) {
 			log.info("[ERROR] There was an error connecting to the database: %s /n %s /n %s", e.getMessage(),
@@ -107,7 +136,7 @@ public class CustomerCartRepository extends ConnectionFactory {
 
 		return null;
 	}
-	
+
 	public boolean removeProductCart(int productId, int customerId) {
 		try {
 			Connection connection = super.getConnection();

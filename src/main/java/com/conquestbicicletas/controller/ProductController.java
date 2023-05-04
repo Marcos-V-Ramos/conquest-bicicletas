@@ -35,10 +35,32 @@ public class ProductController {
 	 * 
 	 * @return Lista de produtos
 	 */
-	@GetMapping(value = "/backoffice/product", produces = "application/json")
+	@GetMapping(value = "/product", produces = "application/json")
 	public ResponseEntity<List<ProductModelDAO>> visualizeListAllProduct() {
 
 		List<ProductModelDAO> response = productService.visualizeListAllProduct();
+
+		if (response != null && response.size() > 0) {
+			log.info("[INFO] Success in list products");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} else if (response.size() == 0) {
+			log.info("[INFO] List without content");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+		}
+		log.error("[ERROR] Unable to list product");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	
+	/**
+	 * Retorna a pesquisa de um produto pesquisado pelo nome, com busca parcial
+	 * 
+	 * @param requestUserSearch
+	 * @return
+	 */
+	@PostMapping(value = "/product/search", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<List<ProductModelDAO>> getSearchProduct(@RequestBody ProductModelDAO requestProductSearch) {
+
+		List<ProductModelDAO> response = productService.getProductSearch(requestProductSearch);
 
 		if (response != null && response.size() > 0) {
 			log.info("[INFO] Success in list products");

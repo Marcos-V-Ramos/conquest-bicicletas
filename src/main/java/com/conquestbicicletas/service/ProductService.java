@@ -12,6 +12,7 @@ public interface ProductService {
 	ProductModelDAO visualizeProduct(int productId);
 	List<ProductModelDAO> getAllListProduct();
 	List<ProductModelDAO> visualizeListAllProduct();
+	List<ProductModelDAO> getProductSearch(ProductModelDAO requestProductSearch);
 	List<ProductModelDAO> getListProductSearch(ProductModelDAO requestProductSearchName);
 	boolean updateProduct(ProductModelDAO requestUpadateProduct);
 	boolean updateStatusProduct(UpdateStatusProductDAO requestUpdateStatusProduct);
