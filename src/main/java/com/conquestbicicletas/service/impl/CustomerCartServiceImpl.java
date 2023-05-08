@@ -30,16 +30,16 @@ public class CustomerCartServiceImpl implements CustomerCartService {
 
 		ProductModelDAO product = productRepository.visualizeProduct(productId);
 		Boolean verifyCart = customerCartRepository.verifyProductCart(productId, customerId);
-		if (qtd > 0) {
-			if (product.getProductQuantity() > qtd && verifyCart == false && verifyCart != null) {
+		if (qtd > 0 && product.getProductQuantity() > qtd) {
+			if (verifyCart == false && verifyCart != null) {
 				boolean addCart = customerCartRepository.addProductCart(productId, customerId, qtd);
 				if (addCart) {
 					return addCart;
 				}
-			} else if (product.getProductQuantity() > qtd && verifyCart == true && verifyCart != null) {
+			} else if (verifyCart == true && verifyCart != null) {
 				Integer verifyQtd = customerCartRepository.verifyQtdProductCart(productId, customerId);
-				if (verifyQtd != null && verifyQtd > 0) {
-					boolean updateQtdCart = customerCartRepository.updateQtdProductCart(productId, customerId, verifyQtd + 1);
+				if (verifyQtd != null && verifyQtd != qtd) {
+					boolean updateQtdCart = customerCartRepository.updateQtdProductCart(productId, customerId, qtd);
 					if (updateQtdCart) {
 						return updateQtdCart;
 					}

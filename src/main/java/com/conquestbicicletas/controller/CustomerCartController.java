@@ -37,7 +37,7 @@ public class CustomerCartController {
 			return ResponseEntity.status(HttpStatus.OK).body(getCustomerCart);
 		}
 		log.error("[ERROR] Error when picking up cart");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
 	@PostMapping(value = "customer/cart/add", produces = "application/json")
@@ -52,8 +52,8 @@ public class CustomerCartController {
 					.body(new ResponseStatusLogDAO(201, "O Produto foi adicionado ao carrinho com sucesso!"));
 		}
 		log.error("[ERROR] Unable to add product to cart");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new ResponseStatusLogDAO(500, "Não foi possivel adicionar o produto ao carrinho"));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ResponseStatusLogDAO(404, "Não foi possivel adicionar o produto ao carrinho"));
 
 	}
 
@@ -69,8 +69,8 @@ public class CustomerCartController {
 					.body(new ResponseStatusLogDAO(201, "A quantidade do produto foi alterada com Sucesso!"));
 		}
 		log.error("[ERROR] It was not possible to update the quantity of the product");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new ResponseStatusLogDAO(500, "Não foi possivel alterar a quantidade do produto no carrinho"));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ResponseStatusLogDAO(404, "Não foi possivel alterar a quantidade do produto no carrinho"));
 	}
 
 	@DeleteMapping(value = "customer/cart/remove", produces = "application/json")
@@ -85,8 +85,8 @@ public class CustomerCartController {
 					.body(new ResponseStatusLogDAO(201, "O produto foi removido do carrinho com sucesso!"));
 		}
 		log.error("[ERROR] Unable to remove product from cart");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new ResponseStatusLogDAO(500, "Não foi possivel remover o produto do carrinho"));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ResponseStatusLogDAO(404, "Não foi possivel remover o produto do carrinho"));
 	}
 
 }
