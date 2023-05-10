@@ -58,10 +58,10 @@ public class CustomerCartController {
 	}
 
 	@PutMapping(value = "customer/cart/updateqtd", produces = "application/json")
-	public ResponseEntity<ResponseStatusLogDAO> updateQtdProductCart(@RequestParam(value = "product_id") int productId,
-			@RequestParam(value = "customer_id") int customerId, @RequestParam(value = "qtd_product") int qtd) {
-		
-		boolean updateQtdProduct = customerCartService.updateQtdProductCart(productId, customerId, qtd);
+	public ResponseEntity<ResponseStatusLogDAO> updateQtdProductCart(@RequestParam(value = "cart_id") int idCart,
+			@RequestParam(value = "product_id") int productId, @RequestParam(value = "qtd_product") int qtd) {
+
+		boolean updateQtdProduct = customerCartService.updateQtdProductCart(idCart, productId, qtd);
 
 		if (updateQtdProduct == true) {
 			log.info("[INFO] Product quantity has been updated");
@@ -75,9 +75,9 @@ public class CustomerCartController {
 
 	@DeleteMapping(value = "customer/cart/remove", produces = "application/json")
 	public ResponseEntity<ResponseStatusLogDAO> removeProductCart(@RequestParam(value = "product_id") int productId,
-			@RequestParam(value = "customer_id") int customerId) {
-		
-		boolean removeProduct = customerCartService.removeProductCart(productId, customerId);
+			@RequestParam(value = "cart_id") int cartId) {
+
+		boolean removeProduct = customerCartService.removeProductCart(productId, cartId);
 
 		if (removeProduct == true) {
 			log.info("[INFO] Product removed from cart successfully");

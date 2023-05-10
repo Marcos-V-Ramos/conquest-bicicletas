@@ -9,6 +9,6 @@ import com.conquestbicicletas.model.dao.CustomerCartDAO;
 public interface CustomerCartService {
 	CustomerCartDAO getCustomerCart(int customerId);
 	boolean addProductCart(int productId, int customerId, int qtd);	
-	boolean updateQtdProductCart(int productId, int customerId, int qtd);
-	boolean removeProductCart(int productId, int customerId);
+	boolean updateQtdProductCart(int idCart, int productId, int qtd);
+	boolean removeProductCart(int productId, int cartId);
 }
