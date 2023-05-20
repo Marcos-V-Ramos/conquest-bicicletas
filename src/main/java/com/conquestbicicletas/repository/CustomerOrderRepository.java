@@ -185,7 +185,7 @@ public class CustomerOrderRepository extends ConnectionFactory {
 			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, order.getCustomerId());
-			stmt.setInt(2, order.getAddress().getAddressId());
+			stmt.setInt(2, order.getAddressId());
 			stmt.setDouble(3, order.getAmount());
 			stmt.setDouble(4, order.getFreightValue());
 			stmt.setString(5, order.getFormPayment());

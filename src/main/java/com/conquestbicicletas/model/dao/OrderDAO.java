@@ -7,6 +7,7 @@ public class OrderDAO {
 	private long orderId;
 	private int customerId;
 	private double amount;
+	private int addressId;
 	private double freightValue;
 	private String formPayment;
 	private String status;
@@ -17,11 +18,12 @@ public class OrderDAO {
 	public OrderDAO() {
 	}
 
-	public OrderDAO(long orderId, int customerId, double amount, double freightValue,
+	public OrderDAO(long orderId, int customerId, double amount, int addressId, double freightValue,
 			String formPayment, String status, String dateOrder, UserCustomerAddressDAO address, List<OrderDetailsDAO> itemOrder) {
 		this.orderId = orderId;
 		this.customerId = customerId;
 		this.amount = amount;
+		this.addressId = addressId;
 		this.freightValue = freightValue;
 		this.formPayment = formPayment;
 		this.status = status;
@@ -52,6 +54,14 @@ public class OrderDAO {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public int getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
 
 	public double getFreightValue() {
