@@ -84,7 +84,7 @@ public class CustomerOrderController {
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(addOrder);
 		}
-		log.error("[ERROR] Unable to add product to cart");
+		log.error("[ERROR] Unable to place order");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(addOrder);
 

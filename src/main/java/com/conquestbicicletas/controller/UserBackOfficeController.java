@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.conquestbicicletas.model.dao.OrderDAO;
 import com.conquestbicicletas.model.dao.ResponseStatusLogDAO;
 import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
@@ -175,5 +176,48 @@ public class UserBackOfficeController {
 		}
 		log.error("[ERROR] Unable to list user");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	
+	/**
+	 * Lista todos os pedidos dos clientes.
+	 * 
+	 * @return
+	 */
+	@GetMapping(value = "/backoffice/order", produces = "application/json")
+	public ResponseEntity<List<OrderDAO>> getOrders() {
+
+		List<OrderDAO> orders = userBackOfficeService.getOrders();
+
+		if (!orders.isEmpty() && orders != null) {
+			log.info("[INFO] Success in list orders");
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		}else if(orders.isEmpty() && orders != null) {
+			log.info("[INFO] Success in list orders, list is Empty");
+			return ResponseEntity.status(HttpStatus.OK).body(orders);
+		}
+		log.error("[ERROR] Error for list orders");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	
+	
+	/**
+	 * Update no status de pedido do cliente com permissao do estoquista ou administrador
+	 * 
+	 * @param requestUpdateStatus
+	 * @return
+	 */
+	@PutMapping(value = "/backoffice/order/update/status", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<ResponseStatusLogDAO> updateStatusOrderCustomer(@RequestBody OrderDAO requestUpdateStatus, @RequestParam(value="user_id") int userId) {
+
+		boolean isUpdated = userBackOfficeService.updateStatusOrder(requestUpdateStatus, userId);
+
+		if (isUpdated) {
+			log.info("[INFO] Success in updating status order");
+			return ResponseEntity.status(HttpStatus.ACCEPTED)
+					.body(new ResponseStatusLogDAO(202, "O status do pedido foi altera com sucesso!"));
+		}
+		log.error("[ERROR] Error updating status order");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ResponseStatusLogDAO(406, "Erro ao alterar status do pedido do cliente!"));
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.conquestbicicletas.model.dao.OrderDAO;
 import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 
@@ -16,4 +17,6 @@ public interface UserBackOfficeService {
 	boolean updateUser(UserBackOfficeDAO requestUpdateUser);
 	boolean registerUser(UserBackOfficeDAO requestRegisterUser);
 	boolean updateStatusUser(UpdateStatusUserDAO requestUpdateStatus);
+	List<OrderDAO> getOrders();
+	boolean updateStatusOrder(OrderDAO requestUpdateOrderStatus, int userId);
 }

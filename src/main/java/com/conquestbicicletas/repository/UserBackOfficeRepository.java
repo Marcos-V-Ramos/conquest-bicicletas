@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.conquestbicicletas.model.dao.OrderDAO;
 import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 import com.conquestbicicletas.repository.config.ConnectionFactory;
@@ -252,7 +253,6 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 	 * @return
 	 */
 	public boolean updateStatus(UpdateStatusUserDAO requestUpdateStatus) {
-
 		try {
 			Connection connection = super.getConnection();
 
@@ -280,6 +280,38 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean updateStatusOrder(OrderDAO order) {
+		try {
+			Connection connection = super.getConnection();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("UPDATE tb_order ");
+			sb.append(" SET status = ?");
+			sb.append(" WHERE id_order = ? AND fk_id_customer = ?");
+
+			PreparedStatement stmt = connection.prepareStatement(sb.toString());
+			stmt.setString(1, order.getStatus());
+			stmt.setLong(2, order.getOrderId());
+			stmt.setLong(3, order.getCustomerId());
+
+			int rowsAffected = stmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			super.closeConnection();
+		}
+		return false;
+	}
+	
 	/**
 	 * Checa se o Email e CPF já estão no banco de dados
 	 * 

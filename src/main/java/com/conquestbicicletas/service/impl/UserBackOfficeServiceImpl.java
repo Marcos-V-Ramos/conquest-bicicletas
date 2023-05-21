@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.conquestbicicletas.model.dao.OrderDAO;
 import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
 import com.conquestbicicletas.repository.UserBackOfficeRepository;
@@ -49,5 +50,15 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	public boolean updateStatusUser(UpdateStatusUserDAO requestUpdateStatus) {
 		boolean updateStatusUser = userBackOfficeRepository.updateStatus(requestUpdateStatus);
 		return updateStatusUser;
+	}
+	
+	public boolean updateStatusOrder(OrderDAO order, int userId) {
+		UserBackOfficeDAO userBackoffice = userBackOfficeRepository.getUser(userId);
+		
+		if(userBackoffice.isUserStatus() == true && userBackoffice.getUserGroup() == 1 || userBackoffice.getUserGroup() == 2) {
+			boolean updateStatusOrder = userBackOfficeRepository.updateStatusOrder(order);
+			return updateStatusOrder;
+		}
+		return false;
 	}
 }
