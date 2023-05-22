@@ -113,13 +113,13 @@ public class CustomerOrderRepository extends ConnectionFactory {
 			SQL_QUERY.append("P.product_name NAMEPRODUCT, ");
 			SQL_QUERY.append("P.product_value VALOR, ");
 			SQL_QUERY.append("MAX(PIMG.img_id) IDIMG, ");
-			SQL_QUERY.append("MAX(PIMG.img_base64) IMG, ");
+			SQL_QUERY.append("MAX(PIMG.img_base64) IMG ");
 			SQL_QUERY.append("FROM tb_order O ");
-			SQL_QUERY.append("LEFT JOIN tb_address A ON A.fk_id_cart = O.fk_id_addres " );
-			SQL_QUERY.append("LEFT JOIN tb_order_item OD ON OD.fk_id_order = O.id_order" );
-			SQL_QUERY.append("LEFT JOIN tb_product P ON P.product_id = OD.fk_id_product" );
-			SQL_QUERY.append("LEFT JOIN tb_img_product PIMG ON PIMG.fk_product_id = OD.fk_id_product" );
-			SQL_QUERY.append("WHERE O.id_order = ?");
+			SQL_QUERY.append("LEFT JOIN tb_address A ON A.id_address = O.fk_id_address " );
+			SQL_QUERY.append("LEFT JOIN tb_order_item OD ON OD.fk_id_order = O.id_order " );
+			SQL_QUERY.append("LEFT JOIN tb_product P ON P.product_id = OD.fk_id_product " );
+			SQL_QUERY.append("LEFT JOIN tb_img_product PIMG ON PIMG.fk_product_id = OD.fk_id_product " );
+			SQL_QUERY.append("WHERE O.id_order = ? ");
 			SQL_QUERY.append("GROUP BY P.product_id");
 			
 			PreparedStatement pstmt = connection.prepareStatement(SQL_QUERY.toString());
