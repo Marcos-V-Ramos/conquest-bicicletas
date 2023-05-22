@@ -43,9 +43,9 @@ public class CustomerOrderRepository extends ConnectionFactory {
 			SQL_QUERY.append("A.cep CEP, ");
 			SQL_QUERY.append("A.logradouro LOGRADOURO, ");
 			SQL_QUERY.append("A.bairro BAIRRO, ");
-			SQL_QUERY.append("A.uf UF, ");
+			SQL_QUERY.append("A.uf UF ");
 			SQL_QUERY.append("FROM tb_order O ");
-			SQL_QUERY.append("LEFT JOIN tb_address A ON A.fk_id_cart = O.fk_id_addres " );
+			SQL_QUERY.append("LEFT JOIN tb_address A ON A.id_address = O.fk_id_address " );
 			SQL_QUERY.append("WHERE fk_id_customer = ?");
 			
 			PreparedStatement pstmt = connection.prepareStatement(SQL_QUERY.toString());

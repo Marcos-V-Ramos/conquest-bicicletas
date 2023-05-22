@@ -338,4 +338,50 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 		}
 		return false;
 	}
+	
+	/**
+	 * Lista todos os pedidos criados a partir do e-commerce.
+	 * @return List<OrderDAO>
+	 */
+	public List<OrderDAO> getOrders() {
+
+		List<OrderDAO> listOrders = new ArrayList<>();
+		try { 
+			Connection connection = super.getConnection();
+			final String SQL_QUERY = "SELECT "
+					+ "amount, "
+					+ "id_order "
+					+ "freight_value, "
+					+ "form_payment, "
+					+ "status, "
+					+ "date_order, "
+					+ "fk_id_customer, "
+					+ "fk_id_address "
+					+ "FROM tb_order";
+			
+			
+			PreparedStatement stmt = connection.prepareStatement(SQL_QUERY);
+			
+			ResultSet rowsAffected = stmt.executeQuery(SQL_QUERY);
+			
+			while (rowsAffected.next()) {
+				OrderDAO currentOrderDAO = new OrderDAO();
+				currentOrderDAO.setAmount(rowsAffected.getDouble("amount"));
+				currentOrderDAO.setStatus(rowsAffected.getString("status"));
+				currentOrderDAO.setDateOrder(rowsAffected.getString("date_order"));
+				currentOrderDAO.setCustomerId(rowsAffected.getInt("fk_id_customer"));
+				currentOrderDAO.setAddressId(rowsAffected.getInt("fk_id_address"));
+				
+				listOrders.add(currentOrderDAO);
+			}
+			
+			return listOrders;
+		} catch (SQLException ex) {
+			log.error(ex.getMessage());
+		} finally {
+			super.closeConnection();
+			log.info("[INFO] List has been returned.");
+		}
+		return null;
+	}
 }

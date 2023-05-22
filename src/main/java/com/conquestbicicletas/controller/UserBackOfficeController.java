@@ -191,10 +191,13 @@ public class UserBackOfficeController {
 		if (!orders.isEmpty() && orders != null) {
 			log.info("[INFO] Success in list orders");
 			return ResponseEntity.status(HttpStatus.OK).body(orders);
-		}else if(orders.isEmpty() && orders != null) {
+		}
+		
+		if(orders.isEmpty() && orders != null) {
 			log.info("[INFO] Success in list orders, list is Empty");
 			return ResponseEntity.status(HttpStatus.OK).body(orders);
 		}
+		
 		log.error("[ERROR] Error for list orders");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}

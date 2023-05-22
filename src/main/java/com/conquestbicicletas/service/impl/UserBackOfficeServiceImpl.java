@@ -52,6 +52,7 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 		return updateStatusUser;
 	}
 	
+	@Override
 	public boolean updateStatusOrder(OrderDAO order, int userId) {
 		UserBackOfficeDAO userBackoffice = userBackOfficeRepository.getUser(userId);
 		
@@ -60,5 +61,11 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 			return updateStatusOrder;
 		}
 		return false;
+	}
+
+	@Override
+	public List<OrderDAO> getOrders() {
+		List<OrderDAO> listOrders = userBackOfficeRepository.getOrders();
+		return listOrders;
 	}
 }

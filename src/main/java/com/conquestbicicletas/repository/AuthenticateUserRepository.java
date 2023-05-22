@@ -22,7 +22,8 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 	 * @param requestLoginUser
 	 * @return grupo em que o usuario logado pertence
 	 */
-	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(AuthenticateUserRequestDAO requestLoginUser) {
+	public AuthenticateUserBackOfficeResponseDAO authenticateUserBackOffice(
+			AuthenticateUserRequestDAO requestLoginUser) {
 		Connection conexao = super.getConnection();
 
 		try {
@@ -69,12 +70,7 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				boolean status = rs.getBoolean("status_user");
-				if (status == true) {
-					return new AuthenticateUserCustomerResponseDAO(rs.getInt("id_user"));
-				}
-
-				return new AuthenticateUserCustomerResponseDAO(0);
+				return new AuthenticateUserCustomerResponseDAO(rs.getInt("id_user"));
 			}
 
 		} catch (Exception e) {
@@ -86,5 +82,4 @@ public class AuthenticateUserRepository extends ConnectionFactory {
 
 		return null;
 	}
-
 }
