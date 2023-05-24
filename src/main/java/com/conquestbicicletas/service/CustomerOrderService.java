@@ -10,6 +10,6 @@ import com.conquestbicicletas.model.dao.OrderDAO;
 @Service
 public interface CustomerOrderService {
 	List<OrderDAO> getOrder(int customerId);
-	OrderDAO getDetailsOrder(int orderId);
+	OrderDAO getDetailsOrder(long orderId);
 	Long addOrder(OrderDAO order);	
 }

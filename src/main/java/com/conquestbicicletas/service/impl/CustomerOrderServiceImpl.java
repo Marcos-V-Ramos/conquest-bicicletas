@@ -30,7 +30,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 		return orders;
 	}
 
-	public OrderDAO getDetailsOrder(int orderId) {
+	public OrderDAO getDetailsOrder(long orderId) {
 		OrderDAO order = customerOrderRepository.getOrderDetails(orderId);
 		return order;
 	}
