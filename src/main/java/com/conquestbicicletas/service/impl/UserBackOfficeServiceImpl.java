@@ -56,7 +56,7 @@ public class UserBackOfficeServiceImpl implements UserBackOfficeService {
 	public boolean updateStatusOrder(OrderDAO order, int userId) {
 		UserBackOfficeDAO userBackoffice = userBackOfficeRepository.getUser(userId);
 		
-		if(userBackoffice.isUserStatus() == true && userBackoffice.getUserGroup() == 1 || userBackoffice.getUserGroup() == 2) {
+		if(userBackoffice.isUserStatus() == true && userBackoffice.getUserGroup() == 2) {
 			boolean updateStatusOrder = userBackOfficeRepository.updateStatusOrder(order);
 			return updateStatusOrder;
 		}
