@@ -89,7 +89,7 @@ public class CustomerOrderRepository extends ConnectionFactory {
 	 * @param customerId
 	 * @return
 	 */
-	public OrderDAO getOrderDetails(int orderId) {
+	public OrderDAO getOrderDetails(long orderId) {
 		List<OrderDetailsDAO> orders = new ArrayList<>();
 		try {
 			Connection connection = super.getConnection();
@@ -103,17 +103,24 @@ public class CustomerOrderRepository extends ConnectionFactory {
 			SQL_QUERY.append("O.form_payment FORMPAYMENT, ");
 			SQL_QUERY.append("O.status STATUSORDER, ");
 			SQL_QUERY.append("O.date_order DATEORDER, ");
+			SQL_QUERY.append("A.fk_id_user IDUSER, ");
 			SQL_QUERY.append("A.cep CEP, ");
 			SQL_QUERY.append("A.logradouro LOGRADOURO, ");
+			SQL_QUERY.append("A.localidade LOCALIDADE, ");
 			SQL_QUERY.append("A.bairro BAIRRO, ");
 			SQL_QUERY.append("A.uf UF, ");
+			SQL_QUERY.append("A.complemento COMPLEMENTO, ");
+			SQL_QUERY.append("A.numero NUMERO, ");
+			SQL_QUERY.append("A.status STATUSADDRESS, ");			
+			SQL_QUERY.append("A.is_address_customer ADDRESSCUSTOMER, ");			
 			SQL_QUERY.append("OD.id_item_order IDITEM, ");
 			SQL_QUERY.append("OD.qtd QTD, ");
 			SQL_QUERY.append("OD.fk_id_product IDPRODUCT, ");
 			SQL_QUERY.append("P.product_name NAMEPRODUCT, ");
 			SQL_QUERY.append("P.product_value VALOR, ");
 			SQL_QUERY.append("MAX(PIMG.img_id) IDIMG, ");
-			SQL_QUERY.append("MAX(PIMG.img_base64) IMG ");
+			SQL_QUERY.append("MAX(PIMG.img_base64) IMG, ");
+			SQL_QUERY.append("MAX(PIMG.fk_product_id) IDPRODUCTIMG ");
 			SQL_QUERY.append("FROM tb_order O ");
 			SQL_QUERY.append("LEFT JOIN tb_address A ON A.id_address = O.fk_id_address " );
 			SQL_QUERY.append("LEFT JOIN tb_order_item OD ON OD.fk_id_order = O.id_order " );
@@ -123,7 +130,7 @@ public class CustomerOrderRepository extends ConnectionFactory {
 			SQL_QUERY.append("GROUP BY P.product_id");
 			
 			PreparedStatement pstmt = connection.prepareStatement(SQL_QUERY.toString());
-			pstmt.setInt(1, orderId);
+			pstmt.setLong(1, orderId);
 			ResultSet rs = pstmt.executeQuery();
 			
 			OrderDAO order = new OrderDAO();
@@ -134,25 +141,35 @@ public class CustomerOrderRepository extends ConnectionFactory {
 							
 				order.setOrderId(rs.getLong("IDORDER"));
 				order.setCustomerId(rs.getInt("IDCUSTOMER"));
+				order.setAddressId(rs.getInt("IDADDRESS"));
 				order.setAmount(rs.getDouble("TOTAL"));
 				order.setFreightValue(rs.getDouble("FRETE"));
 				order.setFormPayment(rs.getString("FORMPAYMENT"));
 				order.setStatus(rs.getString("STATUSORDER"));
 				order.setDateOrder(rs.getString("DATEORDER"));
+				address.setUserId(rs.getInt("IDUSER"));
+				address.setAddressId(rs.getInt("IDADDRESS"));
 				address.setCep(rs.getString("CEP"));
 				address.setLogradouro(rs.getString("LOGRADOURO"));
+				address.setLocalidade(rs.getString("LOCALIDADE"));
 				address.setBairro(rs.getString("BAIRRO"));
 				address.setUf(rs.getString("UF"));
+				address.setComplemento(rs.getString("COMPLEMENTO"));
+				address.setNumero(rs.getInt("NUMERO"));
+				address.setStatus(rs.getBoolean("STATUSADDRESS"));
+				address.setAddressCustomer(rs.getBoolean("ADDRESSCUSTOMER"));
 				order.setAddress(address);
 				
 				OrderDetailsDAO orderDetail = new OrderDetailsDAO();
 				ImageProductModelDAO imageProduct = new ImageProductModelDAO();
 				orderDetail.setIdItemOrder(rs.getLong("IDITEM"));
 				orderDetail.setProductQtd(rs.getInt("QTD"));
+				orderDetail.setProductId(rs.getInt("IDPRODUCT"));
 				orderDetail.setProductName(rs.getString("NAMEPRODUCT"));
 				orderDetail.setProductValue(rs.getDouble("VALOR"));
 				imageProduct.setIdImage(rs.getInt("IDIMG"));
 				imageProduct.setImageBase64(rs.getString("IMG"));
+				imageProduct.setProductId(rs.getInt("IDPRODUCTIMG"));
 				orderDetail.setProductImage(imageProduct);
 				
 				orders.add(orderDetail);				

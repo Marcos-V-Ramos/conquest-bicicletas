@@ -53,7 +53,7 @@ public class CustomerOrderController {
 	 * Pega todos os detalhes de um unico pedido
 	 */
 	@GetMapping(value = "customer/order/detail", produces = "application/json")
-	public ResponseEntity<OrderDAO> getDetailsOrder(@RequestParam(value = "order_id") int orderId) {
+	public ResponseEntity<OrderDAO> getDetailsOrder(@RequestParam(value = "order_id") long orderId) {
 
 		OrderDAO getOrderDetails = customerOrderService.getDetailsOrder(orderId);
 

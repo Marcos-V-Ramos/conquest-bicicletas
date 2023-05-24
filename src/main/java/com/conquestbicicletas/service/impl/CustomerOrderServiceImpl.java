@@ -30,7 +30,6 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 		return orders;
 	}
 
-	@Override
 	public OrderDAO getDetailsOrder(long orderId) {
 		OrderDAO order = customerOrderRepository.getOrderDetails(orderId);
 		return order;
