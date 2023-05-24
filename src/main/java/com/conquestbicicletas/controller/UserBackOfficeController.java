@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.conquestbicicletas.model.dao.OrderDAO;
 import com.conquestbicicletas.model.dao.ResponseStatusLogDAO;
 import com.conquestbicicletas.model.dao.UpdateStatusUserDAO;
 import com.conquestbicicletas.model.dao.UserBackOfficeDAO;
+import com.conquestbicicletas.service.CustomerOrderService;
 import com.conquestbicicletas.service.UserBackOfficeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,9 @@ public class UserBackOfficeController {
 
 	@Autowired
 	private UserBackOfficeService userBackOfficeService;
+	
+	@Autowired
+	private CustomerOrderService customerOrderService;
 
 	/**
 	 * Pega um usuario apartir do id do mesmo passado como 
@@ -202,6 +207,24 @@ public class UserBackOfficeController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
+	@GetMapping("/backoffice/order/id/{id}")
+	public ResponseEntity<OrderDAO> getOrderDetailsByID(@PathVariable Long id) {
+		
+		OrderDAO currentOrderDAO = customerOrderService.getDetailsOrder(id);
+		
+		if (currentOrderDAO != null) {
+			
+			if (currentOrderDAO.getItemOrder().isEmpty()) {
+				log.info("[INFO] ItemOrder List is empty.");
+				return ResponseEntity.status(202).body(currentOrderDAO);
+			} else {
+				log.info("[INFO] success on finding order.");
+				return ResponseEntity.ok(currentOrderDAO);
+			}
+			
+		}
+		return ResponseEntity.notFound().build();
+	}
 	
 	/**
 	 * Update no status de pedido do cliente com permissao do estoquista ou administrador
