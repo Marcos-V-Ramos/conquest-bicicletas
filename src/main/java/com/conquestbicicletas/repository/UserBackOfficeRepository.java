@@ -350,7 +350,7 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			Connection connection = super.getConnection();
 			final String SQL_QUERY = "SELECT "
 					+ "amount, "
-					+ "id_order "
+					+ "id_order, "
 					+ "freight_value, "
 					+ "form_payment, "
 					+ "status, "
@@ -367,6 +367,8 @@ public class UserBackOfficeRepository extends ConnectionFactory {
 			while (rowsAffected.next()) {
 				OrderDAO currentOrderDAO = new OrderDAO();
 				currentOrderDAO.setAmount(rowsAffected.getDouble("amount"));
+				currentOrderDAO.setOrderId(rowsAffected.getLong("id_order"));
+				currentOrderDAO.setFormPayment(rowsAffected.getString("form_payment"));
 				currentOrderDAO.setStatus(rowsAffected.getString("status"));
 				currentOrderDAO.setDateOrder(rowsAffected.getString("date_order"));
 				currentOrderDAO.setCustomerId(rowsAffected.getInt("fk_id_customer"));
